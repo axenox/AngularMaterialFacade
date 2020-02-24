@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IColumnDef } from '../data-table/data-table.component';
+import datatableJson from '../../assets/json/datatable.json';
+import { IDataTableStructure } from '../data-table/data-table-structure.interface';
+
 
 export interface LogEntry {
   UID: string;
@@ -32,6 +35,9 @@ const URL='http://sdrexf2.salt-solutions.de/spielwiese/exface//api/ui5?action=ex
 })
 export class LogTableComponent implements OnInit {
   response: LogEntryResponse = {rows: []};
+
+  structure: IDataTableStructure;
+
   rows: LogEntry[];
   columns: IColumnDef[] = [
     { columnDef: 'TYPE', header: 'Type',    cell: (element: any) => `${element.TYPE}` },
@@ -43,11 +49,23 @@ export class LogTableComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
+    /*
+    this.http.get('assets/datatable.json', {responseType: 'text'}).subscribe(
+      (data) => {
+        console.log(data);
+        this.structure = JSON.parse(data);
+      }
+    );*/
+
+    this.structure = datatableJson;
+
     this.http.get<LogEntryResponse>(URL).subscribe(
       (response: LogEntryResponse) => {
         this.response = response;
       }
     );
+
+
   }
 
 }

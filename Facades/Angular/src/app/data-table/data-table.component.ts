@@ -6,6 +6,7 @@ import {MatChipInputEvent} from '@angular/material/chips';
 import {MatDialog, MatDialogConfig} from "@angular/material";
 import { DialogTestComponent } from '../dialog-test/dialog-test.component';
 import {MatPaginator} from '@angular/material/paginator';
+import { IDataTableStructure, IColumn } from './data-table-structure.interface';
 
 export interface IColumnDef {
   columnDef: string;
@@ -29,8 +30,13 @@ export class DataTableComponent implements OnInit, OnChanges {
   @Input() 
   rows: any[];
 
+/*
   @Input()
   columns: IColumnDef[];
+*/
+
+  @Input()
+  config: IDataTableStructure;
 
   displayedColumns: string[];
 
@@ -55,10 +61,10 @@ export class DataTableComponent implements OnInit, OnChanges {
   }
 
   startSearch(){
-    this.columns.forEach((col:IColumnDef)=>{
-      const value=this.filter[col.columnDef];
+    this.config.columns.forEach((col:IColumn)=>{
+      const value=this.filter[col.attribute_alias];
       if (value){
-        this.addChip(col.columnDef, col.header, value);
+        this.addChip(col.attribute_alias, col.caption, value);
       }
     });
     this.dataSource.filter = JSON.stringify(this.filter);
@@ -97,7 +103,7 @@ export class DataTableComponent implements OnInit, OnChanges {
   constructor(private dialog: MatDialog) { }
 
   ngOnInit() {
-    this.displayedColumns = this.columns.map(c => c.columnDef);
+    this.displayedColumns = this.config.columns.map(c => c.attribute_alias);
     this.displayedColumns.push('_actions_');
     this.dataSource.paginator = this.paginator;
   }
@@ -121,8 +127,8 @@ export class DataTableComponent implements OnInit, OnChanges {
       // globale Suche 
       if (globalValue && globalValue.trim().length > 0) {
         let found = false;
-        this.columns.forEach((col: IColumnDef) => {
-          const rowValue = row[col.columnDef];
+        this.config.columns.forEach((col: IColumn) => {
+          const rowValue = row[col.attribute_alias];
           if (rowValue && rowValue.toLowerCase().indexOf(globalValue) !== -1) {
             found = true;
           }
