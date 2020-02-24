@@ -1,0 +1,33 @@
+table {
+  width: 100%;
+}
+
+.table-filters .mat-form-field + .mat-form-field {
+  margin-left: 1em;
+}
+
+.table-filters .mat-button-base {
+  float: right;
+}
+
+/* input color class */
+::ng-deep input.mat-input-element {
+  color: #fff;
+}
+/* Change label color on focused */
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+  color: #fb5050 !important;
+}
+/* underline border color on focused */
+::ng-deep .mat-focused .mat-form-field-underline .mat-form-field-ripple{
+  background-color: #fb5050 !important;
+}
+
+.searchbutton{
+  margin-left: 6px;
+}
+
+.addbutton{
+  background-color: green;
+}
+

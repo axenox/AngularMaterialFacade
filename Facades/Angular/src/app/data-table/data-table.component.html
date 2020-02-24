@@ -1,0 +1,62 @@
+<div>
+  <mat-form-field>
+      <mat-label>Suchen</mat-label>
+      <input matInput (keyup)="applyGlobalFilter($event)">
+  </mat-form-field>
+</div>
+
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title style="margin-top: 6px;">
+        Tabelle
+      </mat-panel-title>
+      <mat-chip-list #chipList aria-label="filter selection" style="margin-right: 15px">
+        <mat-chip *ngFor="let filterChip of filterChips" [selectable]="selectable"
+          [removable]="removable" (removed)="removeChip(filterChip)">
+            {{filterChip.name}}: {{filterChip.value}}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+      </mat-chip-list>
+    </mat-expansion-panel-header>
+    <div class="table-filters">
+
+    <mat-form-field *ngFor="let column of columns">
+      <mat-label>{{column.header}}</mat-label>
+      <input matInput [(ngModel)]="filter[column.columnDef]"  type="text"/>
+    </mat-form-field>
+
+    <button mat-raised-button class="searchbutton" (click)="startSearch()" aria-label="search icon button" matTooltip="Filter Anwenden">
+      <mat-icon>search</mat-icon>
+    </button>
+    <button mat-raised-button class="addbutton" (click)="addRow()" aria-label="add icon button" matTooltip="Neuen Eintrag hinzufügen">
+      <mat-icon>add</mat-icon>
+    </button>
+
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<mat-table #table [dataSource]="dataSource" matSort>
+  <ng-container *ngFor="let column of columns" [cdkColumnDef]="column.columnDef" class="mask rgba-black-light">
+    <mat-header-cell mat-sort-header *cdkHeaderCellDef>{{ column.header }}</mat-header-cell>
+    <mat-cell *cdkCellDef="let row">{{ column.cell(row) }}</mat-cell>
+  </ng-container>
+  <ng-container [cdkColumnDef]="'_actions_'">  
+    <mat-header-cell class="headercell" *cdkHeaderCellDef>Bearbeiten</mat-header-cell>
+    <mat-cell *cdkCellDef="let row">
+      <button mat-raised-button (click)="editRow(row)">Bearbeiten</button>
+      <button mat-raised-button style="margin-left: 8px;" (click)="alert()">Alert</button>
+      <button mat-raised-button style="margin-left: 8px; background-color: red;" (click)="removeRow(row)">
+        <mat-icon>delete_sweep</mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+
+<mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+<mat-progress-bar mode="query" color="accent"></mat-progress-bar>

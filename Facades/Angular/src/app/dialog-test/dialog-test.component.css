@@ -1,0 +1,13 @@
+.dialogbuttons{
+   float: right;
+}
+
+.mat-button {
+    margin-right: 3px;
+}
+
+.mat-form-field + .mat-form-field {
+    margin-left: 1em;
+}
+
+
