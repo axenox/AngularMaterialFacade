@@ -1,0 +1,44 @@
+{
+    "widget_type": "DataTable",
+    "object_alias": "exface.Core.MESSAGE",
+    "filters": [
+      {
+        "attribute_alias": "CODE",
+        "caption": "Message-Code"
+      },
+      {
+        "attribute_alias": "TITLE",
+       "caption": "Title"
+      },
+      {
+        "attribute_alias": "APP",
+        "caption": "App"
+      }
+    ],
+    "columns": [
+      {
+        "attribute_alias": "TYPE",
+        "caption": "Type",
+        "sortable": true
+      },
+      {
+        "attribute_alias": "APP__ALIAS",
+        "caption": "App"
+      },
+      {
+        "attribute_alias": "CODE",
+        "caption": "Code"
+      },
+      {
+        "attribute_alias": "TITLE",
+        "caption": "Title"
+      }
+    ],
+    "sorters": [
+      {
+        "attribute_alias": "CREATED_ON",
+        "direction": "desc"
+      }
+    ]
+  }
+  
