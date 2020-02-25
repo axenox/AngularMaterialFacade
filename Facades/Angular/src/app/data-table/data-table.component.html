@@ -21,8 +21,8 @@
     </mat-expansion-panel-header>
     <div class="table-filters">
 
-    <mat-form-field *ngFor="let column of config.columns">
-      <mat-label>{{column.header}}</mat-label>
+    <mat-form-field *ngFor="let column of config.filters">
+      <mat-label>{{column.caption}}</mat-label>
       <input matInput [(ngModel)]="filter[column.attribute_alias]"  type="text"/>
     </mat-form-field>
 
@@ -38,14 +38,16 @@
 </mat-accordion>
 
 <mat-table #table [dataSource]="dataSource" matSort>
-  <ng-container *ngFor="let column of config.columns" [cdkColumnDef]="column.attribute_alias" class="mask rgba-black-light">
+  <ng-container *ngFor="let column of config.columns" [matColumnDef]="column.attribute_alias" class="mask rgba-black-light">
     <mat-header-cell mat-sort-header *cdkHeaderCellDef>{{ column.caption }}</mat-header-cell>
     <mat-cell *cdkCellDef="let row">{{ row[column.attribute_alias] }}</mat-cell>
   </ng-container>
   <ng-container [cdkColumnDef]="'_actions_'">  
     <mat-header-cell class="headercell" *cdkHeaderCellDef>Bearbeiten</mat-header-cell>
     <mat-cell *cdkCellDef="let row">
-      <button mat-raised-button (click)="editRow(row)">Bearbeiten</button>
+      <button mat-raised-button (click)="editRow(row)">
+        <mat-icon>create</mat-icon>
+      </button>
       <button mat-raised-button style="margin-left: 8px;" (click)="alert()">Alert</button>
       <button mat-raised-button style="margin-left: 8px; background-color: red;" (click)="removeRow(row)">
         <mat-icon>delete_sweep</mat-icon>

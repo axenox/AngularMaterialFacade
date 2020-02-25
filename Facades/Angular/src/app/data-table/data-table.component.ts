@@ -6,7 +6,7 @@ import {MatChipInputEvent} from '@angular/material/chips';
 import {MatDialog, MatDialogConfig} from "@angular/material";
 import { DialogTestComponent } from '../dialog-test/dialog-test.component';
 import {MatPaginator} from '@angular/material/paginator';
-import { IDataTableStructure, IColumn } from './data-table-structure.interface';
+import { IDataTableStructure, IColumn, IFilter } from './data-table-structure.interface';
 
 export interface IColumnDef {
   columnDef: string;
@@ -57,17 +57,17 @@ export class DataTableComponent implements OnInit, OnChanges {
   applyGlobalFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.filter._global_ = filterValue.trim().toLowerCase();
-    this.dataSource.filter = JSON.stringify(this.filter);    
+    this.dataSource.filter = JSON.stringify(this.config.filters);    
   }
 
   startSearch(){
-    this.config.columns.forEach((col:IColumn)=>{
+    this.config.filters.forEach((col:IFilter)=>{
       const value=this.filter[col.attribute_alias];
       if (value){
         this.addChip(col.attribute_alias, col.caption, value);
       }
     });
-    this.dataSource.filter = JSON.stringify(this.filter);
+    this.dataSource.filter = JSON.stringify(this.config.filters);
 
   }
 
@@ -91,10 +91,11 @@ export class DataTableComponent implements OnInit, OnChanges {
 
     if (index >= 0) {
       this.filterChips.splice(index, 1);
-      delete this.filter[chip.property];
-      this.dataSource.filter = JSON.stringify(this.filter);
+      delete this.config.filters[chip.property];
+      this.dataSource.filter = JSON.stringify(this.config.filters);
     }
   }
+
   
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -105,7 +106,6 @@ export class DataTableComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.displayedColumns = this.config.columns.map(c => c.attribute_alias);
     this.displayedColumns.push('_actions_');
-    this.dataSource.paginator = this.paginator;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -118,6 +118,7 @@ export class DataTableComponent implements OnInit, OnChanges {
     this.dataSource = new MatTableDataSource(this.rows);
     this.dataSource.sort = this.sort;
     this.dataSource.filterPredicate = this.tableFilter();
+    this.dataSource.paginator = this.paginator;
   }
 
   tableFilter() {

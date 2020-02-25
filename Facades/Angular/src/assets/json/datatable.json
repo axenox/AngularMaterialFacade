@@ -17,6 +17,10 @@
     ],
     "columns": [
       {
+        "attribute_alias": "UID",
+        "caption": "UID",
+        "sortable": true
+      },{
         "attribute_alias": "TYPE",
         "caption": "Type",
         "sortable": true
@@ -32,6 +36,11 @@
       {
         "attribute_alias": "TITLE",
         "caption": "Title"
+      },
+      {
+        "attribute_alias": "MODIFIED_ON",
+        "caption": "Modified",
+        "sortable": false
       }
     ],
     "sorters": [

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IColumnDef } from '../data-table/data-table.component';
+import { IDataTableStructure } from '../data-table/data-table-structure.interface';
 
 export interface PeriodicElement {
   name: string;
@@ -30,12 +31,50 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class ExampleTableComponent implements OnInit {
   rows = ELEMENT_DATA;
-  displayedColumns: IColumnDef[] = [
-    { columnDef: 'position', header: 'No.',    cell: (element: any) => `${element.position}` },
-    { columnDef: 'name',     header: 'Name',   cell: (element: any) => `${element.name}`     },
-    { columnDef: 'weight',   header: 'Weight', cell: (element: any) => `${element.weight}`   },
-    { columnDef: 'symbol',   header: 'Symbol', cell: (element: any) => `${element.symbol}`   },
-  ];
+
+  config:IDataTableStructure = {
+    widget_type: "DataTable",
+    object_alias: "exface.Core.MESSAGE",
+    filters: [
+      {
+        attribute_alias: "position",
+        caption: "No."
+      },
+      {
+        attribute_alias: "name",
+        caption: "Name"
+      },
+      {
+        attribute_alias: "weight",
+        caption: "Weight"
+      },
+    ],
+    columns: [
+      {
+        attribute_alias: "position",
+        caption: "No."
+      },
+      {
+        attribute_alias: "name",
+        caption: "Name"
+      },
+      {
+        attribute_alias: "weight",
+        caption: "Weight"
+      },
+      {
+        attribute_alias: "symbol",
+        caption: "Symbol"
+      },
+    ],
+    sorters: [
+      {
+        attribute_alias: "CREATED_ON",
+        direction: "desc"
+      }
+    ]
+  }
+  
 
   constructor() { }
 
