@@ -18,6 +18,7 @@ import { ExampleTableComponent } from './example-table/example-table.component';
 import { CdkTableModule } from '@angular/cdk/table';
 import { DialogTestComponent } from './dialog-test/dialog-test.component';
 import { SnackbarTestComponent } from './snackbar-test/snackbar-test.component';
+import { FilterInputComponent } from './filter-input/filter-input.component';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { SnackbarTestComponent } from './snackbar-test/snackbar-test.component';
     ExampleTableComponent,
     DialogTestComponent,
     SnackbarTestComponent,
+    FilterInputComponent,
   ],
   imports: [
     BrowserModule,

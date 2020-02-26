@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IColumnDef } from '../data-table/data-table.component';
-import { IDataTableStructure } from '../data-table/data-table-structure.interface';
+import { IWidgetDataTable } from '../data-table/data-table-structure.interface';
 
 export interface PeriodicElement {
   name: string;
@@ -32,44 +32,44 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class ExampleTableComponent implements OnInit {
   rows = ELEMENT_DATA;
 
-  config:IDataTableStructure = {
+  config:IWidgetDataTable = {
     widget_type: "DataTable",
-    object_alias: "exface.Core.MESSAGE",
+    data_column_name: "exface.Core.MESSAGE",
     filters: [
       {
-        attribute_alias: "position",
+        data_column_name: "position",
         caption: "No."
       },
       {
-        attribute_alias: "name",
+        data_column_name: "name",
         caption: "Name"
       },
       {
-        attribute_alias: "weight",
+        data_column_name: "weight",
         caption: "Weight"
       },
     ],
     columns: [
       {
-        attribute_alias: "position",
+        data_column_name: "position",
         caption: "No."
       },
       {
-        attribute_alias: "name",
+        data_column_name: "name",
         caption: "Name"
       },
       {
-        attribute_alias: "weight",
+        data_column_name: "weight",
         caption: "Weight"
       },
       {
-        attribute_alias: "symbol",
+        data_column_name: "symbol",
         caption: "Symbol"
       },
     ],
     sorters: [
       {
-        attribute_alias: "CREATED_ON",
+        data_column_name: "CREATED_ON",
         direction: "desc"
       }
     ]

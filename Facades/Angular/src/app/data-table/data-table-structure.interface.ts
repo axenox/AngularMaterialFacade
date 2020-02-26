@@ -1,23 +1,26 @@
-export interface IFilter {
-    attribute_alias: string;
+export interface IWidgetFilter {
     caption: string;
+    input_widget: {
+        data_column_name: string;
+        selectable_options: {};
+    }
+    //hint: string;
 }
 
-export interface IColumn {
-    attribute_alias: string;
+export interface IWidgetDataColumn {
+    data_column_name: string;
     caption: string;
-    sortable?: boolean;
+    //hint: string;
 }
 
 export interface ISorter{
-    attribute_alias: string;
+    data_column_name: string;
     direction: string;
 }
 
-export interface IDataTableStructure {
+export interface IWidgetDataTable {
     widget_type: string;
-    object_alias: string;
-    filters: IFilter[];
-    columns: IColumn[];
+    filters: IWidgetFilter[];
+    columns: IWidgetDataColumn[];
     sorters: ISorter[];
 }

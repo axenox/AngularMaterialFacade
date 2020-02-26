@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IColumnDef } from '../data-table/data-table.component';
 import datatableJson from '../../assets/json/datatable.json';
-import { IDataTableStructure } from '../data-table/data-table-structure.interface';
+import { IWidgetDataTable } from '../data-table/data-table-structure.interface';
 
 
 export interface LogEntry {
@@ -26,8 +26,8 @@ export interface LogEntryResponse {
   success?: string;
 }
 
-const URL='http://sdrexf2.salt-solutions.de/spielwiese/exface//api/ui5?action=exface.Core.ReadData&resource=exface.core.messages&element=DataTable&object=0x11e6c3859abc5faea3e40205857feb80&q=&data%5BoId%5D=0x11e6c3859abc5faea3e40205857feb80&data%5Bfilters%5D%5Boperator%5D=AND&data%5Bfilters%5D%5Bconditions%5D%5B0%5D%5Bexpression%5D=CODE&data%5Bfilters%5D%5Bconditions%5D%5B0%5D%5Bcomparator%5D=&data%5Bfilters%5D%5Bconditions%5D%5B0%5D%5Bvalue%5D=&data%5Bfilters%5D%5Bconditions%5D%5B0%5D%5Bobject_alias%5D=exface.Core.MESSAGE&data%5Bfilters%5D%5Bconditions%5D%5B1%5D%5Bexpression%5D=TITLE&data%5Bfilters%5D%5Bconditions%5D%5B1%5D%5Bcomparator%5D=&data%5Bfilters%5D%5Bconditions%5D%5B1%5D%5Bvalue%5D=&data%5Bfilters%5D%5Bconditions%5D%5B1%5D%5Bobject_alias%5D=exface.Core.MESSAGE&data%5Bfilters%5D%5Bconditions%5D%5B2%5D%5Bexpression%5D=APP&data%5Bfilters%5D%5Bconditions%5D%5B2%5D%5Bcomparator%5D=%3D%3D&data%5Bfilters%5D%5Bconditions%5D%5B2%5D%5Bvalue%5D=&data%5Bfilters%5D%5Bconditions%5D%5B2%5D%5Bobject_alias%5D=exface.Core.MESSAGE&sort=CREATED_ON&order=desc&start=0&length=30';
-
+const URL_DATA='http://sdrexf2.salt-solutions.de/spielwiese/exface//api/ui5?action=exface.Core.ReadData&resource=exface.core.messages&element=DataTable&object=0x11e6c3859abc5faea3e40205857feb80&q=&data%5BoId%5D=0x11e6c3859abc5faea3e40205857feb80&data%5Bfilters%5D%5Boperator%5D=AND&data%5Bfilters%5D%5Bconditions%5D%5B0%5D%5Bexpression%5D=CODE&data%5Bfilters%5D%5Bconditions%5D%5B0%5D%5Bcomparator%5D=&data%5Bfilters%5D%5Bconditions%5D%5B0%5D%5Bvalue%5D=&data%5Bfilters%5D%5Bconditions%5D%5B0%5D%5Bobject_alias%5D=exface.Core.MESSAGE&data%5Bfilters%5D%5Bconditions%5D%5B1%5D%5Bexpression%5D=TITLE&data%5Bfilters%5D%5Bconditions%5D%5B1%5D%5Bcomparator%5D=&data%5Bfilters%5D%5Bconditions%5D%5B1%5D%5Bvalue%5D=&data%5Bfilters%5D%5Bconditions%5D%5B1%5D%5Bobject_alias%5D=exface.Core.MESSAGE&data%5Bfilters%5D%5Bconditions%5D%5B2%5D%5Bexpression%5D=APP&data%5Bfilters%5D%5Bconditions%5D%5B2%5D%5Bcomparator%5D=%3D%3D&data%5Bfilters%5D%5Bconditions%5D%5B2%5D%5Bvalue%5D=&data%5Bfilters%5D%5Bconditions%5D%5B2%5D%5Bobject_alias%5D=exface.Core.MESSAGE&sort=CREATED_ON&order=desc&start=0&length=30';
+const URL_STRUCTURE='http://sdrexf2.salt-solutions.de/spielwiese/exface/api/angular?resource=angular-test&action=exface.Core.ShowWidget'
 @Component({
   selector: 'app-log-table',
   templateUrl: './log-table.component.html',
@@ -36,7 +36,7 @@ const URL='http://sdrexf2.salt-solutions.de/spielwiese/exface//api/ui5?action=ex
 export class LogTableComponent implements OnInit {
   response: LogEntryResponse = {rows: []};
 
-  structure: IDataTableStructure;
+  structure: IWidgetDataTable;
 
   rows: LogEntry[];
   columns: IColumnDef[] = [
@@ -49,17 +49,17 @@ export class LogTableComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    /*
-    this.http.get('assets/datatable.json', {responseType: 'text'}).subscribe(
-      (data) => {
+   /* 
+    this.http.get<IWidgetDataTable>(URL_STRUCTURE).subscribe(
+      (data: IWidgetDataTable) => {
         console.log(data);
-        this.structure = JSON.parse(data);
+        this.structure = data;
       }
     );*/
 
     this.structure = datatableJson;
 
-    this.http.get<LogEntryResponse>(URL).subscribe(
+    this.http.get<LogEntryResponse>(URL_DATA).subscribe(
       (response: LogEntryResponse) => {
         this.response = response;
       }

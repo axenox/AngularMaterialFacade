@@ -21,10 +21,7 @@
     </mat-expansion-panel-header>
     <div class="table-filters">
 
-    <mat-form-field *ngFor="let column of config.filters">
-      <mat-label>{{column.caption}}</mat-label>
-      <input matInput [(ngModel)]="filter[column.attribute_alias]"  type="text"/>
-    </mat-form-field>
+    <app-filter-input *ngFor="let column of config.filters" [config]="column" [filter]="filter"></app-filter-input>                                     
 
     <button mat-raised-button class="searchbutton" (click)="startSearch()" aria-label="search icon button" matTooltip="Filter Anwenden">
       <mat-icon>search</mat-icon>
@@ -38,9 +35,9 @@
 </mat-accordion>
 
 <mat-table #table [dataSource]="dataSource" matSort>
-  <ng-container *ngFor="let column of config.columns" [matColumnDef]="column.attribute_alias" class="mask rgba-black-light">
+  <ng-container *ngFor="let column of config.columns" [matColumnDef]="column.data_column_name" class="mask rgba-black-light">
     <mat-header-cell mat-sort-header *cdkHeaderCellDef>{{ column.caption }}</mat-header-cell>
-    <mat-cell *cdkCellDef="let row">{{ row[column.attribute_alias] }}</mat-cell>
+    <mat-cell *cdkCellDef="let row">{{ row[column.data_column_name] }}</mat-cell>
   </ng-container>
   <ng-container [cdkColumnDef]="'_actions_'">  
     <mat-header-cell class="headercell" *cdkHeaderCellDef>Bearbeiten</mat-header-cell>

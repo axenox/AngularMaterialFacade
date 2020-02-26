@@ -1,53 +1,525 @@
 {
-    "widget_type": "DataTable",
-    "object_alias": "exface.Core.MESSAGE",
-    "filters": [
+  "context_menu_enabled": true,
+  "header_sort_multiple": false,
+  "row_details_action": "exface.Core.ShowWidget",
+  "show_row_numbers": false,
+  "auto_row_height": true,
+  "multi_select": false,
+  "multi_select_all_selected": false,
+  "filters": [
       {
-        "attribute_alias": "CODE",
-        "caption": "Message-Code"
+          "input_widget": {
+              "ignore_default_value": true,
+              "multiple_values_allowed": true,
+              "multiple_values_delimiter": ",",
+              "attribute_alias": "CODE",
+              "empty_text": "",
+              "data_column_name": "CODE",
+              "widget_type": "Input",
+              "id": "DataTable_DataTableConfigurator_Tab_Filter_Input",
+              "id_space": "",
+              "hint": "Unique error code. Leave blank to generate an error code automatically. [CODE]",
+              "do_not_prefill": false,
+              "caption": "Message Code",
+              "visibility": 50
+          },
+          "attribute_alias": "CODE",
+          "empty_text": "",
+          "do_not_prefill": false,
+          "apply_on_change": false,
+          "include_in_quick_search": false,
+          "widget_type": "Filter",
+          "id": "DataTable_DataTableConfigurator_Tab_Filter",
+          "id_space": "",
+          "hint": "Unique error code. Leave blank to generate an error code automatically. [CODE]",
+          "caption": "Message Code",
+          "visibility": 50
       },
       {
-        "attribute_alias": "TITLE",
-       "caption": "Title"
+          "input_widget": {
+              "ignore_default_value": true,
+              "multiple_values_allowed": true,
+              "multiple_values_delimiter": ",",
+              "attribute_alias": "TITLE",
+              "empty_text": "",
+              "data_column_name": "TITLE",
+              "widget_type": "Input",
+              "id": "DataTable_DataTableConfigurator_Tab_Filter02_Input",
+              "id_space": "",
+              "hint": "Title [TITLE]",
+              "do_not_prefill": false,
+              "caption": "Title",
+              "visibility": 50
+          },
+          "attribute_alias": "TITLE",
+          "empty_text": "",
+          "do_not_prefill": false,
+          "apply_on_change": false,
+          "include_in_quick_search": false,
+          "widget_type": "Filter",
+          "id": "DataTable_DataTableConfigurator_Tab_Filter02",
+          "id_space": "",
+          "hint": "Title [TITLE]",
+          "caption": "Title",
+          "visibility": 50
       },
       {
-        "attribute_alias": "APP",
-        "caption": "App"
+          "input_widget": {
+              "value_text": "",
+              "multi_select": false,
+              "selectable_options": {
+                  "": "-",
+                  "ERROR": "Error",
+                  "WARNING": "Warning",
+                  "INFO": "Info",
+                  "SUCCESS": "Success",
+                  "HINT": "Hint"
+              },
+              "values": [],
+              "text_attribute_alias": "TYPE",
+              "options_object_alias": "exface.Core.MESSAGE",
+              "value_attribute_alias": "TYPE",
+              "use_prefill_to_filter_options": true,
+              "use_prefill_values_as_options": false,
+              "multi_select_value_delimiter": ",",
+              "multi_select_text_delimiter": ",",
+              "ignore_default_value": true,
+              "attribute_alias": "TYPE",
+              "empty_text": "",
+              "data_column_name": "TYPE",
+              "widget_type": "InputSelect",
+              "id": "DataTable_DataTableConfigurator_Tab_Filter03_InputSelect",
+              "id_space": "",
+              "hint": "Type [TYPE]",
+              "do_not_prefill": false,
+              "caption": "Type",
+              "visibility": 50
+          },
+          "attribute_alias": "TYPE",
+          "comparator": "==",
+          "empty_text": "",
+          "do_not_prefill": false,
+          "apply_on_change": false,
+          "include_in_quick_search": false,
+          "widget_type": "Filter",
+          "id": "DataTable_DataTableConfigurator_Tab_Filter03",
+          "id_space": "",
+          "hint": "Type [TYPE]",
+          "caption": "Type",
+          "visibility": 50
       }
-    ],
-    "columns": [
+  ],
+  "paginator": {
+      "page_sizes": [],
+      "count_all_rows": true,
+      "widget_type": "DataPaginator",
+      "id": "DataTable_DataPaginator",
+      "id_space": "",
+      "do_not_prefill": false,
+      "visibility": 50
+  },
+  "sorters": [
       {
-        "attribute_alias": "UID",
-        "caption": "UID",
-        "sortable": true
-      },{
-        "attribute_alias": "TYPE",
-        "caption": "Type",
-        "sortable": true
-      },
-      {
-        "attribute_alias": "APP__ALIAS",
-        "caption": "App"
-      },
-      {
-        "attribute_alias": "CODE",
-        "caption": "Code"
-      },
-      {
-        "attribute_alias": "TITLE",
-        "caption": "Title"
-      },
-      {
-        "attribute_alias": "MODIFIED_ON",
-        "caption": "Modified",
-        "sortable": false
+          "attribute_alias": "CREATED_ON",
+          "direction": "desc"
       }
-    ],
-    "sorters": [
+  ],
+  "lazy_loading": true,
+  "empty_text": "No data could be found for the current set of filters!",
+  "hide_footer": false,
+  "autoload_data": true,
+  "autoload_disabled_hint": "Please set your filters before performing a search!",
+  "quick_search_widget": {
+      "multiple_values_allowed": false,
+      "multiple_values_delimiter": ",",
+      "empty_text": "",
+      "data_column_name": "",
+      "widget_type": "Input",
+      "id": "DataTable_Input",
+      "id_space": "",
+      "do_not_prefill": false,
+      "visibility": 50
+  },
+  "widget_type": "DataTable",
+  "id": "DataTable",
+  "id_space": "",
+  "do_not_prefill": false,
+  "visibility": 50,
+  "uid_column_id": "DataTable_DataColumnGroup_DataColumn05",
+  "columns": [
       {
-        "attribute_alias": "CREATED_ON",
-        "direction": "desc"
+          "attribute_alias": "TYPE",
+          "cell_widget": {
+              "disable_formatting": false,
+              "hide_if_empty": false,
+              "multi_value_list_delimiter": ",",
+              "attribute_alias": "TYPE",
+              "empty_text": "-",
+              "data_column_name": "TYPE",
+              "widget_type": "Display",
+              "id": "DataTable_DataColumnGroup_DataColumn_Display",
+              "id_space": "",
+              "hint": "Type [TYPE]",
+              "do_not_prefill": false,
+              "caption": "Type",
+              "visibility": 50
+          },
+          "include_in_quick_search": false,
+          "data_column_name": "TYPE",
+          "widget_type": "DataColumn",
+          "id": "DataTable_DataColumnGroup_DataColumn",
+          "id_space": "",
+          "hint": "Type [TYPE]",
+          "do_not_prefill": false,
+          "caption": "Type",
+          "visibility": 50,
+          "align": "default"
+      },
+      {
+          "attribute_alias": "APP__ALIAS",
+          "cell_widget": {
+              "disable_formatting": false,
+              "hide_if_empty": false,
+              "multi_value_list_delimiter": ",",
+              "attribute_alias": "APP__ALIAS",
+              "empty_text": "-",
+              "data_column_name": "APP__ALIAS",
+              "widget_type": "Display",
+              "id": "DataTable_DataColumnGroup_DataColumn02_Display",
+              "id_space": "",
+              "hint": "Unique alias of the app: e.g. \"exface.Core\". The alias must consist of two parts separated by a dot: the vendor (namespace) and the actual app alias. [ALIAS]",
+              "do_not_prefill": false,
+              "caption": "App Alias",
+              "visibility": 50
+          },
+          "include_in_quick_search": false,
+          "data_column_name": "APP__ALIAS",
+          "widget_type": "DataColumn",
+          "id": "DataTable_DataColumnGroup_DataColumn02",
+          "id_space": "",
+          "hint": "Unique alias of the app: e.g. \"exface.Core\". The alias must consist of two parts separated by a dot: the vendor (namespace) and the actual app alias. [ALIAS]",
+          "do_not_prefill": false,
+          "caption": "App Alias",
+          "visibility": 50,
+          "align": "default"
+      },
+      {
+          "attribute_alias": "CODE",
+          "cell_widget": {
+              "disable_formatting": false,
+              "hide_if_empty": false,
+              "multi_value_list_delimiter": ",",
+              "attribute_alias": "CODE",
+              "empty_text": "-",
+              "data_column_name": "CODE",
+              "widget_type": "Display",
+              "id": "DataTable_DataColumnGroup_DataColumn03_Display",
+              "id_space": "",
+              "hint": "Unique error code. Leave blank to generate an error code automatically. [CODE]",
+              "do_not_prefill": false,
+              "caption": "Message Code",
+              "visibility": 50
+          },
+          "include_in_quick_search": false,
+          "data_column_name": "CODE",
+          "widget_type": "DataColumn",
+          "id": "DataTable_DataColumnGroup_DataColumn03",
+          "id_space": "",
+          "hint": "Unique error code. Leave blank to generate an error code automatically. [CODE]",
+          "do_not_prefill": false,
+          "caption": "Message Code",
+          "visibility": 50,
+          "align": "default"
+      },
+      {
+          "attribute_alias": "TITLE",
+          "cell_widget": {
+              "disable_formatting": false,
+              "hide_if_empty": false,
+              "multi_value_list_delimiter": ",",
+              "attribute_alias": "TITLE",
+              "empty_text": "-",
+              "data_column_name": "TITLE",
+              "widget_type": "Display",
+              "id": "DataTable_DataColumnGroup_DataColumn04_Display",
+              "id_space": "",
+              "hint": "Title [TITLE]",
+              "do_not_prefill": false,
+              "caption": "Title",
+              "visibility": 50
+          },
+          "include_in_quick_search": false,
+          "data_column_name": "TITLE",
+          "widget_type": "DataColumn",
+          "id": "DataTable_DataColumnGroup_DataColumn04",
+          "id_space": "",
+          "hint": "Title [TITLE]",
+          "do_not_prefill": false,
+          "caption": "Title",
+          "visibility": 50,
+          "align": "default"
+      },
+      {
+          "attribute_alias": "UID",
+          "cell_widget": {
+              "disable_formatting": false,
+              "hide_if_empty": false,
+              "multi_value_list_delimiter": ",",
+              "attribute_alias": "UID",
+              "empty_text": "-",
+              "data_column_name": "UID",
+              "widget_type": "Display",
+              "id": "DataTable_DataColumnGroup_DataColumn05_Display",
+              "id_space": "",
+              "hint": "UID [UID]",
+              "do_not_prefill": false,
+              "caption": "UID",
+              "visibility": 50
+          },
+          "include_in_quick_search": false,
+          "data_column_name": "UID",
+          "widget_type": "DataColumn",
+          "id": "DataTable_DataColumnGroup_DataColumn05",
+          "id_space": "",
+          "hint": "UID [UID]",
+          "do_not_prefill": false,
+          "caption": "UID",
+          "visibility": 10,
+          "align": "opposite"
       }
-    ]
-  }
-  
+  ],
+  "toolbars": [
+      {
+          "include_no_extra_actions": false,
+          "include_global_actions": true,
+          "include_search_actions": true,
+          "button_groups": [
+              {
+                  "widgets": [
+                      {
+                          "action_alias": "exface.Core.ObjectBasketAdd",
+                          "refresh_input": true,
+                          "reset_input": false,
+                          "widget_type": "DataButton",
+                          "id": "DataTable_DataToolbar_ButtonGroup_DataButton",
+                          "id_space": "",
+                          "hint": "Add to object basket",
+                          "do_not_prefill": false,
+                          "caption": "Add to object basket",
+                          "visibility": 30,
+                          "align": "default",
+                          "input_widget_id": "DataTable_DataToolbar_ButtonGroup",
+                          "icon": "shopping-basket"
+                      },
+                      {
+                          "action_alias": "exface.Core.FavoritesAdd",
+                          "refresh_input": true,
+                          "reset_input": false,
+                          "widget_type": "DataButton",
+                          "id": "DataTable_DataToolbar_ButtonGroup_DataButton02",
+                          "id_space": "",
+                          "hint": "Add to favorites",
+                          "do_not_prefill": false,
+                          "caption": "Add to favorites",
+                          "visibility": 30,
+                          "align": "default",
+                          "input_widget_id": "DataTable_DataToolbar_ButtonGroup",
+                          "icon": "star"
+                      },
+                      {
+                          "action_alias": "exface.Core.ExportXLSX",
+                          "refresh_input": true,
+                          "reset_input": false,
+                          "widget_type": "DataButton",
+                          "id": "DataTable_DataToolbar_ButtonGroup_DataButton03",
+                          "id_space": "",
+                          "hint": "Export Excel",
+                          "do_not_prefill": false,
+                          "caption": "Export Excel",
+                          "visibility": 30,
+                          "align": "default",
+                          "input_widget_id": "DataTable_DataToolbar_ButtonGroup",
+                          "icon": "file-excel-o"
+                      },
+                      {
+                          "action_alias": "exface.Core.ExportCSV",
+                          "refresh_input": true,
+                          "reset_input": false,
+                          "widget_type": "DataButton",
+                          "id": "DataTable_DataToolbar_ButtonGroup_DataButton04",
+                          "id_space": "",
+                          "hint": "Export CSV",
+                          "do_not_prefill": false,
+                          "caption": "Export CSV",
+                          "visibility": 30,
+                          "align": "default",
+                          "input_widget_id": "DataTable_DataToolbar_ButtonGroup",
+                          "icon": "file-text-o"
+                      }
+                  ],
+                  "widget_type": "ButtonGroup",
+                  "id": "DataTable_DataToolbar_ButtonGroup",
+                  "id_space": "",
+                  "do_not_prefill": false,
+                  "visibility": 30,
+                  "align": "default",
+                  "input_widget_id": "DataTable_DataToolbar"
+              },
+              {
+                  "widgets": [
+                      {
+                          "action_alias": "exface.Core.RefreshWidget",
+                          "refresh_input": true,
+                          "reset_input": false,
+                          "widget_type": "DataButton",
+                          "id": "DataTable_DataToolbar_ButtonGroup02_DataButton",
+                          "id_space": "",
+                          "hint": "Search",
+                          "do_not_prefill": false,
+                          "caption": "Search",
+                          "hide_caption": false,
+                          "visibility": 90,
+                          "align": "opposite",
+                          "input_widget_id": "DataTable_DataToolbar_ButtonGroup02",
+                          "icon": "search",
+                          "show_icon": true
+                      }
+                  ],
+                  "widget_type": "ButtonGroup",
+                  "id": "DataTable_DataToolbar_ButtonGroup02",
+                  "id_space": "",
+                  "do_not_prefill": false,
+                  "visibility": 50,
+                  "align": "opposite",
+                  "input_widget_id": "DataTable_DataToolbar"
+              }
+          ],
+          "position": "default",
+          "widgets": [
+              {
+                  "widgets": [
+                      {
+                          "action_alias": "exface.Core.ObjectBasketAdd",
+                          "refresh_input": true,
+                          "reset_input": false,
+                          "widget_type": "DataButton",
+                          "id": "DataTable_DataToolbar_ButtonGroup_DataButton",
+                          "id_space": "",
+                          "hint": "Add to object basket",
+                          "do_not_prefill": false,
+                          "caption": "Add to object basket",
+                          "visibility": 30,
+                          "align": "default",
+                          "input_widget_id": "DataTable_DataToolbar_ButtonGroup",
+                          "icon": "shopping-basket"
+                      },
+                      {
+                          "action_alias": "exface.Core.FavoritesAdd",
+                          "refresh_input": true,
+                          "reset_input": false,
+                          "widget_type": "DataButton",
+                          "id": "DataTable_DataToolbar_ButtonGroup_DataButton02",
+                          "id_space": "",
+                          "hint": "Add to favorites",
+                          "do_not_prefill": false,
+                          "caption": "Add to favorites",
+                          "visibility": 30,
+                          "align": "default",
+                          "input_widget_id": "DataTable_DataToolbar_ButtonGroup",
+                          "icon": "star"
+                      },
+                      {
+                          "action_alias": "exface.Core.ExportXLSX",
+                          "refresh_input": true,
+                          "reset_input": false,
+                          "widget_type": "DataButton",
+                          "id": "DataTable_DataToolbar_ButtonGroup_DataButton03",
+                          "id_space": "",
+                          "hint": "Export Excel",
+                          "do_not_prefill": false,
+                          "caption": "Export Excel",
+                          "visibility": 30,
+                          "align": "default",
+                          "input_widget_id": "DataTable_DataToolbar_ButtonGroup",
+                          "icon": "file-excel-o"
+                      },
+                      {
+                          "action_alias": "exface.Core.ExportCSV",
+                          "refresh_input": true,
+                          "reset_input": false,
+                          "widget_type": "DataButton",
+                          "id": "DataTable_DataToolbar_ButtonGroup_DataButton04",
+                          "id_space": "",
+                          "hint": "Export CSV",
+                          "do_not_prefill": false,
+                          "caption": "Export CSV",
+                          "visibility": 30,
+                          "align": "default",
+                          "input_widget_id": "DataTable_DataToolbar_ButtonGroup",
+                          "icon": "file-text-o"
+                      }
+                  ],
+                  "widget_type": "ButtonGroup",
+                  "id": "DataTable_DataToolbar_ButtonGroup",
+                  "id_space": "",
+                  "do_not_prefill": false,
+                  "visibility": 30,
+                  "align": "default",
+                  "input_widget_id": "DataTable_DataToolbar"
+              },
+              {
+                  "widgets": [
+                      {
+                          "action_alias": "exface.Core.RefreshWidget",
+                          "refresh_input": true,
+                          "reset_input": false,
+                          "widget_type": "DataButton",
+                          "id": "DataTable_DataToolbar_ButtonGroup02_DataButton",
+                          "id_space": "",
+                          "hint": "Search",
+                          "do_not_prefill": false,
+                          "caption": "Search",
+                          "hide_caption": false,
+                          "visibility": 90,
+                          "align": "opposite",
+                          "input_widget_id": "DataTable_DataToolbar_ButtonGroup02",
+                          "icon": "search",
+                          "show_icon": true
+                      }
+                  ],
+                  "widget_type": "ButtonGroup",
+                  "id": "DataTable_DataToolbar_ButtonGroup02",
+                  "id_space": "",
+                  "do_not_prefill": false,
+                  "visibility": 50,
+                  "align": "opposite",
+                  "input_widget_id": "DataTable_DataToolbar"
+              }
+          ],
+          "widget_type": "DataToolbar",
+          "id": "DataTable_DataToolbar",
+          "id_space": "",
+          "do_not_prefill": false,
+          "visibility": 50,
+          "input_widget_id": "DataTable"
+      }
+  ],
+  "help_button": {
+      "action_alias": "exface.Core.ShowHelpDialog",
+      "refresh_input": false,
+      "reset_input": false,
+      "widget_type": "DataButton",
+      "id": "DataTable_DataButton",
+      "id_space": "",
+      "hint": "Help",
+      "do_not_prefill": false,
+      "caption": "Help",
+      "visibility": 10,
+      "align": "default",
+      "input_widget_id": "DataTable",
+      "icon": "question-circle-o"
+  },
+  "hide_help_button": false,
+  "nowrap": true,
+  "striped": true
+}

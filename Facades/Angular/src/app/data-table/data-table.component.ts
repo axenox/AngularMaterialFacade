@@ -6,7 +6,7 @@ import {MatChipInputEvent} from '@angular/material/chips';
 import {MatDialog, MatDialogConfig} from "@angular/material";
 import { DialogTestComponent } from '../dialog-test/dialog-test.component';
 import {MatPaginator} from '@angular/material/paginator';
-import { IDataTableStructure, IColumn, IFilter } from './data-table-structure.interface';
+import { IWidgetDataTable, IWidgetDataColumn, IWidgetFilter } from './data-table-structure.interface';
 
 export interface IColumnDef {
   columnDef: string;
@@ -36,7 +36,7 @@ export class DataTableComponent implements OnInit, OnChanges {
 */
 
   @Input()
-  config: IDataTableStructure;
+  config: IWidgetDataTable;
 
   displayedColumns: string[];
 
@@ -57,14 +57,14 @@ export class DataTableComponent implements OnInit, OnChanges {
   applyGlobalFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.filter._global_ = filterValue.trim().toLowerCase();
-    this.dataSource.filter = JSON.stringify(this.config.filters);    
+    this.dataSource.filter = JSON.stringify(this.config.filters); 
   }
 
   startSearch(){
-    this.config.filters.forEach((col:IFilter)=>{
-      const value=this.filter[col.attribute_alias];
+    this.config.filters.forEach((col:IWidgetFilter)=>{
+      const value=this.filter[col.input_widget.data_column_name];
       if (value){
-        this.addChip(col.attribute_alias, col.caption, value);
+        this.addChip(col.input_widget.data_column_name, col.caption, value);
       }
     });
     this.dataSource.filter = JSON.stringify(this.config.filters);
@@ -104,7 +104,7 @@ export class DataTableComponent implements OnInit, OnChanges {
   constructor(private dialog: MatDialog) { }
 
   ngOnInit() {
-    this.displayedColumns = this.config.columns.map(c => c.attribute_alias);
+    this.displayedColumns = this.config.columns.map(c => c.data_column_name);
     this.displayedColumns.push('_actions_');
   }
 
@@ -128,8 +128,8 @@ export class DataTableComponent implements OnInit, OnChanges {
       // globale Suche 
       if (globalValue && globalValue.trim().length > 0) {
         let found = false;
-        this.config.columns.forEach((col: IColumn) => {
-          const rowValue = row[col.attribute_alias];
+        this.config.columns.forEach((col: IWidgetDataColumn) => {
+          const rowValue = row[col.data_column_name];
           if (rowValue && rowValue.toLowerCase().indexOf(globalValue) !== -1) {
             found = true;
           }
