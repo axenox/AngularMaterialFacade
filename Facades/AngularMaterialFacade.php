@@ -46,6 +46,7 @@ class AngularMaterialFacade extends AbstractAjaxFacade
                 return parent::createResponseFromTaskResult($request, $result);
         }
         
+        $headers = array_merge($headers, $this->buildHeadersAccessControl());
         return new Response($status_code, $headers, $body);
     }
     
@@ -93,7 +94,7 @@ class AngularMaterialFacade extends AbstractAjaxFacade
     public function buildResponseData(DataSheetInterface $data_sheet, WidgetInterface $widget = null)
     {
         $data = array();
-        $data['data'] = $data_sheet->getRows();
+        $data['rows'] = $data_sheet->getRows();
         $data['recordsFiltered'] = $data_sheet->countRowsInDataSource();
         $data['recordsTotal'] = $data_sheet->countRowsInDataSource();
         $data['footer'] = $data_sheet->getTotalsRows();
