@@ -14,7 +14,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { LogTableComponent } from './log-table/log-table.component';
-import { ExampleTableComponent } from './example-table/example-table.component';
 import { CdkTableModule } from '@angular/cdk/table';
 import { DialogTestComponent } from './dialog-test/dialog-test.component';
 import { SnackbarTestComponent } from './snackbar-test/snackbar-test.component';
@@ -27,7 +26,6 @@ import { FilterInputComponent } from './filter-input/filter-input.component';
     DataTableComponent,
     FormComponent,
     LogTableComponent,
-    ExampleTableComponent,
     DialogTestComponent,
     SnackbarTestComponent,
     FilterInputComponent,

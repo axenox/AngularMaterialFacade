@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IColumnDef } from '../data-table/data-table.component';
+import { IColumnDef, FilterChip } from '../data-table/data-table.component';
 import datatableJson from '../../assets/json/datatable.json';
 import { IWidgetDataTable } from '../data-table/data-table-structure.interface';
 
@@ -26,8 +26,8 @@ export interface LogEntryResponse {
   success?: string;
 }
 
-const URL_DATA='http://sdrexf2.salt-solutions.de/spielwiese/exface//api/ui5?action=exface.Core.ReadData&resource=exface.core.messages&element=DataTable&object=0x11e6c3859abc5faea3e40205857feb80&q=&data%5BoId%5D=0x11e6c3859abc5faea3e40205857feb80&data%5Bfilters%5D%5Boperator%5D=AND&data%5Bfilters%5D%5Bconditions%5D%5B0%5D%5Bexpression%5D=CODE&data%5Bfilters%5D%5Bconditions%5D%5B0%5D%5Bcomparator%5D=&data%5Bfilters%5D%5Bconditions%5D%5B0%5D%5Bvalue%5D=&data%5Bfilters%5D%5Bconditions%5D%5B0%5D%5Bobject_alias%5D=exface.Core.MESSAGE&data%5Bfilters%5D%5Bconditions%5D%5B1%5D%5Bexpression%5D=TITLE&data%5Bfilters%5D%5Bconditions%5D%5B1%5D%5Bcomparator%5D=&data%5Bfilters%5D%5Bconditions%5D%5B1%5D%5Bvalue%5D=&data%5Bfilters%5D%5Bconditions%5D%5B1%5D%5Bobject_alias%5D=exface.Core.MESSAGE&data%5Bfilters%5D%5Bconditions%5D%5B2%5D%5Bexpression%5D=APP&data%5Bfilters%5D%5Bconditions%5D%5B2%5D%5Bcomparator%5D=%3D%3D&data%5Bfilters%5D%5Bconditions%5D%5B2%5D%5Bvalue%5D=&data%5Bfilters%5D%5Bconditions%5D%5B2%5D%5Bobject_alias%5D=exface.Core.MESSAGE&sort=CREATED_ON&order=desc&start=0&length=30';
-const URL_STRUCTURE='http://sdrexf2.salt-solutions.de/spielwiese/exface/api/angular?resource=angular-test&action=exface.Core.ShowWidget'
+const URL_DATA=     'http://localhost/exface/exface/api/angular';
+const URL_STRUCTURE='http://localhost/exface/exface/api/angular?action=exface.Core.ShowWidget&resource=angular-test';
 @Component({
   selector: 'app-log-table',
   templateUrl: './log-table.component.html',
@@ -39,33 +39,64 @@ export class LogTableComponent implements OnInit {
   structure: IWidgetDataTable;
 
   rows: LogEntry[];
-  columns: IColumnDef[] = [
-    { columnDef: 'TYPE', header: 'Type',    cell: (element: any) => `${element.TYPE}` },
-    { columnDef: 'APP__ALIAS',     header: 'App Alias',   cell: (element: any) => `${element.APP__ALIAS}` },
-    { columnDef: 'CODE', header: 'Message Code',    cell: (element: any) => `${element.CODE}` },
-    { columnDef: 'TITLE',   header: 'Title', cell: (element: any) => `${element.TITLE}` },
-  ];
 
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
-   /* 
+   
+    
     this.http.get<IWidgetDataTable>(URL_STRUCTURE).subscribe(
       (data: IWidgetDataTable) => {
         console.log(data);
         this.structure = data;
       }
-    );*/
+    );
+    
+   // this.structure$ = this.http.get<IWidgetDataTable>(URL_STRUCTURE);
 
-    this.structure = datatableJson;
+    //this.structure = datatableJson;
+    this.loadData();
+  }
 
-    this.http.get<LogEntryResponse>(URL_DATA).subscribe(
+  loadData(chips?: FilterChip[]){
+    const params = {
+      action: 'exface.Core.ReadData',
+      resource: 'angular-test',
+      element: 'DataTable',
+      object: '0x11e6c3859abc5faea3e40205857feb80',
+      q: '',
+      'data[oId]': '0x11e6c3859abc5faea3e40205857feb80',
+      sort: 'CREATED_ON',
+      order: 'desc',
+      start: '0',
+/*      'data[filters][conditions][0][expression]': 'CODE',
+      'data[filters][conditions][0][comparator]':'',
+      'data[filters][conditions][0][value]':'',
+      'data[filters][conditions][0][object_alias]':'exface.Core.MESSAGE',
+*/      
+      length: '50',
+    };
+
+    if (chips && chips.length > 0) {
+      params['data[filters][operator]'] = 'AND';
+
+      chips.forEach((chip: FilterChip, index: number) => {
+        params['data[filters][conditions][' + index + '][expression]'] = chip.property;
+        params['data[filters][conditions][' + index + '][value]'] = chip.value;
+        params['data[filters][conditions][' + index + '][comperator]'] = '==';
+        params['data[filters][conditions][' + index + '][object_alias]'] = 'exface.Core.MESSAGE';
+
+      });
+    }
+    this.http.get<LogEntryResponse>(URL_DATA,{params}).subscribe(
       (response: LogEntryResponse) => {
         this.response = response;
       }
     );
+  }
 
-
+  onFilterChange(chips:FilterChip[]){
+    this.loadData(chips);    
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
@@ -38,6 +38,9 @@ export class DataTableComponent implements OnInit, OnChanges {
   @Input()
   config: IWidgetDataTable;
 
+  @Output()
+  filterChange= new EventEmitter();
+
   displayedColumns: string[];
 
   globalSearch: string;
@@ -67,8 +70,8 @@ export class DataTableComponent implements OnInit, OnChanges {
         this.addChip(col.input_widget.data_column_name, col.caption, value);
       }
     });
-    this.dataSource.filter = JSON.stringify(this.config.filters);
-
+    //this.dataSource.filter = JSON.stringify(this.filter);
+    this.filterChange.emit(this.filterChips);
   }
 
  addChip(property: string, name: string, value: string): void{
