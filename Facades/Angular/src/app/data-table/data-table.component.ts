@@ -6,7 +6,10 @@ import {MatChipInputEvent} from '@angular/material/chips';
 import {MatDialog, MatDialogConfig} from "@angular/material";
 import { DialogTestComponent } from '../dialog-test/dialog-test.component';
 import {MatPaginator} from '@angular/material/paginator';
-import { IWidgetDataTable, IWidgetDataColumn, IWidgetFilter } from './data-table-structure.interface';
+import { IWidgetDataTable } from '../widgets/interfaces/data-table.interface';
+import { IWidgetFilter } from '../widgets/interfaces/filter.interface';
+import { IWidgetDataColumn } from '../widgets/interfaces/data-column.interface';
+
 
 export interface IColumnDef {
   columnDef: string;

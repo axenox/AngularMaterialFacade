@@ -1,4 +1,5 @@
-import { IWidgetInputInterface } from 'src/app/data-table/data-table-structure.interface';
+import { IWidgetInputInterface } from './input.interface';
+
 
 export interface IWidgetInputSelectInterface extends IWidgetInputInterface {
     selectable_options: {}

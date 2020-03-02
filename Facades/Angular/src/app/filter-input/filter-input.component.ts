@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IWidgetFilter } from '../data-table/data-table-structure.interface';
+import { IWidgetFilter } from '../widgets/interfaces/filter.interface';
 
 @Component({
   selector: 'app-filter-input',

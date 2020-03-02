@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IColumnDef, FilterChip } from '../data-table/data-table.component';
 import datatableJson from '../../assets/json/datatable.json';
-import { IWidgetDataTable } from '../data-table/data-table-structure.interface';
+import { IWidgetDataTable } from '../widgets/interfaces/data-table.interface';
+
 
 
 export interface LogEntry {
