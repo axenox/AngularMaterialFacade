@@ -75,7 +75,7 @@ export class LogTableComponent implements OnInit {
       'data[filters][conditions][0][value]':'',
       'data[filters][conditions][0][object_alias]':'exface.Core.MESSAGE',
 */      
-      length: '50',
+      length: '150',
     };
 
     if (chips && chips.length > 0) {

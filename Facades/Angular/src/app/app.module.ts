@@ -18,6 +18,9 @@ import { CdkTableModule } from '@angular/cdk/table';
 import { DialogTestComponent } from './dialog-test/dialog-test.component';
 import { SnackbarTestComponent } from './snackbar-test/snackbar-test.component';
 import { FilterInputComponent } from './filter-input/filter-input.component';
+import { FilterComponent } from './filter/filter.component';
+import { InputComponent } from './input/input.component';
+import { InputSelectComponent } from './input-select/input-select.component';
 
 
 @NgModule({
@@ -29,6 +32,9 @@ import { FilterInputComponent } from './filter-input/filter-input.component';
     DialogTestComponent,
     SnackbarTestComponent,
     FilterInputComponent,
+    FilterComponent,
+    InputComponent,
+    InputSelectComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,7 +59,8 @@ import { FilterInputComponent } from './filter-input/filter-input.component';
     MatDialogModule,
     MatSnackBarModule,
     MatTooltipModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSelectModule
   ],
   entryComponents: [
     DialogTestComponent,

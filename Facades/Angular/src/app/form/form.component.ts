@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
+import { IWidgetDataTable } from '../widgets/interfaces/data-table.interface';
 
 @Component({
   selector: 'app-form',
@@ -12,10 +13,16 @@ export class FormComponent implements OnInit {
   @Input()
     dataSource: MatTableDataSource<any>;
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
+  @Input()
+    config: IWidgetDataTable;
+  
+    filter={_global_: ''};
+
+    applyFilter(event: Event) {
+      const filterValue = (event.target as HTMLInputElement).value;
+      this.filter._global_ = filterValue.trim().toLowerCase();
+      this.dataSource.filter = JSON.stringify(this.config.filters);
+    }
 
   constructor(private router: Router){  }
 
