@@ -209,4 +209,11 @@ export class DataTableComponent implements OnInit, OnChanges {
       }
     ); 
   }  
+
+  globalFilterChange(filter: string){
+    this.createDataSource();
+    this.dataSource.filter = filter;
+  }
+
 }
+

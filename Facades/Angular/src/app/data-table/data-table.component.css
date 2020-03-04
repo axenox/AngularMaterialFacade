@@ -6,6 +6,11 @@ table {
   float: right;
 }
 
+.table-filters .filter {
+  float: left;
+  padding-right: 1em;
+}
+
 /* input color class */
 ::ng-deep input.mat-input-element {
   color: #fff;

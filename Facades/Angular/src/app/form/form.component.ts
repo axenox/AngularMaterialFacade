@@ -1,7 +1,8 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { IWidgetDataTable } from '../widgets/interfaces/data-table.interface';
+
 
 @Component({
   selector: 'app-form',
@@ -10,18 +11,17 @@ import { IWidgetDataTable } from '../widgets/interfaces/data-table.interface';
 })
 export class FormComponent implements OnInit {
 
-  @Input()
-    dataSource: MatTableDataSource<any>;
+  @Output()
+    filterChange= new EventEmitter<string>();
 
   @Input()
-    config: IWidgetDataTable;
-  
-    filter={_global_: ''};
+    filter: any;
 
     applyFilter(event: Event) {
+
       const filterValue = (event.target as HTMLInputElement).value;
       this.filter._global_ = filterValue.trim().toLowerCase();
-      this.dataSource.filter = JSON.stringify(this.config.filters);
+      this.filterChange.emit(JSON.stringify(this.filter));
     }
 
   constructor(private router: Router){  }

@@ -1,7 +1,4 @@
-<mat-form-field>
-    <mat-label>{{config.caption}}</mat-label>
     <ng-container [ngSwitch]="config.input_widget.widget_type">
-        <app-input-select *ngSwitchCase="'InputSelect'" [config]="config.input_widget"></app-input-select>
-        <app-input *ngSwitchDefault [config]="config.input_widget"></app-input>
+        <app-input-select *ngSwitchCase="'InputSelect'" [filter]="filter" [config]="config.input_widget"></app-input-select>
+        <app-input *ngSwitchDefault [filter]="filter" [config]="config.input_widget"></app-input>
     </ng-container>
-</mat-form-field>

@@ -1,3 +1,6 @@
-<mat-select matNativeControl>
-    <mat-option *ngFor="let option of config.selectable_options | keyvalue" [value]="option.key">{{option.value}}</mat-option>
-</mat-select>
+<mat-form-field>
+    <mat-label>{{config.caption}}</mat-label>
+    <mat-select [(ngModel)]="filter[config.data_column_name]" matNativeControl>
+        <mat-option *ngFor="let option of config.selectable_options | keyvalue" [value]="option.key">{{option.value}}</mat-option>
+    </mat-select>
+</mat-form-field>

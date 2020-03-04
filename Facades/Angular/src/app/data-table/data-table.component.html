@@ -1,9 +1,11 @@
-<div>
+<!--<div>
   <mat-form-field>
       <mat-label>Suchen</mat-label>
       <input matInput (keyup)="applyGlobalFilter($event)">
   </mat-form-field>
-</div>
+</div>-->
+
+<app-form [filter]="filter" (filterChange)=globalFilterChange($event)></app-form>
 
 <mat-accordion>
   <mat-expansion-panel>
@@ -21,8 +23,9 @@
     </mat-expansion-panel-header>
     <div class="table-filters">
 
-    <app-filter-input *ngFor="let column of config.filters" [config]="column" [filter]="filter"></app-filter-input>                                     
-
+    <div *ngFor="let column of config.filters" class="filter">
+      <app-filter [config]="column" [filter]="filter"></app-filter>                                     
+    </div>
     <button mat-raised-button class="searchbutton" (click)="startSearch()" aria-label="search icon button" matTooltip="Filter Anwenden">
       <mat-icon>search</mat-icon>
     </button>

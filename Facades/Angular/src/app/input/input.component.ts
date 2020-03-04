@@ -11,6 +11,9 @@ export class InputComponent implements OnInit {
   @Input()
     config: IWidgetInputInterface;
   
+  @Input()
+    filter: any;
+
   constructor() { }
 
   ngOnInit() {
