@@ -21,9 +21,7 @@ export interface DataResponse {
 
 const ACTION_SHOW_WIDGET = 'exface.Core.ShowWidget';
 const URL_FACADE    = 'http://localhost/exface/exface/api/angular';
-const URL_DATA      = URL_FACADE;
 const URL_RESOURCE  = 'angular-test';
-const URL_STRUCTURE = URL_FACADE + '?action=' + ACTION_SHOW_WIDGET + '&resource=' + URL_RESOURCE;
 
 @Component({
   selector: 'app-log-table',
@@ -43,7 +41,7 @@ export class LogTableComponent implements OnInit {
    
     // Load JSON description of widget
     // When loaded, save it and load data of table
-    this.http.get<IWidgetDataTable>(URL_STRUCTURE).subscribe(
+    this.http.get<IWidgetDataTable>(URL_FACADE + '?action=' + ACTION_SHOW_WIDGET + '&resource=' + URL_RESOURCE).subscribe(
       (data: IWidgetDataTable) => {
         this.structure = data;
         this.loadData();
@@ -57,9 +55,9 @@ export class LogTableComponent implements OnInit {
       action: this.structure.lazy_loading_action.alias,
       resource: URL_RESOURCE,
       element: this.structure.id,
-      object: '0x11e6c3859abc5faea3e40205857feb80',
+      object: this.structure.object_alias,
       q: '',
-      'data[oId]': '0x11e6c3859abc5faea3e40205857feb80',
+      'data[oId]': this.structure.lazy_loading_action.object_alias,
       sort: 'CREATED_ON',
       order: 'desc',
       start: '0',      
@@ -77,7 +75,7 @@ export class LogTableComponent implements OnInit {
 
       });
     }
-    this.http.get<DataResponse>(URL_DATA,{params}).subscribe(
+    this.http.get<DataResponse>(URL_FACADE,{params}).subscribe(
       (response: DataResponse) => {
         this.response = response;
       }
