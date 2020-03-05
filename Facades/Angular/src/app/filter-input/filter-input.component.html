@@ -1,9 +1,0 @@
-<mat-form-field>
-    <mat-label>{{config.caption}}</mat-label>
-    <ng-container [ngSwitch]="config.input_widget.widget_type">
-        <mat-select *ngSwitchCase="'InputSelect'"  matNativeControl>
-            <mat-option *ngFor="let option of config.input_widget.selectable_options | keyvalue" [value]="option.key">{{option.value}}</mat-option>
-        </mat-select>
-        <input *ngSwitchDefault matInput [(ngModel)]="filter[config.input_widget.data_column_name]"  type="text"/>
-    </ng-container>
-</mat-form-field>

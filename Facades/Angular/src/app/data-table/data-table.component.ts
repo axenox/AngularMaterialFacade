@@ -3,7 +3,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
-import {MatDialog, MatDialogConfig} from "@angular/material";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { DialogTestComponent } from '../dialog-test/dialog-test.component';
 import {MatPaginator} from '@angular/material/paginator';
 import { IWidgetDataTable } from '../widgets/interfaces/data-table.interface';
@@ -33,10 +33,6 @@ export class DataTableComponent implements OnInit, OnChanges {
   @Input() 
   rows: any[];
 
-/*
-  @Input()
-  columns: IColumnDef[];
-*/
 
   @Input()
   config: IWidgetDataTable;
