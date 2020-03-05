@@ -8,13 +8,14 @@ use exface\Core\Interfaces\WidgetInterface;
 use exface\Core\Interfaces\iCanBeConvertedToUxon;
 use exface\Core\DataTypes\StringDataType;
 use exface\Core\CommonLogic\UxonObject;
+use exface\Core\Interfaces\Actions\ActionInterface;
 
 /**
  *
  * @method AngularMaterialFacade getFacade()
- *        
+ *
  * @author Andrej Kabachnik
- *        
+ *
  */
 class NgmBasicElement extends AbstractJqueryElement
 {
@@ -26,6 +27,13 @@ class NgmBasicElement extends AbstractJqueryElement
     protected function buildJsonFromWidget(WidgetInterface $widget) : array
     {
         return $this->buildJsonFromObject($widget);
+    }
+    
+    protected function buildJsonFromAction(ActionInterface $action) : array
+    {
+        return [
+            'alias' => $action->getAliasWithNamespace()
+        ];
     }
     
     protected function buildJsonFromObject(iCanBeConvertedToUxon $object) : array
@@ -64,7 +72,7 @@ class NgmBasicElement extends AbstractJqueryElement
                 return $value;
             case $value instanceof UxonObject:
                 $value = $value->toArray();
-            case is_array($value): 
+            case is_array($value):
                 $result = [];
                 foreach ($value as $key => $val) {
                     $result[$key] = $this->buildJsonValue($val, $property);
@@ -72,6 +80,8 @@ class NgmBasicElement extends AbstractJqueryElement
                 return $result;
             case $value instanceof WidgetInterface:
                 return $this->buildJsonFromWidget($value);
+            case $value instanceof ActionInterface:
+                return $this->buildJsonFromAction($value);
         }
         return null;
     }
@@ -82,7 +92,7 @@ class NgmBasicElement extends AbstractJqueryElement
     }
     
     /**
-     * 
+     *
      * {@inheritDoc}
      * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildJsBusyIconShow()
      */
@@ -90,9 +100,9 @@ class NgmBasicElement extends AbstractJqueryElement
     {
         return '';
     }
-
+    
     /**
-     * 
+     *
      * {@inheritDoc}
      * @see \exface\Core\Facades\AbstractAjaxFacade\Elements\AbstractJqueryElement::buildJsBusyIconHide()
      */

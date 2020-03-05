@@ -7,18 +7,10 @@ import { IWidgetDataTable } from '../widgets/interfaces/data-table.interface';
 
 
 
-export interface LogEntry {
-  UID: string;
-  TYPE: string;
-  APP__ALIAS: string;
-  CODE: string;
-  TITLE: string;
-  MODIFIED_ON: string;
-  CREATED_ON: string;
-}
+export interface DataRow {}
 
-export interface LogEntryResponse {
-  rows: LogEntry[];
+export interface DataResponse {
+  rows: DataRow[];
   recordsFiltered?: number;
   recordsTotal?: number;
   recordsLimit?: number;
@@ -27,54 +19,50 @@ export interface LogEntryResponse {
   success?: string;
 }
 
-const URL_DATA=     'http://localhost/exface/exface/api/angular';
-const URL_STRUCTURE='http://localhost/exface/exface/api/angular?action=exface.Core.ShowWidget&resource=angular-test';
+const ACTION_SHOW_WIDGET = 'exface.Core.ShowWidget';
+const URL_FACADE    = 'http://localhost/exface/exface/api/angular';
+const URL_DATA      = URL_FACADE;
+const URL_RESOURCE  = 'angular-test';
+const URL_STRUCTURE = URL_FACADE + '?action=' + ACTION_SHOW_WIDGET + '&resource=' + URL_RESOURCE;
+
 @Component({
   selector: 'app-log-table',
   templateUrl: './log-table.component.html',
   styleUrls: ['./log-table.component.css']
 })
 export class LogTableComponent implements OnInit {
-  response: LogEntryResponse = {rows: []};
+  response: DataResponse = {rows: []};
 
   structure: IWidgetDataTable;
 
-  rows: LogEntry[];
+  rows: DataRow[];
 
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
    
-    
+    // Load JSON description of widget
+    // When loaded, save it and load data of table
     this.http.get<IWidgetDataTable>(URL_STRUCTURE).subscribe(
       (data: IWidgetDataTable) => {
-        console.log(data);
         this.structure = data;
+        this.loadData();
       }
     );
-    
-   // this.structure$ = this.http.get<IWidgetDataTable>(URL_STRUCTURE);
 
-    //this.structure = datatableJson;
-    this.loadData();
   }
 
   loadData(chips?: FilterChip[]){
     const params = {
-      action: 'exface.Core.ReadData',
-      resource: 'angular-test',
-      element: 'DataTable',
+      action: this.structure.lazy_loading_action.alias,
+      resource: URL_RESOURCE,
+      element: this.structure.id,
       object: '0x11e6c3859abc5faea3e40205857feb80',
       q: '',
       'data[oId]': '0x11e6c3859abc5faea3e40205857feb80',
       sort: 'CREATED_ON',
       order: 'desc',
-      start: '0',
-/*      'data[filters][conditions][0][expression]': 'CODE',
-      'data[filters][conditions][0][comparator]':'',
-      'data[filters][conditions][0][value]':'',
-      'data[filters][conditions][0][object_alias]':'exface.Core.MESSAGE',
-*/      
+      start: '0',      
       length: '150',
     };
 
@@ -89,8 +77,8 @@ export class LogTableComponent implements OnInit {
 
       });
     }
-    this.http.get<LogEntryResponse>(URL_DATA,{params}).subscribe(
-      (response: LogEntryResponse) => {
+    this.http.get<DataResponse>(URL_DATA,{params}).subscribe(
+      (response: DataResponse) => {
         this.response = response;
       }
     );
