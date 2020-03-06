@@ -1,4 +1,4 @@
-<app-form [filter]="filter" (filterChange)=globalFilterChange($event)></app-form>
+<app-form [filter]="filter" (filterChange)=globalFilterChange($event) (refresh)="onRefresh()"></app-form>
 
 <mat-accordion>
   <mat-expansion-panel>
@@ -19,7 +19,7 @@
     <div *ngFor="let column of config.filters" class="filter">
       <app-filter [config]="column" [filter]="filter"></app-filter>                                     
     </div>
-    <button mat-raised-button class="searchbutton" (click)="startSearch()" aria-label="search icon button" matTooltip="Filter Anwenden">
+    <button mat-raised-button class="searchbutton" (click)="onRefresh()" aria-label="search icon button" matTooltip="Filter Anwenden">
       <mat-icon>search</mat-icon>
     </button>
     <button mat-raised-button class="addbutton" (click)="addRow()" aria-label="add icon button" matTooltip="Neuen Eintrag hinzufügen">
@@ -41,7 +41,7 @@
       <button mat-raised-button (click)="editRow(row)">
         <mat-icon>create</mat-icon>
       </button>
-      <button mat-raised-button style="margin-left: 8px;" (click)="alert()">Alert</button>
+      <button mat-raised-button style="margin-left: 8px;" >Alert</button>
       <button mat-raised-button style="margin-left: 8px; background-color: red;" (click)="removeRow(row)">
         <mat-icon>delete_sweep</mat-icon>
       </button>
@@ -53,5 +53,3 @@
 </mat-table>
 
 <mat-paginator [pageSizeOptions]="[5, 10, 15, 20]" [pageSize]="15" showFirstLastButtons></mat-paginator>
-
-<mat-progress-bar mode="query" color="accent"></mat-progress-bar>
