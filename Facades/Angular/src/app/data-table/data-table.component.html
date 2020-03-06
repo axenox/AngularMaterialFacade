@@ -22,9 +22,6 @@
     <button mat-raised-button class="searchbutton" (click)="onRefresh()" aria-label="search icon button" matTooltip="Filter Anwenden">
       <mat-icon>search</mat-icon>
     </button>
-    <button mat-raised-button class="addbutton" (click)="addRow()" aria-label="add icon button" matTooltip="Neuen Eintrag hinzufügen">
-      <mat-icon>add</mat-icon>
-    </button>
 
     </div>
   </mat-expansion-panel>
@@ -38,13 +35,6 @@
   <ng-container [cdkColumnDef]="'_actions_'">  
     <mat-header-cell class="headercell" *cdkHeaderCellDef>Bearbeiten</mat-header-cell>
     <mat-cell *cdkCellDef="let row">
-      <button mat-raised-button (click)="editRow(row)">
-        <mat-icon>create</mat-icon>
-      </button>
-      <button mat-raised-button style="margin-left: 8px;" >Alert</button>
-      <button mat-raised-button style="margin-left: 8px; background-color: red;" (click)="removeRow(row)">
-        <mat-icon>delete_sweep</mat-icon>
-      </button>
     </mat-cell>
   </ng-container>
 
@@ -52,4 +42,4 @@
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>
 
-<mat-paginator [pageSizeOptions]="[5, 10, 15, 20]" [pageSize]="15" showFirstLastButtons></mat-paginator>
+<mat-paginator [pageSize]="30" [length]="response.recordsTotal"showFirstLastButtons (page)="onPaginate($event)"></mat-paginator>

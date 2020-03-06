@@ -5,7 +5,7 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { DialogTestComponent } from '../dialog-test/dialog-test.component';
-import {MatPaginator} from '@angular/material/paginator';
+import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import { IWidgetDataTable } from '../widgets/interfaces/data-table.interface';
 import { IWidgetFilter } from '../widgets/interfaces/filter.interface';
 import { IWidgetDataColumn } from '../widgets/interfaces/data-column.interface';
@@ -61,6 +61,13 @@ export class DataTableComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
 
   filter={_global_: ''};
+
+  pager: PageEvent = {
+    length: null,
+    pageIndex: 0,
+    pageSize: 30,
+    previousPageIndex: null
+  };
 
   visible = true;
   selectable = true;
@@ -153,66 +160,13 @@ export class DataTableComponent implements OnInit {
     }
   }
 
-  editRow(row: any) {
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-
-    const dialogRef = this.dialog.open(DialogTestComponent, dialogConfig);
-    dialogRef.componentInstance.data=Object.assign({},row);
-
-    dialogRef.afterClosed().subscribe(
-      data => {
-        console.log("Dialog output:", data);
-        if (data){
-          Object.assign(row,data);
-        }
-      }
-    );
-    
-  }
-
-  alert(){
-    alert("pressed");
-  }
-
-  removeRow(row: any){
-    this.rows = this.rows.filter((aRow: any) => aRow !== row);
-    const filter = this.dataSource.filter;
-    this.createDataSource();
-    this.dataSource.filter = filter;
-  }
-
-  addRow() {
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-
-    const dialogRef = this.dialog.open(DialogTestComponent, dialogConfig);
-    dialogRef.componentInstance.data={};
-
-    dialogRef.afterClosed().subscribe(
-      data => {
-        console.log("Dialog output:", data);
-        if (data){
-          this.rows.push(data);
-          const filter = this.dataSource.filter;
-          this.createDataSource();
-          this.dataSource.filter = filter;
-        }
-      }
-    ); 
-  }  
-
   globalFilterChange(filter: string){
     this.createDataSource();
     this.dataSource.filter = filter;
   }
 
   loadData(chips?: FilterChip[]){
-    const params = {
+    let params = {
       action: this.config.lazy_loading_action.alias,
       resource: this.pageSelector,
       element: this.config.id,
@@ -221,8 +175,8 @@ export class DataTableComponent implements OnInit {
       'data[oId]': this.config.lazy_loading_action.object_alias,
       sort: 'CREATED_ON',
       order: 'desc',
-      start: '0',      
-      length: '150',
+      start: (this.pager.pageIndex * this.pager.pageSize).toString(),      
+      length: this.pager.pageSize.toString(),
     };
 
     if (chips && chips.length > 0) {
@@ -242,6 +196,11 @@ export class DataTableComponent implements OnInit {
         this.createDataSource();
       }
     );
+  }
+
+  onPaginate(pageEvent: PageEvent){
+      this.pager = pageEvent;
+      this.onRefresh();
   }
 
   onRefresh(){
