@@ -26,13 +26,16 @@ class NgmBasicElement extends AbstractJqueryElement
     
     protected function buildJsonFromWidget(WidgetInterface $widget) : array
     {
-        return $this->buildJsonFromObject($widget);
+        $json = $this->buildJsonFromObject($widget);
+        $json['object_alias'] = $widget->getMetaObject()->getAliasWithNamespace();
+        return $json;
     }
     
     protected function buildJsonFromAction(ActionInterface $action) : array
     {
         return [
-            'alias' => $action->getAliasWithNamespace()
+            'alias' => $action->getAliasWithNamespace(),
+            'object_alias' => $action->getMetaObject()->getAliasWithNamespace()
         ];
     }
     
