@@ -8,7 +8,16 @@ import { DataTableComponent } from './data-table/data-table.component';
 import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormComponent } from './form/form.component';
-import { MatInputModule, MatOptionModule, MatSelectModule, MatChipsModule, MatButtonModule, MatDialogModule, MatProgressBarModule, MatSnackBarModule, MatTooltipModule, MatPaginatorModule } from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatOptionModule } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
@@ -17,7 +26,6 @@ import { LogTableComponent } from './log-table/log-table.component';
 import { CdkTableModule } from '@angular/cdk/table';
 import { DialogTestComponent } from './dialog-test/dialog-test.component';
 import { SnackbarTestComponent } from './snackbar-test/snackbar-test.component';
-import { FilterInputComponent } from './filter-input/filter-input.component';
 import { FilterComponent } from './filter/filter.component';
 import { InputComponent } from './input/input.component';
 import { InputSelectComponent } from './input-select/input-select.component';
@@ -31,7 +39,6 @@ import { InputSelectComponent } from './input-select/input-select.component';
     LogTableComponent,
     DialogTestComponent,
     SnackbarTestComponent,
-    FilterInputComponent,
     FilterComponent,
     InputComponent,
     InputSelectComponent,

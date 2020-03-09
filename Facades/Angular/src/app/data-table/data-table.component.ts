@@ -3,13 +3,15 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
-import {MatDialog, MatDialogConfig} from "@angular/material";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { DialogTestComponent } from '../dialog-test/dialog-test.component';
-import {MatPaginator} from '@angular/material/paginator';
+import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import { IWidgetDataTable } from '../widgets/interfaces/data-table.interface';
 import { IWidgetFilter } from '../widgets/interfaces/filter.interface';
 import { IWidgetDataColumn } from '../widgets/interfaces/data-column.interface';
+import { HttpClient } from '@angular/common/http';
 
+const URL_FACADE    = 'http://localhost/exface/exface/api/angular';
 
 export interface IColumnDef {
   columnDef: string;
@@ -23,26 +25,34 @@ export interface FilterChip {
   value: any;
 }
 
+export interface DataRow {}
+
+export interface DataResponse {
+  rows: DataRow[];
+  recordsFiltered?: number;
+  recordsTotal?: number;
+  recordsLimit?: number;
+  recordsOffset?: number;
+  footerRows?: number;
+  success?: string;
+}
+
 @Component({
   selector: 'app-data-table',
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.css']
 })
-export class DataTableComponent implements OnInit, OnChanges {
 
-  @Input() 
-  rows: any[];
-
-/*
-  @Input()
-  columns: IColumnDef[];
-*/
+export class DataTableComponent implements OnInit {
 
   @Input()
   config: IWidgetDataTable;
 
+  @Input()
+  pageSelector: string;
+
   @Output()
-  filterChange= new EventEmitter();
+  refresh= new EventEmitter();
 
   displayedColumns: string[];
 
@@ -52,6 +62,13 @@ export class DataTableComponent implements OnInit, OnChanges {
 
   filter={_global_: ''};
 
+  pager: PageEvent = {
+    length: null,
+    pageIndex: 0,
+    pageSize: 30,
+    previousPageIndex: null
+  };
+
   visible = true;
   selectable = true;
   removable = true;
@@ -60,21 +77,25 @@ export class DataTableComponent implements OnInit, OnChanges {
   filterChips: FilterChip[] = [];
   dialogRef: any;
 
+  response: DataResponse = {rows: []};
+
+  rows: DataRow[];
+
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+
+  constructor(private dialog: MatDialog, private http: HttpClient) { }
+
+  ngOnInit() {
+    this.displayedColumns = this.config.columns.map(c => c.data_column_name);
+    this.displayedColumns.push('_actions_');
+    this.loadData();
+  }
+
   applyGlobalFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.filter._global_ = filterValue.trim().toLowerCase();
     this.dataSource.filter = JSON.stringify(this.config.filters); 
-  }
-
-  startSearch(){
-    this.config.filters.forEach((col:IWidgetFilter)=>{
-      const value=this.filter[col.input_widget.data_column_name];
-      if (value){
-        this.addChip(col.input_widget.data_column_name, col.caption, value);
-      }
-    });
-    //this.dataSource.filter = JSON.stringify(this.filter);
-    this.filterChange.emit(this.filterChips);
   }
 
  addChip(property: string, name: string, value: string): void{
@@ -99,24 +120,6 @@ export class DataTableComponent implements OnInit, OnChanges {
       this.filterChips.splice(index, 1);
       delete this.config.filters[chip.property];
       this.dataSource.filter = JSON.stringify(this.config.filters);
-    }
-  }
-
-  
-
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-
-  constructor(private dialog: MatDialog) { }
-
-  ngOnInit() {
-    this.displayedColumns = this.config.columns.map(c => c.data_column_name);
-    this.displayedColumns.push('_actions_');
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.rows) {
-      this.createDataSource();
     }
   }
 
@@ -157,63 +160,57 @@ export class DataTableComponent implements OnInit, OnChanges {
     }
   }
 
-  editRow(row: any) {
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-
-    const dialogRef = this.dialog.open(DialogTestComponent, dialogConfig);
-    dialogRef.componentInstance.data=Object.assign({},row);
-
-    dialogRef.afterClosed().subscribe(
-      data => {
-        console.log("Dialog output:", data);
-        if (data){
-          Object.assign(row,data);
-        }
-      }
-    );
-    
-  }
-
-  alert(){
-    alert("pressed");
-  }
-
-  removeRow(row: any){
-    this.rows = this.rows.filter((aRow: any) => aRow !== row);
-    const filter = this.dataSource.filter;
-    this.createDataSource();
-    this.dataSource.filter = filter;
-  }
-
-  addRow() {
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-
-    const dialogRef = this.dialog.open(DialogTestComponent, dialogConfig);
-    dialogRef.componentInstance.data={};
-
-    dialogRef.afterClosed().subscribe(
-      data => {
-        console.log("Dialog output:", data);
-        if (data){
-          this.rows.push(data);
-          const filter = this.dataSource.filter;
-          this.createDataSource();
-          this.dataSource.filter = filter;
-        }
-      }
-    ); 
-  }  
-
   globalFilterChange(filter: string){
     this.createDataSource();
     this.dataSource.filter = filter;
   }
 
+  loadData(chips?: FilterChip[]){
+    let params = {
+      action: this.config.lazy_loading_action.alias,
+      resource: this.pageSelector,
+      element: this.config.id,
+      object: this.config.object_alias,
+      q: '',
+      'data[oId]': this.config.lazy_loading_action.object_alias,
+      sort: 'CREATED_ON',
+      order: 'desc',
+      start: (this.pager.pageIndex * this.pager.pageSize).toString(),      
+      length: this.pager.pageSize.toString(),
+    };
+
+    if (chips && chips.length > 0) {
+      params['data[filters][operator]'] = 'AND';
+
+      chips.forEach((chip: FilterChip, index: number) => {
+        params['data[filters][conditions][' + index + '][expression]'] = chip.property;
+        params['data[filters][conditions][' + index + '][value]'] = chip.value;
+        params['data[filters][conditions][' + index + '][comperator]'] = '==';
+        params['data[filters][conditions][' + index + '][object_alias]'] = 'exface.Core.MESSAGE';
+      });
+    }
+    this.http.get<DataResponse>(URL_FACADE,{params}).subscribe(
+      (response: DataResponse) => {
+        this.response = response;
+        this.rows = response.rows;
+        this.createDataSource();
+      }
+    );
+  }
+
+  onPaginate(pageEvent: PageEvent){
+      this.pager = pageEvent;
+      this.onRefresh();
+  }
+
+  onRefresh(){
+    this.config.filters.forEach((col:IWidgetFilter)=>{
+      const value=this.filter[col.input_widget.data_column_name];
+      if (value){
+        this.addChip(col.input_widget.data_column_name, col.caption, value);
+      }
+    });
+    this.loadData(this.filterChips);    
+  }
 }
 
