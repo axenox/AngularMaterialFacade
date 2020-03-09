@@ -134,7 +134,7 @@ class NgmBasicElement extends AbstractJqueryElement
                     $pathToAngularInterfaces
                 ]);
                 $interfaceFile = $this->getFacade()->getAngularInterfaceFileName(get_class($object), $interfaceDir);
-                return $this->getFacade()->getJsonPropertiesFromAngularInterface($interfaceDir, $interfaceFile);
+                return $this->getFacade()->getJsonPropertiesFromAngularInterface($interfaceFile, $interfaceDir);
             default:
                 return $this->getFacade()->getJsonPropertiesFromUxon($object);
         }

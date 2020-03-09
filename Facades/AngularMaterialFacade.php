@@ -19,6 +19,7 @@ use exface\Core\Interfaces\iCanBeConvertedToUxon;
 use exface\Core\Uxon\UxonSchema;
 use exface\Core\Exceptions\RuntimeException;
 use exface\Core\DataTypes\StringDataType;
+use exface\Core\Exceptions\DirectoryNotFoundError;
 
 /**
  * 
@@ -128,20 +129,26 @@ class AngularMaterialFacade extends AbstractAjaxFacade
         return $schema->getProperties($className);
     }
     
-    public function getJsonPropertiesFromAngularInterface(string $workingDir, string $fileName) : array
+    public function getJsonPropertiesFromAngularInterface(string $angularPath, string $workingDir) : array
     {
-        $props = [];
+        if (StringDataType::startsWith($angularPath, './')) {
+            $angularPath = substr($angularPath, 2);
+            $path = $workingDir . DIRECTORY_SEPARATOR . $angularPath;
+        } elseif (StringDataType::startsWith($angularPath, 'src/')) {
+            $path = $this->getAngularFolderAbsolutePath() . DIRECTORY_SEPARATOR . $angularPath;
+        } else {
+            $path = $workingDir . DIRECTORY_SEPARATOR . $angularPath;
+        }
         
-        $path = $workingDir . DIRECTORY_SEPARATOR . $fileName;
         if (! file_exists($path)) {
-            throw new RuntimeException('Angular interface "' . $fileName . '" not found!');
+            throw new RuntimeException('Angular interface "' . $angularPath . '" not found!');
         }
         
         $file = fopen($path,"r");
         try {
             $props = $this->parseAngularInterface($file, $workingDir);
         } catch (\Throwable $e) {
-            throw new RuntimeException('Cannot parse Angular interface "' . $fileName . '": ' . $e->getMessage(), null, $e);
+            throw new RuntimeException('Cannot parse Angular interface "' . $angularPath . '": ' . $e->getMessage(), null, $e);
         } finally {
             fclose($file);
         }
@@ -187,21 +194,18 @@ class AngularMaterialFacade extends AbstractAjaxFacade
                     $importMatches = [];
                     preg_match('/import \\{(.*)\\} from [\'"](.*)[\'"]/', $line, $importMatches);
                     $importInterface = trim($importMatches[1]);
-                    $importFile = trim($importMatches[2]);
-                    if ($importFile === null || $importInterface === null || $importFile === '' || $importInterface === '') {
+                    $importPath = trim($importMatches[2]);
+                    if ($importPath === null || $importInterface === null || $importPath === '' || $importInterface === '') {
                         throw new RuntimeException('Cannot parse import statement on line ' . $lineNo);
                     }
-                    if (StringDataType::startsWith($importFile, './')) {
-                        $importFile = substr($importFile, 2);
-                    }
-                    $imports[$importInterface] = $importFile . '.ts';
+                    $imports[$importInterface] = $importPath . '.ts';
                     break;
                 case StringDataType::startsWith($line, 'export interface'):
                     $extendsMatches = [];
                     preg_match('/extends (.*)/i', $line, $extendsMatches);
                     if ($extendsIterface = trim($extendsMatches[1])) {
-                        $importFile = $imports[trim($extendsIterface)];
-                        $props = array_merge($props, $this->getJsonPropertiesFromAngularInterface($workingDir, $importFile));
+                        $importPath = $imports[trim($extendsIterface)];
+                        $props = array_merge($props, $this->getJsonPropertiesFromAngularInterface($importPath, $workingDir));
                     }
                     break;
                 case $line === '':
@@ -267,5 +271,10 @@ class AngularMaterialFacade extends AbstractAjaxFacade
     {
         $phpClass = PhpFilePathDataType::findFileName($phpClassname);
         return strtolower(preg_replace('/(?<!^)[A-Z]/', '-$0', $phpClass)) . $angularSuffix;
+    }
+    
+    protected function getAngularFolderAbsolutePath() : string
+    {
+        return $this->getApp()->getDirectoryAbsolutePath() . DIRECTORY_SEPARATOR . 'Facades' . DIRECTORY_SEPARATOR . 'Angular';
     }
 }
