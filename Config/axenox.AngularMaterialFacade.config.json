@@ -1,4 +1,6 @@
 {
+	"ANGULAR.INTERFACES.WIDGETS.PATH": "Facades/Angular/src/app/interfaces/widgets",
+	"ANGULAR.INTERFACES.ACTIONS.PATH": "Facades/Angular/src/app/interfaces/actions",
 	"WIDGET.DATATABLE.PAGE_SIZES_SELECTABLE": [20, 40, 60, 100, 200],
 	"WIDGET.DATATABLE.PAGE_SIZE": 40
 }

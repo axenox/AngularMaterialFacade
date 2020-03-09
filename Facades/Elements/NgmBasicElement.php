@@ -10,6 +10,7 @@ use exface\Core\DataTypes\StringDataType;
 use exface\Core\CommonLogic\UxonObject;
 use exface\Core\Interfaces\Actions\ActionInterface;
 use exface\Core\Exceptions\RuntimeException;
+use exface\Core\CommonLogic\Filemanager;
 
 /**
  *
@@ -58,10 +59,8 @@ class NgmBasicElement extends AbstractJqueryElement
      */
     protected function buildJsonFromObject(iCanBeConvertedToUxon $object) : array
     {
-        $json = [];
-        $schema = new UxonSchema($this->getWorkbench());
-        $className = get_class($object);
-        $uxonProps = $schema->getProperties($className);
+        $json = [];#
+        $uxonProps = $this->getJsonProperties($object);
         $excludedProps = $this->getJsonExcludeProperties();
         foreach ($uxonProps as $property) {
             if (in_array($property, $excludedProps)) {
@@ -135,6 +134,131 @@ class NgmBasicElement extends AbstractJqueryElement
     protected function getJsonExcludeProperties() : array
     {
         return [];
+    }
+    
+    protected function getJsonProperties(iCanBeConvertedToUxon $object) : array
+    {
+        switch (true) {
+            case $object instanceof WidgetInterface:
+                $pathToAngularInterfaces = $this->getFacade()->getConfig()->getOption('ANGULAR.INTERFACES.WIDGETS.PATH');
+                $interfaceFile = strtolower(preg_replace('/(?<!^)[A-Z]/', '-$0', $object->getWidgetType())) . '.interface.ts';
+                $interfaceDir = Filemanager::pathJoin([
+                    $this->getFacade()->getApp()->getDirectoryAbsolutePath(),
+                    $pathToAngularInterfaces
+                ]);
+                return $this->getJsonPropertiesFromAngularInterface($interfaceDir, $interfaceFile);
+            case $object instanceof ActionInterface:
+                $pathToAngularInterfaces = $this->getFacade()->getConfig()->getOption('ANGULAR.INTERFACES.ACTIONS.PATH');
+                $interfaceFile = strtolower(preg_replace('/(?<!^)[A-Z]/', '-$0', $object->getAlias())) . '.interface.ts';
+                $interfaceDir = Filemanager::pathJoin([
+                    $this->getFacade()->getApp()->getDirectoryAbsolutePath(),
+                    $pathToAngularInterfaces
+                ]);
+                return $this->getJsonPropertiesFromAngularInterface($interfaceDir, $interfaceFile);
+            default:
+                return $this->getJsonPropertiesFromUxon($object);
+        }
+    }
+    
+    protected function getJsonPropertiesFromUxon(iCanBeConvertedToUxon $object) : array
+    {
+        $schema = new UxonSchema($this->getWorkbench());
+        $className = get_class($object);
+        return $schema->getProperties($className);
+    }
+    
+    protected function getJsonPropertiesFromAngularInterface(string $workingDir, string $fileName) : array
+    {
+        $props = [];
+        
+        $path = $workingDir . DIRECTORY_SEPARATOR . $fileName;
+        if (! file_exists($path)) {
+            throw new RuntimeException('Angular interface "' . $fileName . '" not found!');
+        }
+        
+        $file = fopen($path,"r");
+        try {
+            $props = $this->parseAngularInterface($file, $workingDir);
+        } catch (\Throwable $e) {
+            throw new RuntimeException('Cannot parse Angular interface "' . $fileName . '": ' . $e->getMessage(), null, $e);
+        } finally {
+            fclose($file);
+        }
+        
+        return $props;
+    }
+    
+    protected function parseAngularInterface($fileStream, string $workingDir) : array
+    {
+        $props = [];
+        $lineNo = 0;
+        $imports = [];
+        $curlyBracketLevel = 0;
+        $squareBracketLevel = 0;
+        while(! feof($fileStream))
+        {
+            $line = fgets($fileStream);
+            $line = trim($line);
+            $lineNo++;
+            
+            // If the line has a trailing { or [, increase bracket-level and remove the character
+            if(StringDataType::endsWith($line, '{')) {
+                $curlyBracketLevel++;
+                $line = trim($line, "{ \t");
+            } elseif (StringDataType::endsWith($line, '[')) {
+                $squareBracketLevel++;
+                $line = trim($line, "[ \t");
+            }
+            
+            switch (true) {
+                case StringDataType::startsWith($line, 'import'):
+                    $importMatches = [];
+                    preg_match('/import \\{(.*)\\} from [\'"](.*)[\'"]/', $line, $importMatches);
+                    $importInterface = trim($importMatches[1]);
+                    $importFile = trim($importMatches[2]);
+                    if ($importFile === null || $importInterface === null || $importFile === '' || $importInterface === '') {
+                        throw new RuntimeException('Cannot parse import statement on line ' . $lineNo);
+                    }
+                    if (StringDataType::startsWith($importFile, './')) {
+                        $importFile = substr($importFile, 2);
+                    }
+                    $imports[$importInterface] = $importFile . '.ts';
+                    break;
+                case StringDataType::startsWith($line, 'export interface'):
+                    $extendsMatches = [];
+                    preg_match('/extends (.*)/i', $line, $extendsMatches);
+                    if ($extendsIterface = trim($extendsMatches[1])) {
+                        $importFile = $imports[trim($extendsIterface)];
+                        $props = array_merge($props, $this->getJsonPropertiesFromAngularInterface($workingDir, $importFile));
+                    }
+                    break;
+                case $line === '':
+                    continue 2;
+                case $line === ']':
+                    $squareBracketLevel--;
+                    break;
+                case $line === '}':
+                    $curlyBracketLevel--;
+                    break;
+                default:
+                    if ($curlyBracketLevel === 1 && $squareBracketLevel === 0) {
+                        $line = rtrim($line, ";,");
+                        list ($prop, $val) = explode(':', $line, 2);
+                        $val = trim($val);
+                        $props[] = $prop;
+                    }
+            }
+        }
+        
+        if ($curlyBracketLevel > 0) {
+            throw new RuntimeException('Missing `}`!');
+        }
+        
+        if ($squareBracketLevel > 0) {
+            throw new RuntimeException('Missing `]`!');
+        }
+        
+        return $props;
     }
     
     /**
