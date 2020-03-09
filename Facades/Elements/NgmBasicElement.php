@@ -195,6 +195,8 @@ class NgmBasicElement extends AbstractJqueryElement
         $imports = [];
         $curlyBracketLevel = 0;
         $squareBracketLevel = 0;
+        $commentLevel = 0;
+        
         while(! feof($fileStream))
         {
             $line = fgets($fileStream);
@@ -211,6 +213,15 @@ class NgmBasicElement extends AbstractJqueryElement
             }
             
             switch (true) {
+                case StringDataType::startsWith($line, '/*'):
+                    $commentLevel++;
+                    continue 2;
+                case StringDataType::endsWith($line, '*/'):
+                    $commentLevel--;
+                    continue 2;
+                case $commentLevel > 0:
+                case StringDataType::startsWith($line, '//'):
+                    continue 2;
                 case StringDataType::startsWith($line, 'import'):
                     $importMatches = [];
                     preg_match('/import \\{(.*)\\} from [\'"](.*)[\'"]/', $line, $importMatches);
