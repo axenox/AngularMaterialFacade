@@ -12,11 +12,20 @@ use exface\Core\Interfaces\iCanBeConvertedToUxon;
  */
 class NgmDataPaginator extends NgmBasicElement
 {
-    protected function buildJsonFromObject(iCanBeConvertedToUxon $object) : array
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \axenox\AngularMaterialFacade\Facades\Elements\NgmBasicElement::buildJsonPropertyValue()
+     */
+    protected function buildJsonPropertyValue(iCanBeConvertedToUxon $object, $property)
     {
-        return [
-            'page_size' => 40,
-            'page_sizes' => [40, 60]
-        ];
+        switch ($property) {
+            case 'page_size':
+                return $this->getFacade()->getConfig()->getOption('WIDGET.DATATABLE.PAGE_SIZE');
+            case 'page_sizes':
+                return $this->getFacade()->getConfig()->getOption('WIDGET.DATATABLE.PAGE_SIZES_SELECTABLE')->toArray();
+        }
+        return parent::buildJsonPropertyValue($object, $property);
     }
 }
