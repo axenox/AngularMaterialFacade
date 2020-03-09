@@ -11,6 +11,7 @@ use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Psr7\Response;
 use exface\Core\Interfaces\Tasks\ResultWidgetInterface;
 use axenox\AngularMaterialFacade\Facades\Elements\NgmBasicElement;
+use exface\Core\Interfaces\Model\UiPageInterface;
 
 /**
  * 
@@ -49,6 +50,16 @@ class AngularMaterialFacade extends AbstractAjaxFacade
         
         $headers = array_merge($headers, $this->buildHeadersAccessControl());
         return new Response($status_code, $headers, $body);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \exface\Core\Facades\AbstractAjaxFacade\AbstractAjaxFacade::createResponseFromError()
+     */
+    protected function createResponseFromError(ServerRequestInterface $request, \Throwable $exception, UiPageInterface $page = null) : ResponseInterface 
+    {
+        throw $exception;
     }
     
     /**
