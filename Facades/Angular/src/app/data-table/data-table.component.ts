@@ -59,12 +59,7 @@ export class DataTableComponent implements OnInit {
 
   filter={_global_: ''};
 
-  pager: PageEvent = {
-    length: null,
-    pageIndex: 0,
-    pageSize: 30,
-    previousPageIndex: null
-  };
+  pager: PageEvent;
 
   visible = true;
   selectable = true;
@@ -86,6 +81,10 @@ export class DataTableComponent implements OnInit {
   ngOnInit() {
     this.displayedColumns = this.widget.columns.map(c => c.data_column_name);
     this.displayedColumns.push('_actions_');
+
+    this.pager = new PageEvent();
+    this.pager.pageSize = this.widget.paginator.page_size;
+
     this.loadData();
   }
 
