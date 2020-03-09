@@ -7,7 +7,6 @@ import { MatTableModule} from '@angular/material/table';
 import { DataTableComponent } from './data-table/data-table.component';
 import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormComponent } from './form/form.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatOptionModule } from '@angular/material/core';
@@ -35,7 +34,6 @@ import { InputSelectComponent } from './input-select/input-select.component';
   declarations: [
     AppComponent,
     DataTableComponent,
-    FormComponent,
     LogTableComponent,
     DialogTestComponent,
     SnackbarTestComponent,

@@ -1,5 +1,3 @@
-<app-form [filter]="filter" (filterChange)=globalFilterChange($event) (refresh)="onRefresh()"></app-form>
-
 <mat-accordion>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
@@ -16,8 +14,8 @@
     </mat-expansion-panel-header>
     <div class="table-filters">
 
-    <div *ngFor="let column of config.filters" class="filter">
-      <app-filter [config]="column" [filter]="filter"></app-filter>                                     
+    <div *ngFor="let column of widget.filters" class="filter">
+      <app-filter [widget]="column" [filter]="filter"></app-filter>                                     
     </div>
     <button mat-raised-button class="searchbutton" (click)="onRefresh()" aria-label="search icon button" matTooltip="Filter Anwenden">
       <mat-icon>search</mat-icon>
@@ -28,7 +26,7 @@
 </mat-accordion>
 
 <mat-table #table [dataSource]="dataSource" matSort>
-  <ng-container *ngFor="let column of config.columns" [matColumnDef]="column.data_column_name" class="mask rgba-black-light">
+  <ng-container *ngFor="let column of widget.columns" [matColumnDef]="column.data_column_name" class="mask rgba-black-light">
     <mat-header-cell mat-sort-header *cdkHeaderCellDef>{{ column.caption }}</mat-header-cell>
     <mat-cell *cdkCellDef="let row">{{ row[column.data_column_name] }}</mat-cell>
   </ng-container>
@@ -42,4 +40,4 @@
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>
 
-<mat-paginator [pageSize]="30" [length]="response.recordsTotal"showFirstLastButtons (page)="onPaginate($event)"></mat-paginator>
+<mat-paginator [pageSize]="widget.paginator.page_size" [length]="response.recordsTotal" [pageIndex]="pager.pageIndex" showFirstLastButtons (page)="onPaginate($event)"></mat-paginator>

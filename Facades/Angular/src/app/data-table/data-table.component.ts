@@ -2,13 +2,10 @@ import { Component, OnInit, ViewChild, Input, OnChanges, SimpleChanges, Output, 
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {MatChipInputEvent} from '@angular/material/chips';
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
-import { DialogTestComponent } from '../dialog-test/dialog-test.component';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
-import { IWidgetDataTable } from '../widgets/interfaces/data-table.interface';
-import { IWidgetFilter } from '../widgets/interfaces/filter.interface';
-import { IWidgetDataColumn } from '../widgets/interfaces/data-column.interface';
+import { IWidgetDataTable } from '../interfaces/widgets/data-table.interface';
+import { IWidgetFilter } from '../interfaces/widgets/filter.interface';
 import { HttpClient } from '@angular/common/http';
 
 const URL_FACADE    = 'http://localhost/exface/exface/api/angular';
@@ -46,7 +43,7 @@ export interface DataResponse {
 export class DataTableComponent implements OnInit {
 
   @Input()
-  config: IWidgetDataTable;
+  widget: IWidgetDataTable;
 
   @Input()
   pageSelector: string;
@@ -87,15 +84,9 @@ export class DataTableComponent implements OnInit {
   constructor(private dialog: MatDialog, private http: HttpClient) { }
 
   ngOnInit() {
-    this.displayedColumns = this.config.columns.map(c => c.data_column_name);
+    this.displayedColumns = this.widget.columns.map(c => c.data_column_name);
     this.displayedColumns.push('_actions_');
     this.loadData();
-  }
-
-  applyGlobalFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.filter._global_ = filterValue.trim().toLowerCase();
-    this.dataSource.filter = JSON.stringify(this.config.filters); 
   }
 
  addChip(property: string, name: string, value: string): void{
@@ -118,35 +109,19 @@ export class DataTableComponent implements OnInit {
 
     if (index >= 0) {
       this.filterChips.splice(index, 1);
-      delete this.config.filters[chip.property];
-      this.dataSource.filter = JSON.stringify(this.config.filters);
+      delete this.widget.filters[chip.property];
+      this.dataSource.filter = JSON.stringify(this.widget.filters);
+      this.loadData(this.filterChips);
     }
   }
 
   createDataSource() {
     this.dataSource = new MatTableDataSource(this.rows);
-    this.dataSource.sort = this.sort;
-    this.dataSource.filterPredicate = this.tableFilter();
-    this.dataSource.paginator = this.paginator;
   }
 
   tableFilter() {
     return (row: any, filter: string) => {
       const globalValue = this.filter._global_;
-
-      // globale Suche 
-      if (globalValue && globalValue.trim().length > 0) {
-        let found = false;
-        this.config.columns.forEach((col: IWidgetDataColumn) => {
-          const rowValue = row[col.data_column_name];
-          if (rowValue && rowValue.toLowerCase().indexOf(globalValue) !== -1) {
-            found = true;
-          }
-        });
-        if (!found) {
-          return false;
-        }
-      }
 
       // Spaltenweise filtern
       let match = true;
@@ -167,12 +142,12 @@ export class DataTableComponent implements OnInit {
 
   loadData(chips?: FilterChip[]){
     let params = {
-      action: this.config.lazy_loading_action.alias,
+      action: this.widget.lazy_loading_action.alias,
       resource: this.pageSelector,
-      element: this.config.id,
-      object: this.config.object_alias,
+      element: this.widget.id,
+      object: this.widget.object_alias,
       q: '',
-      'data[oId]': this.config.lazy_loading_action.object_alias,
+      'data[oId]': this.widget.lazy_loading_action.object_alias,
       sort: 'CREATED_ON',
       order: 'desc',
       start: (this.pager.pageIndex * this.pager.pageSize).toString(),      
@@ -204,7 +179,7 @@ export class DataTableComponent implements OnInit {
   }
 
   onRefresh(){
-    this.config.filters.forEach((col:IWidgetFilter)=>{
+    this.widget.filters.forEach((col:IWidgetFilter)=>{
       const value=this.filter[col.input_widget.data_column_name];
       if (value){
         this.addChip(col.input_widget.data_column_name, col.caption, value);

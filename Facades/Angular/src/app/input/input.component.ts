@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IWidgetInputInterface } from '../widgets/interfaces/input.interface';
+import { IWidgetInputInterface } from '../interfaces/widgets/input.interface';
 
 @Component({
   selector: 'app-input',
@@ -9,7 +9,7 @@ import { IWidgetInputInterface } from '../widgets/interfaces/input.interface';
 export class InputComponent implements OnInit {
 
   @Input()
-    config: IWidgetInputInterface;
+    widget: IWidgetInputInterface;
   
   @Input()
     filter: any;

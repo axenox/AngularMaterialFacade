@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IWidgetFilter } from '../widgets/interfaces/filter.interface';
+import { IWidgetFilter } from '../interfaces/widgets/filter.interface';
 
 @Component({
   selector: 'app-filter',
@@ -9,7 +9,7 @@ import { IWidgetFilter } from '../widgets/interfaces/filter.interface';
 export class FilterComponent implements OnInit {
 
   @Input()
-    config: IWidgetFilter;
+    widget: IWidgetFilter;
 
   @Input()
     filter: any;
