@@ -1,6 +1,8 @@
 {
-	"ANGULAR.INTERFACES.WIDGETS.PATH": "Facades/Angular/src/app/interfaces/widgets",
 	"ANGULAR.INTERFACES.ACTIONS.PATH": "Facades/Angular/src/app/interfaces/actions",
+	"ANGULAR.INTERFACES.ACTIONS.BASE_INTERFACE": "action.interface.ts",
+	"ANGULAR.INTERFACES.WIDGETS.PATH": "Facades/Angular/src/app/interfaces/widgets",
+	"ANGULAR.INTERFACES.WIDGETS.BASE_INTERFACE": "widget.interface.ts",
 	
 	"FACADE.AJAX.ACCESS_CONTROL_HEADERS" : {
 		"Access-Control-Allow-Origin": "http://localhost:4200",
