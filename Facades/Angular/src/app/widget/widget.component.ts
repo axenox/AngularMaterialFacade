@@ -11,9 +11,11 @@ import {
 } from '@angular/core';
 import { DataTableComponent } from '../data-table/data-table.component';
 import { IWidgetInterface } from '../interfaces/widgets/widget.inteface';
+import { FilterComponent } from '../filter/filter.component';
 
 const COMPONENT_REGISTER={
-  'DataTable':DataTableComponent  
+  'DataTable':DataTableComponent,
+  'Filter':FilterComponent,
 }
 
 @Component({
@@ -27,6 +29,9 @@ export class WidgetComponent implements OnInit, OnChanges {
   @Input()
   pageSelector: string;
 
+  @Input()
+  filter: any;
+
   @ViewChild('content', { read: ViewContainerRef, static: true })
   content: ViewContainerRef;
 
@@ -39,10 +44,14 @@ export class WidgetComponent implements OnInit, OnChanges {
       const componentRef: ComponentRef<any> = this.content.createComponent(componentFactory);
       componentRef.instance.widget = this.structure;
       componentRef.instance.pageSelector = this.pageSelector;
+      if(this.filter){
+        componentRef.instance.filter = this.filter;
+      }
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log('change');
   }
 
   getComponent(widgetType:string){
