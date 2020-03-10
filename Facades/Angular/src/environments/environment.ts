@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  // url: 'http://localhost/exface/exface/api/angular'
+  url: 'http://sdrexf2.salt-solutions.de/spielwiese/exface/api/angular'
 };
 
 /*

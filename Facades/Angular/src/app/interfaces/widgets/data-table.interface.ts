@@ -6,9 +6,9 @@ import { IActionInterface } from 'src/app/interfaces/actions/action.interface';
 import { IDataPaginatorInterface } from './data-paginator.interface';
 
 export interface IWidgetDataTable extends IWidgetInterface {
-    filters: IWidgetFilter[];
-    columns: IWidgetDataColumn[];
-    sorters: IWidgetSorter[];
-    lazy_loading_action: IActionInterface;
-    paginator: IDataPaginatorInterface;
+  filters: IWidgetFilter[];
+  columns: IWidgetDataColumn[];
+  sorters: IWidgetSorter[];
+  lazy_loading_action: IActionInterface;
+  paginator: IDataPaginatorInterface;
 }
