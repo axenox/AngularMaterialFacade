@@ -4,13 +4,18 @@ import {
   ComponentRef,
   Input,
   OnChanges,
-  OnInit, SimpleChanges,
+  OnInit,
+  SimpleChanges,
   Type,
   ViewChild,
-  ViewContainerRef,
+  ViewContainerRef
 } from '@angular/core';
 import { DataTableComponent } from '../data-table/data-table.component';
 import { IWidgetInterface } from '../interfaces/widgets/widget.inteface';
+
+const COMPONENT_REGISTER = {
+  DataTable: DataTableComponent
+};
 
 @Component({
   selector: 'app-widget',
@@ -29,14 +34,22 @@ export class WidgetComponent implements OnInit, OnChanges {
   constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
 
   ngOnInit() {
-    const component: Type<any> = DataTableComponent;
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
-    const componentRef: ComponentRef<any> = this.content.createComponent(componentFactory);
-    componentRef.instance.widget = this.structure;
-    componentRef.instance.pageSelector = this.pageSelector;
+    const component: Type<any> = this.getComponent(this.structure.widget_type);
+    if (component) {
+      const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
+        component
+      );
+      const componentRef: ComponentRef<any> = this.content.createComponent(
+        componentFactory
+      );
+      componentRef.instance.widget = this.structure;
+      componentRef.instance.pageSelector = this.pageSelector;
+    }
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-  }
+  ngOnChanges(changes: SimpleChanges): void {}
 
+  getComponent(widgetType: string) {
+    return COMPONENT_REGISTER[widgetType];
+  }
 }

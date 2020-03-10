@@ -16,10 +16,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { IWidgetDataTable } from '../interfaces/widgets/data-table.interface';
 import { IWidgetFilter } from '../interfaces/widgets/filter.interface';
 import { HttpClient } from '@angular/common/http';
-
-// const URL_FACADE    = 'http://localhost/exface/exface/api/angular';
-const URL_FACADE =
-  'http://sdrexf2.salt-solutions.de/spielwiese/exface//api/angular?action=exface.Core.ReadData';
+import { environment } from '../../environments/environment';
 
 export interface IColumnDef {
   columnDef: string;
@@ -182,7 +179,7 @@ export class DataTableComponent implements OnInit {
       });
     }
     this.http
-      .get<DataResponse>(URL_FACADE, { params })
+      .get<DataResponse>(environment.url, { params })
       .subscribe((response: DataResponse) => {
         this.response = response;
         this.rows = response.rows;
