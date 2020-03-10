@@ -12,14 +12,14 @@ use GuzzleHttp\Psr7\Response;
 use exface\Core\Interfaces\Tasks\ResultWidgetInterface;
 use axenox\AngularMaterialFacade\Facades\Elements\NgmBasicElement;
 use exface\Core\Interfaces\Model\UiPageInterface;
-use exface\Core\Widgets\AbstractWidget;
-use exface\Core\DataTypes\FilePathDataType;
 use exface\Core\DataTypes\PhpFilePathDataType;
 use exface\Core\Interfaces\iCanBeConvertedToUxon;
 use exface\Core\Uxon\UxonSchema;
 use exface\Core\Exceptions\RuntimeException;
 use exface\Core\DataTypes\StringDataType;
-use exface\Core\Exceptions\DirectoryNotFoundError;
+use exface\Core\Interfaces\Actions\ActionInterface;
+use axenox\AngularMaterialFacade\Facades\Elements\Actions\NgmActionElement;
+use exface\Core\DataTypes\FilePathDataType;
 
 /**
  * 
@@ -250,7 +250,7 @@ class AngularMaterialFacade extends AbstractAjaxFacade
      * @param WidgetInterface $widget
      * @return string
      */
-    public function getAngularInterfaceFileName(string $phpClassname, string $pathToAngularInterfaces, string $angularSuffix = '.interface.ts') : string
+    public function getAngularInterfaceFileName(string $phpClassname, string $pathToAngularInterfaces, string $baseInterface, string $angularSuffix = '.interface.ts') : string
     {
         $interface = $this->angularInterfacesByPhpClass[$phpClassname];
         if (null === $interface) {
@@ -267,7 +267,7 @@ class AngularMaterialFacade extends AbstractAjaxFacade
                 }
                 
                 if (! file_exists($pathToAngularInterfaces . DIRECTORY_SEPARATOR . $interface)) {
-                    $interface = $pathToAngularInterfaces . DIRECTORY_SEPARATOR . 'widget.interface.ts';
+                    $interface = $baseInterface;
                 }
             }
             $this->angularInterfacesByPhpClass[$phpClassname] = $interface;
@@ -284,5 +284,53 @@ class AngularMaterialFacade extends AbstractAjaxFacade
     protected function getAngularFolderAbsolutePath() : string
     {
         return $this->getApp()->getDirectoryAbsolutePath() . DIRECTORY_SEPARATOR . 'Facades' . DIRECTORY_SEPARATOR . 'Angular';
+    }
+    
+    public function getElementForAction(ActionInterface $action) : NgmActionElement
+    {
+        $actionElementClass = $this->getElementClass(get_class($action), 'Actions', 'Actions\\NgmActionElement');
+        $actionElement = new $actionElementClass($action, $this);
+        return $actionElement;
+    }
+    
+    /**
+     * 
+     * @param string $coreClassname
+     * @param string $subfolder
+     * @param string $fallbackElementClass
+     * @return string
+     */
+    protected function getElementClass(string $coreClassname, string $subfolder = '', string $fallbackElementClass = 'NgmBasicElement') : string
+    {
+        $elem_class = $this->elementClassesByCoreClass[$coreClassname];
+        if (is_null($elem_class)) {
+            $elem_namespace = $this->getClassNamespace() . '\\Elements\\';
+            $elem_class_prefix = $elem_namespace . ($subfolder !== '' ? $subfolder . '\\' : '') . $this->getClassPrefix();
+            $coreClass = PhpFilePathDataType::findFileName($coreClassname, false);
+            $elem_class = $elem_class_prefix . ucfirst($coreClass);
+            if (! class_exists($elem_class)) {
+                $widget_class = get_parent_class($coreClassname);
+                $elem_class = $elem_class_prefix . ucfirst($coreClass);
+                while (! class_exists($elem_class)) {
+                    if ($widget_class = get_parent_class($widget_class)) {
+                        $elem_class = $elem_class_prefix . ucfirst($coreClass);
+                    } else {
+                        break;
+                    }
+                }
+                
+                if (class_exists($elem_class)) {
+                    $reflection = new \ReflectionClass($elem_class);
+                    if ($reflection->isAbstract()) {
+                        $elem_class = $elem_namespace . $fallbackElementClass;
+                    }
+                } else {
+                    // if the required widget is not found, create an abstract widget instead
+                    $elem_class = $elem_namespace . $fallbackElementClass;
+                }
+            }
+            $this->elementClassesByCoreClass[$coreClassname] = $elem_class;
+        }
+        return $elem_class;
     }
 }
