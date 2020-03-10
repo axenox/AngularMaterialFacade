@@ -10,7 +10,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { DataTableComponent } from '../data-table/data-table.component';
-import { IWidgetInterface } from '../interfaces/widgets/widget.inteface';
+import { IWidgetInterface } from '../interfaces/widgets/widget.interface';
 import { FilterComponent } from '../filter/filter.component';
 
 const COMPONENT_REGISTER={
