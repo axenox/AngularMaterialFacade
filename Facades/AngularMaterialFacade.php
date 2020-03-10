@@ -31,6 +31,8 @@ use exface\Core\Exceptions\DirectoryNotFoundError;
 class AngularMaterialFacade extends AbstractAjaxFacade
 {
     private $angularInterfacesByPhpClass = [];
+    
+    private $jsonPropsByAngularPath = [];
 
     /**
      *
@@ -140,6 +142,10 @@ class AngularMaterialFacade extends AbstractAjaxFacade
             $path = $workingDir . DIRECTORY_SEPARATOR . $angularPath;
         }
         
+        if ($props = $this->jsonPropsByAngularPath[$path]) {
+            return $props;
+        }
+        
         if (! file_exists($path)) {
             throw new RuntimeException('Angular interface "' . $angularPath . '" not found!');
         }
@@ -152,6 +158,8 @@ class AngularMaterialFacade extends AbstractAjaxFacade
         } finally {
             fclose($file);
         }
+        
+        $this->jsonPropsByAngularPath[$path] = $props;
         
         return $props;
     }
