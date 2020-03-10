@@ -1,6 +1,15 @@
 {
 	"ANGULAR.INTERFACES.WIDGETS.PATH": "Facades/Angular/src/app/interfaces/widgets",
 	"ANGULAR.INTERFACES.ACTIONS.PATH": "Facades/Angular/src/app/interfaces/actions",
+	
+	"FACADE.AJAX.ACCESS_CONTROL_HEADERS" : {
+		"Access-Control-Allow-Origin": "http://localhost:4200",
+		"Access-Control-Allow-Credentials": "true",
+		"Access-Control-Allow-Methods": "GET, POST, PUT, PATCH, DELETE",
+		"Access-Control-Allow-Headers": "",
+		"Access-Control-Expose-Headers": ""
+	},
+	
 	"WIDGET.DATATABLE.PAGE_SIZES_SELECTABLE": [20, 40, 60, 100, 200],
 	"WIDGET.DATATABLE.PAGE_SIZE": 40
 }
