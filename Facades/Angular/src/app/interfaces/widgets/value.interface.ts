@@ -1,4 +1,4 @@
-import { IWidgetInterface } from './widget.inteface';
+import { IWidgetInterface } from './widget.interface';
 
 export interface IWidgetValueInterface extends IWidgetInterface {
     attribute_alias: string;

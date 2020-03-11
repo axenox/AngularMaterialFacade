@@ -1,4 +1,4 @@
-import { IWidgetInterface } from './widget.inteface';
+import { IWidgetInterface } from './widget.interface';
 
 export interface IWidgetDataColumn extends IWidgetInterface {
     data_column_name: string;

@@ -1,4 +1,4 @@
-import { IWidgetInterface } from './widget.inteface';
+import { IWidgetInterface } from './widget.interface';
 import { IWidgetSorter } from './sorter.interface';
 import { IWidgetFilter } from './filter.interface';
 import { IWidgetDataColumn } from './data-column.interface';
