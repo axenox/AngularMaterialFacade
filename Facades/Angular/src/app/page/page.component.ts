@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { IWidgetDataTable } from '../interfaces/widgets/data-table.interface';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { IWidgetInterface } from '../interfaces/widgets/widget.inteface';
+import { IWidgetInterface } from '../interfaces/widgets/widget.interface';
 
 const ACTION_SHOW_WIDGET = 'exface.Core.ShowWidget';
 

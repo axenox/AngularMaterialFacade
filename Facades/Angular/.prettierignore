@@ -1,0 +1,4 @@
+# Files Prettier does not handle very well #
+###################
+*.md
+/public/

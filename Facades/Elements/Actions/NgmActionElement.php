@@ -6,6 +6,7 @@ use axenox\AngularMaterialFacade\Facades\Elements\Traits\JsonBuilderTrait;
 use axenox\AngularMaterialFacade\Facades\Elements\NgmBasicElement;
 use exface\Core\Interfaces\Actions\ActionInterface;
 use exface\Core\Interfaces\Facades\FacadeInterface;
+use exface\Core\Interfaces\iCanBeConvertedToUxon;
 
 /**
  *
@@ -16,7 +17,9 @@ use exface\Core\Interfaces\Facades\FacadeInterface;
  */
 class NgmActionElement
 {
-    use JsonBuilderTrait;
+    use JsonBuilderTrait {
+        buildJsonPropertyValue as buildJsonPropertyValueViaTrait;
+    }
     
     private $action = null;
     
@@ -31,6 +34,15 @@ class NgmActionElement
     public function buildJson() : array
     {
         return $this->buildJsonFromAction($this->getAction());
+    }
+    
+    protected function buildJsonPropertyValue(iCanBeConvertedToUxon $object, string $property)
+    {
+        switch (true) {
+            case $property === 'alias':
+                return $this->getAction()->getAliasWithNamespace();
+        }
+        return $this->buildJsonPropertyValueViaTrait($object, $property);
     }
     
     public function getFacade() : FacadeInterface
