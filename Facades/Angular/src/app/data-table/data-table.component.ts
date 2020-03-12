@@ -118,8 +118,8 @@ export class DataTableComponent implements OnInit {
 
     if (index >= 0) {
       this.filterChips.splice(index, 1);
-      delete this.widget.filters[chip.property];
-      this.dataSource.filter = JSON.stringify(this.widget.filters);
+      delete this.filter[chip.property];
+      this.dataSource.filter = JSON.stringify(this.filter);
       this.loadData(this.filterChips);
     }
   }
@@ -145,11 +145,6 @@ export class DataTableComponent implements OnInit {
       });
       return match;
     };
-  }
-
-  globalFilterChange(filter: string) {
-    this.createDataSource();
-    this.dataSource.filter = filter;
   }
 
   loadData(chips?: FilterChip[]) {
@@ -183,7 +178,13 @@ export class DataTableComponent implements OnInit {
       .subscribe((response: DataResponse) => {
         this.response = response;
         this.rows = response.rows;
-        this.createDataSource();
+        if (this.rows && this.rows.length < this.pager.pageIndex * this.pager.pageSize) {
+          this.pager.pageIndex = 0;
+          this.loadData(chips);
+        }
+        else {
+          this.createDataSource();
+        }
       });
   }
 

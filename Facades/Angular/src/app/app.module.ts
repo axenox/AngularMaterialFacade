@@ -29,7 +29,9 @@ import { SnackbarTestComponent } from './snackbar-test/snackbar-test.component';
 import { FilterComponent } from './filter/filter.component';
 import { InputComponent } from './input/input.component';
 import { InputSelectComponent } from './input-select/input-select.component';
-
+import { ButtonComponent } from './button/button.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import { InputSelectComponent } from './input-select/input-select.component';
     FilterComponent,
     InputComponent,
     InputSelectComponent,
+    ButtonComponent
+
   ],
   imports: [
     BrowserModule,
@@ -67,7 +71,9 @@ import { InputSelectComponent } from './input-select/input-select.component';
     MatSnackBarModule,
     MatTooltipModule,
     MatPaginatorModule,
-    MatSelectModule
+    MatSelectModule,
+    MatToolbarModule,
+    MatProgressSpinnerModule
   ],
   entryComponents: [
     DialogTestComponent,

@@ -1,9 +1,14 @@
+<mat-toolbar class="toolbar">
+  <app-button *ngFor="let button of widget.buttons" [widget]="button"></app-button>
+</mat-toolbar>
+
 <mat-accordion>
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title style="margin-top: 6px;">
         Tabelle
       </mat-panel-title>
+     
       <mat-chip-list #chipList aria-label="filter selection" style="margin-right: 15px">
         <mat-chip *ngFor="let filterChip of filterChips" [selectable]="selectable"
           [removable]="removable" (removed)="removeChip(filterChip)">
@@ -14,12 +19,14 @@
     </mat-expansion-panel-header>
     <div class="table-filters">
 
+    <button mat-button class="searchbutton" (click)="onRefresh()" aria-label="search icon button" matTooltip="Filter Anwenden">
+        <mat-icon>search</mat-icon>
+    </button>
+    
     <div *ngFor="let column of widget.filters" class="filter">
       <app-filter [widget]="column" [filter]="filter"></app-filter>                                     
     </div>
-    <button mat-raised-button class="searchbutton" (click)="onRefresh()" aria-label="search icon button" matTooltip="Filter Anwenden">
-      <mat-icon>search</mat-icon>
-    </button>
+  
 
     </div>
   </mat-expansion-panel>
@@ -31,8 +38,9 @@
     <mat-cell *cdkCellDef="let row">{{ row[column.data_column_name] }}</mat-cell>
   </ng-container>
   <ng-container [cdkColumnDef]="'_actions_'">  
-    <mat-header-cell class="headercell" *cdkHeaderCellDef>Bearbeiten</mat-header-cell>
+    <mat-header-cell class="headercell" *cdkHeaderCellDef></mat-header-cell>
     <mat-cell *cdkCellDef="let row">
+      <button mat-button>°</button>
     </mat-cell>
   </ng-container>
 
@@ -40,4 +48,4 @@
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>
 
-<mat-paginator [pageSize]="widget.paginator.page_size" [length]="response.recordsTotal" [pageIndex]="pager.pageIndex" showFirstLastButtons (page)="onPaginate($event)"></mat-paginator>
+<mat-paginator [pageSize]="widget.paginator.page_size" [pageSizeOptions]="widget.paginator.page_sizes" [length]="response.recordsTotal" [pageIndex]="pager.pageIndex" showFirstLastButtons (page)="onPaginate($event)"></mat-paginator>
