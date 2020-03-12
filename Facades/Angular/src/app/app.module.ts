@@ -32,6 +32,8 @@ import { InputSelectComponent } from './input-select/input-select.component';
 import { ButtonComponent } from './button/button.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MdePopoverModule } from '@material-extended/mde';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -73,7 +75,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatPaginatorModule,
     MatSelectModule,
     MatToolbarModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MdePopoverModule,
+    MatCardModule,
   ],
   entryComponents: [
     DialogTestComponent,

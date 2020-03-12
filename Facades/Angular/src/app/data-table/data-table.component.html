@@ -1,36 +1,50 @@
-<mat-toolbar class="toolbar">
-  <app-button *ngFor="let button of widget.buttons" [widget]="button"></app-button>
+<mat-toolbar class="exf-datatable-toolbar">
+  <mat-toolbar-row>
+    <span>{{widget.caption}}</span>
+    <span class="toolbar-spacer"></span>
+    <mat-form-field appearance="standard">
+      <mat-label>Quick Search</mat-label>
+      <input matInput>
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <mat-chip-list #chipList aria-label="filter selection" style="margin-right: 15px">
+      <mat-chip *ngFor="let filterChip of filterChips" [selectable]="selectable"
+        [removable]="removable" (removed)="removeChip(filterChip)">
+          {{filterChip.name}}: {{filterChip.value}}
+        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
+    <button 
+    mat-icon-button 
+    [mdePopoverTriggerFor]="appPopover"
+    mdePopoverTriggerOn="click" 
+    #popoverTrigger="mdePopoverTrigger" 
+    (click)="onRefresh()">
+      <mat-icon>filter_list</mat-icon>
+    </button>
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+    <app-button *ngFor="let button of widget.buttons" [widget]="button"></app-button>
+  </mat-toolbar-row>
 </mat-toolbar>
 
-<mat-accordion>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title style="margin-top: 6px;">
-        Tabelle
-      </mat-panel-title>
-     
-      <mat-chip-list #chipList aria-label="filter selection" style="margin-right: 15px">
-        <mat-chip *ngFor="let filterChip of filterChips" [selectable]="selectable"
-          [removable]="removable" (removed)="removeChip(filterChip)">
-            {{filterChip.name}}: {{filterChip.value}}
-          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-        </mat-chip>
-      </mat-chip-list>
-    </mat-expansion-panel-header>
-    <div class="table-filters">
-
-    <button mat-button class="searchbutton" (click)="onRefresh()" aria-label="search icon button" matTooltip="Filter Anwenden">
-        <mat-icon>search</mat-icon>
-    </button>
-    
-    <div *ngFor="let column of widget.filters" class="filter">
-      <app-filter [widget]="column" [filter]="filter"></app-filter>                                     
-    </div>
-  
-
-    </div>
-  </mat-expansion-panel>
-</mat-accordion>
+<mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdePopoverCloseOnClick]="false">
+  <mat-card style="height: 48px;">
+    <mat-card-content>
+      <div class="table-filters">
+        <button mat-button class="searchbutton" (click)="onRefresh()" aria-label="search icon button" matTooltip="Filter Anwenden">
+            <mat-icon>search</mat-icon>
+        </button>
+        <div *ngFor="let column of widget.filters" class="filter">
+          <app-filter [widget]="column" [filter]="filter"></app-filter>                                     
+        </div>
+      </div>      
+    </mat-card-content>
+    <mat-card-actions>
+      
+    </mat-card-actions>
+  </mat-card>
+</mde-popover>
 
 <mat-table #table [dataSource]="dataSource" matSort>
   <ng-container *ngFor="let column of widget.columns" [matColumnDef]="column.data_column_name" class="mask rgba-black-light">

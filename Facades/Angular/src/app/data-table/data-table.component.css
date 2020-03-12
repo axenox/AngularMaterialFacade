@@ -11,10 +11,42 @@ table {
   padding-right: 1em;
 }
 
+.table-filters{
+  width: 700px;
+  background-color: blue;
+}
+
 .searchbutton{
   margin-left: 6px;
 }
 
 .addbutton{
   background-color: green;
+}
+
+mat-toolbar-row {
+  height: 48px;
+}
+
+mat-toolbar-row > button {
+  min-width: 32px;
+  padding: 0 8px;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+mat-toolbar.mat-toolbar mat-form-field.mat-form-field {
+  font-size: 12px;
+}
+
+label.mat-form-field-label {
+  font-weight: bold;
+}
+
+.mde-popover-content{
+  background-color: azure;
+  outline-color: black;
+  outline: solid;
 }
