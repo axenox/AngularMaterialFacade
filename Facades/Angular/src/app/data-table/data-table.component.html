@@ -11,11 +11,13 @@
           <mat-icon (click)="onRefresh()">search</mat-icon>
         </button>
       </div>
-      <mat-chip *ngFor="let filterChip of filterChips" [selectable]="selectable"
-        [removable]="removable" (removed)="removeChip(filterChip)">
-          {{filterChip.name}}: {{filterChip.value}}
-        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-      </mat-chip>
+      <div fxShow="true" fxHide.lt-md="true">
+        <mat-chip *ngFor="let filterChip of filterChips" [selectable]="selectable"
+          [removable]="removable" (removed)="removeChip(filterChip)">
+            {{filterChip.name}}: {{filterChip.value}}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+      </div>
     </mat-chip-list>
     <button 
     mat-icon-button 
@@ -27,7 +29,18 @@
     </button>
   </mat-toolbar-row>
   <mat-toolbar-row>
-    <app-button *ngFor="let button of widget.buttons" [widget]="button"></app-button>
+    <div fxShow="true" fxHide.gt-sm="true">
+      <button mat-button [matMenuTriggerFor]="menu">
+        <mat-icon >menu</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <app-button *ngFor="let button of widget.buttons" [widget]="button"></app-button>
+      </mat-menu>
+    </div>
+    <span class="test-spacer"></span>
+    <div fxShow="true" fxHide.lt-md="true">
+      <app-button *ngFor="let button of widget.buttons" [widget]="button"></app-button>
+    </div>
   </mat-toolbar-row>
 </mat-toolbar>
 
@@ -37,14 +50,23 @@
       <mat-card-title>Filters</mat-card-title>
     </mat-card-header>
     <mat-card-content>
+      <div fxShow="true" fxHide.gt-sm="true">
+        <mat-chip *ngFor="let filterChip of filterChips" [selectable]="selectable"
+          [removable]="removable" (removed)="removeChip(filterChip)">
+            {{filterChip.name}}: {{filterChip.value}}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+      <br>
+      <br>
+      </div>
       <div *ngFor="let column of widget.filters" class="filter">
             <app-filter [widget]="column" [filter]="filter"></app-filter>                                     
-          </div>
+      </div>
     </mat-card-content>
     <mat-card-actions>
       <button mat-button class="searchbutton" (click)="onRefresh()" aria-label="search icon button" matTooltip="Filter Anwenden">
               <mat-icon>search</mat-icon> Search
-          </button>
+      </button>
     </mat-card-actions>
   </mat-card>
 </mde-popover>

@@ -2,10 +2,6 @@ table {
   width: 100%;
 }
 
-.addbutton{
-  background-color: green;
-}
-
 mat-toolbar-row {
   height: 48px;
 }
@@ -27,8 +23,10 @@ label.mat-form-field-label {
   font-weight: bold;
 }
 
-.mde-popover-content{
-  background-color: azure;
-  outline-color: black;
-  outline: solid;
+.test-spacer {
+  flex: 1 1 auto;
+}
+
+.mde-popover > button{
+  float: right;
 }
