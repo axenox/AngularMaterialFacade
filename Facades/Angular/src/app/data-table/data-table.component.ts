@@ -66,6 +66,8 @@ export class DataTableComponent implements OnInit {
 
   filter = { _global_: '' };
 
+  quickSearch: string;
+
   pager: PageEvent = {
     length: null,
     pageIndex: 0,
@@ -160,6 +162,10 @@ export class DataTableComponent implements OnInit {
       start: (this.pager.pageIndex * this.pager.pageSize).toString(),
       length: this.pager.pageSize.toString()
     };
+
+    if (this.quickSearch) {
+      params.q = this.quickSearch;
+    }
 
     if (chips && chips.length > 0) {
       params['data[filters][operator]'] = 'AND';

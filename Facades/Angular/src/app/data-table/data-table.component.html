@@ -2,12 +2,15 @@
   <mat-toolbar-row>
     <span>{{widget.caption}}</span>
     <span class="toolbar-spacer"></span>
-    <mat-form-field appearance="standard">
-      <mat-label>Quick Search</mat-label>
-      <input matInput>
-      <mat-icon matSuffix>search</mat-icon>
-    </mat-form-field>
-    <mat-chip-list #chipList aria-label="filter selection" style="margin-right: 15px">
+    
+    <mat-chip-list #chipList aria-label="filter selection">
+      <div class="mat-chip mat-focus-indicator mat-primary mat-standard-chip">
+        
+        <input matInput [(ngModel)]="quickSearch" type="text"/>
+        <button mat-icon-button>
+          <mat-icon (click)="onRefresh()">search</mat-icon>
+        </button>
+      </div>
       <mat-chip *ngFor="let filterChip of filterChips" [selectable]="selectable"
         [removable]="removable" (removed)="removeChip(filterChip)">
           {{filterChip.name}}: {{filterChip.value}}
@@ -29,19 +32,19 @@
 </mat-toolbar>
 
 <mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdePopoverCloseOnClick]="false">
-  <mat-card style="height: 48px;">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Filters</mat-card-title>
+    </mat-card-header>
     <mat-card-content>
-      <div class="table-filters">
-        <button mat-button class="searchbutton" (click)="onRefresh()" aria-label="search icon button" matTooltip="Filter Anwenden">
-            <mat-icon>search</mat-icon>
-        </button>
-        <div *ngFor="let column of widget.filters" class="filter">
-          <app-filter [widget]="column" [filter]="filter"></app-filter>                                     
-        </div>
-      </div>      
+      <div *ngFor="let column of widget.filters" class="filter">
+            <app-filter [widget]="column" [filter]="filter"></app-filter>                                     
+          </div>
     </mat-card-content>
     <mat-card-actions>
-      
+      <button mat-button class="searchbutton" (click)="onRefresh()" aria-label="search icon button" matTooltip="Filter Anwenden">
+              <mat-icon>search</mat-icon> Search
+          </button>
     </mat-card-actions>
   </mat-card>
 </mde-popover>

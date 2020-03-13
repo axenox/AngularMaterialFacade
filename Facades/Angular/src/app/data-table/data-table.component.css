@@ -2,24 +2,6 @@ table {
   width: 100%;
 }
 
-.table-filters .mat-button-base {
-  float: right;
-}
-
-.table-filters .filter {
-  float: left;
-  padding-right: 1em;
-}
-
-.table-filters{
-  width: 700px;
-  background-color: blue;
-}
-
-.searchbutton{
-  margin-left: 6px;
-}
-
 .addbutton{
   background-color: green;
 }
@@ -37,8 +19,8 @@ mat-toolbar-row > button {
   flex: 1 1 auto;
 }
 
-mat-toolbar.mat-toolbar mat-form-field.mat-form-field {
-  font-size: 12px;
+.mat-chip > button {
+  width: initial;
 }
 
 label.mat-form-field-label {

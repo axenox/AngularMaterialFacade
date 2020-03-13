@@ -34,6 +34,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MdePopoverModule } from '@material-extended/mde';
 import {MatCardModule} from '@angular/material/card';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -78,6 +80,8 @@ import {MatCardModule} from '@angular/material/card';
     MatProgressSpinnerModule,
     MdePopoverModule,
     MatCardModule,
+    FlexLayoutModule,
+    MatMenuModule
   ],
   entryComponents: [
     DialogTestComponent,
