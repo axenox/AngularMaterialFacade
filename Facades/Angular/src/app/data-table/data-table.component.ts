@@ -8,7 +8,7 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatDialog } from '@angular/material/dialog';
@@ -96,6 +96,10 @@ export class DataTableComponent implements OnInit {
     this.displayedColumns = this.widget.columns.map(c => c.data_column_name);
     this.displayedColumns.push('_actions_');
     this.loadData();
+
+    this.sort.sortChange.subscribe((sort: Sort) => {
+      this.loadData(this.filterChips);
+    });
   }
 
   addChip(property: string, name: string, value: string): void {
@@ -157,8 +161,8 @@ export class DataTableComponent implements OnInit {
       object: this.widget.object_alias,
       q: '',
       'data[oId]': this.widget.lazy_loading_action.object_alias,
-      sort: 'CREATED_ON',
-      order: 'desc',
+      sort: this.sort.active,
+      order: this.sort.direction,
       start: (this.pager.pageIndex * this.pager.pageSize).toString(),
       length: this.pager.pageSize.toString()
     };
