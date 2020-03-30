@@ -71,7 +71,7 @@ export class DataTableComponent implements OnInit {
   pager: PageEvent = {
     length: null,
     pageIndex: 0,
-    pageSize: 30,
+    pageSize: 40,
     previousPageIndex: null
   };
 
@@ -184,7 +184,7 @@ export class DataTableComponent implements OnInit {
       .subscribe((response: DataResponse) => {
         this.response = response;
         this.rows = response.rows;
-        if (this.rows && this.rows.length < this.pager.pageIndex * this.pager.pageSize) {
+        if (this.response && this.response.recordsTotal <= this.pager.pageIndex * this.pager.pageSize) {
           this.pager.pageIndex = 0;
           this.loadData(chips);
         }
