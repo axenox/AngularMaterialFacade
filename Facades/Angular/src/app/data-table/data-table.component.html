@@ -60,7 +60,8 @@
       <br>
       </div>
       <div *ngFor="let column of widget.filters" class="filter">
-            <app-filter [widget]="column" [filter]="filter"></app-filter>                                     
+        <!--<app-filter [widget]="column" [filter]="filter"></app-filter>-->
+        <app-widget [structure]="column" [filter]="filter"></app-widget>
       </div>
     </mat-card-content>
     <mat-card-actions>

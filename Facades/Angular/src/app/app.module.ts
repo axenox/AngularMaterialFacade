@@ -36,6 +36,7 @@ import { MdePopoverModule } from '@material-extended/mde';
 import {MatCardModule} from '@angular/material/card';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatMenuModule} from '@angular/material/menu';
+import { HostDirective } from './widget/host.directive';
 
 @NgModule({
   declarations: [
@@ -48,8 +49,8 @@ import {MatMenuModule} from '@angular/material/menu';
     FilterComponent,
     InputComponent,
     InputSelectComponent,
-    ButtonComponent
-
+    ButtonComponent,
+    HostDirective
   ],
   imports: [
     BrowserModule,

@@ -13,6 +13,7 @@ import {
 import { DataTableComponent } from '../data-table/data-table.component';
 import { IWidgetInterface } from '../interfaces/widgets/widget.interface';
 import { FilterComponent } from '../filter/filter.component';
+import { HostDirective } from './host.directive';
 
 const COMPONENT_REGISTER = {
   DataTable: DataTableComponent,
@@ -21,7 +22,8 @@ const COMPONENT_REGISTER = {
 
 @Component({
   selector: 'app-widget',
-  template: '<ng-template #content></ng-template>',
+  template: '<ng-template app-host></ng-template>',
+  // templateUrl: './widget.component.html'
 })
 export class WidgetComponent implements OnInit, OnChanges {
   @Input()
@@ -33,8 +35,11 @@ export class WidgetComponent implements OnInit, OnChanges {
   @Input()
   filter: any;
 
+/*
   @ViewChild('content', { read: ViewContainerRef, static: true })
-  content: ViewContainerRef;
+  content: ViewContainerRef;*/
+  
+  @ViewChild(HostDirective, {static: true}) appHost: HostDirective;
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
 
@@ -42,7 +47,8 @@ export class WidgetComponent implements OnInit, OnChanges {
     const component: Type<any> = this.getComponent(this.structure.widget_type);
     if (component) {
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
-      const componentRef: ComponentRef<any> = this.content.createComponent(componentFactory);
+      const viewContainerRef = this.appHost.viewContainerRef;
+      const componentRef: ComponentRef<any> = viewContainerRef.createComponent(componentFactory);
       componentRef.instance.widget = this.structure;
       componentRef.instance.pageSelector = this.pageSelector;
       if (this.filter) {
