@@ -14,10 +14,14 @@ import { DataTableComponent } from '../data-table/data-table.component';
 import { IWidgetInterface } from '../interfaces/widgets/widget.interface';
 import { FilterComponent } from '../filter/filter.component';
 import { HostDirective } from './host.directive';
+import { InputComponent } from '../input/input.component';
+import { InputSelectComponent } from '../input-select/input-select.component';
 
 const COMPONENT_REGISTER = {
   DataTable: DataTableComponent,
   Filter: FilterComponent,
+  //Input: InputComponent,
+  InputSelect: InputSelectComponent,
 };
 
 @Component({
@@ -58,10 +62,14 @@ export class WidgetComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('change');
+    console.log('change: '+ changes);
   }
 
   getComponent(widgetType: string) {
-    return COMPONENT_REGISTER[widgetType];
+    const component = COMPONENT_REGISTER[widgetType];
+    if (!component && widgetType.startsWith('Input')){
+      return InputComponent;
+    }
+    return component;
   }
 }
