@@ -30,3 +30,7 @@ label.mat-form-field-label {
 .mde-popover > button{
   float: right;
 }
+
+::ng-deep .buttonmenue {
+  width: 190px;
+}

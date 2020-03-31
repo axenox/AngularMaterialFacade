@@ -8,7 +8,6 @@ import {
   SimpleChanges,
   Type,
   ViewChild,
-  ViewContainerRef,
 } from '@angular/core';
 import { DataTableComponent } from '../data-table/data-table.component';
 import { IWidgetInterface } from '../interfaces/widgets/widget.interface';

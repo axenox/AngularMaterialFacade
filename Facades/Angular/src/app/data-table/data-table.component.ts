@@ -17,6 +17,7 @@ import { IWidgetDataTable } from '../interfaces/widgets/data-table.interface';
 import { IWidgetFilter } from '../interfaces/widgets/filter.interface';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { MdePopoverTrigger } from '@material-extended/mde';
 
 export interface IColumnDef {
   columnDef: string;
@@ -89,6 +90,7 @@ export class DataTableComponent implements OnInit {
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MdePopoverTrigger, { static: false }) trigger: MdePopoverTrigger;
 
   constructor(private dialog: MatDialog, private http: HttpClient) {}
 
@@ -100,6 +102,15 @@ export class DataTableComponent implements OnInit {
     this.sort.sortChange.subscribe((sort: Sort) => {
       this.loadData(this.filterChips);
     });
+
+    document.addEventListener("keydown", this.keyDownFn())
+  }
+  keyDownFn(){
+    return(event: KeyboardEvent) => {
+      if(event.key === "Enter"){
+        this.onRefresh();
+      };
+    }
   }
 
   addChip(property: string, name: string, value: string): void {
@@ -211,5 +222,6 @@ export class DataTableComponent implements OnInit {
       }
     });
     this.loadData(this.filterChips);
+    this.trigger.togglePopover();
   }
 }

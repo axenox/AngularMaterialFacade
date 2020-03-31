@@ -23,8 +23,7 @@
     mat-icon-button 
     [mdePopoverTriggerFor]="appPopover"
     mdePopoverTriggerOn="click" 
-    #popoverTrigger="mdePopoverTrigger" 
-    (click)="onRefresh()">
+    #popoverTrigger="mdePopoverTrigger">
       <mat-icon>filter_list</mat-icon>
     </button>
   </mat-toolbar-row>
@@ -33,7 +32,7 @@
       <button mat-button [matMenuTriggerFor]="menu">
         <mat-icon >menu</mat-icon>
       </button>
-      <mat-menu #menu="matMenu">
+      <mat-menu #menu="matMenu" class="buttonmenue">
         <app-button *ngFor="let button of widget.buttons" [widget]="button"></app-button>
       </mat-menu>
     </div>
@@ -59,8 +58,7 @@
       <br>
       <br>
       </div>
-      <div *ngFor="let column of widget.filters" class="filter">
-        <!--<app-filter [widget]="column" [filter]="filter"></app-filter>-->
+      <div *ngFor="let column of widget.filters" class="filter">        
         <app-widget [structure]="column" [filter]="filter"></app-widget>
       </div>
     </mat-card-content>
