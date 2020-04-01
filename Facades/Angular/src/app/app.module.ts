@@ -24,7 +24,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import { PageComponent } from './page/page.component';
 import { WidgetComponent } from './widget/widget.component';
 import { CdkTableModule } from '@angular/cdk/table';
-import { DialogTestComponent } from './dialog-test/dialog-test.component';
+import { DialogComponent } from './dialog/dialog.component';
 import { SnackbarTestComponent } from './snackbar-test/snackbar-test.component';
 import { FilterComponent } from './filter/filter.component';
 import { InputComponent } from './input/input.component';
@@ -44,13 +44,14 @@ import { HostDirective } from './widget/host.directive';
     DataTableComponent,
     WidgetComponent,
     PageComponent,
-    DialogTestComponent,
+    DialogComponent,
     SnackbarTestComponent,
     FilterComponent,
     InputComponent,
     InputSelectComponent,
     ButtonComponent,
-    HostDirective
+    HostDirective,
+    
   ],
   imports: [
     BrowserModule,
@@ -85,7 +86,7 @@ import { HostDirective } from './widget/host.directive';
     MatMenuModule
   ],
   entryComponents: [
-    DialogTestComponent,
+    DialogComponent,
     SnackbarTestComponent,
   ],
 
