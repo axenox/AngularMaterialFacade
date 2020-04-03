@@ -16,7 +16,10 @@ export class InputComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  onRefresh(){
+    console.log("works")
   }
 
 }

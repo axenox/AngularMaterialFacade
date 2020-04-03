@@ -102,17 +102,9 @@ export class DataTableComponent implements OnInit {
     this.sort.sortChange.subscribe((sort: Sort) => {
       this.loadData(this.filterChips);
     });
-
-    document.addEventListener("keydown", this.keyDownFn())
   }
-  keyDownFn(){
-    return(event: KeyboardEvent) => {
-      if(event.key === "Enter"){
-        this.onRefresh();
-      };
-    }
-  }
-
+  
+  
   addChip(property: string, name: string, value: string): void {
     this.removeChipWithName(name);
 

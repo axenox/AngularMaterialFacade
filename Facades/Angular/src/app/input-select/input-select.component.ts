@@ -19,4 +19,8 @@ export class InputSelectComponent implements OnInit {
   ngOnInit() {
   }
 
+  onRefresh(){
+    console.log("works")
+  }
+
 }

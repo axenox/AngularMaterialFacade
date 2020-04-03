@@ -10,9 +10,6 @@ import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 
-const ACTION_SHOW_WIDGET = 'exface.Core.ShowWidget';
-
-
 @Component({
   selector: 'app-dialog',
   templateUrl: './dialog.component.html',
@@ -28,26 +25,12 @@ export class DialogComponent implements OnInit {
     private dialogRef: MatDialogRef<DialogComponent>,
     private _snackBar: MatSnackBar,
     private http: HttpClient, private route: ActivatedRoute,
-    @Inject(MAT_DIALOG_DATA) public data: string){}
+    @Inject(MAT_DIALOG_DATA) public data: any){}
 
     resource: string;
 
 
-  ngOnInit() {
-      // Load JSON description of widget
-      // When loaded, save it and load data of table
-      this.http
-        .get<IWidgetDataTable>(
-          environment.url +
-            '?action=' +
-            ACTION_SHOW_WIDGET +
-            '&resource=' +
-            this.data
-        )
-        .subscribe((data: IWidgetDataTable) => {
-          this.structure = data;
-        });
-  
+  ngOnInit() {  
   }
 
   saved() {
