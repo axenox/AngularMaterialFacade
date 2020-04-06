@@ -13,11 +13,13 @@ import { MatTableDataSource } from '@angular/material/table';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { IWidgetDataColumn } from '../interfaces/widgets/data-column.interface';
 import { IWidgetDataTable } from '../interfaces/widgets/data-table.interface';
 import { IWidgetFilter } from '../interfaces/widgets/filter.interface';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { MdePopoverTrigger } from '@material-extended/mde';
+import { IWidgetEvent, WidgetEventType } from '../interfaces/events/widget-event.interface';
 
 export interface IColumnDef {
   columnDef: string;
@@ -135,6 +137,12 @@ export class DataTableComponent implements OnInit {
 
   createDataSource() {
     this.dataSource = new MatTableDataSource(this.rows);
+  }
+
+  onWidgetEvent(event: IWidgetEvent) {
+    if (event.type === WidgetEventType.VALUE_CHANGED){
+      this.filter[(event.source as IWidgetDataColumn).attribute_alias] = event.value;
+    }
   }
 
   tableFilter() {

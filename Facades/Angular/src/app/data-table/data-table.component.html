@@ -59,7 +59,7 @@
       <br>
       </div>
       <div *ngFor="let column of widget.filters" class="filter">        
-        <app-widget [structure]="column" [filter]="filter"></app-widget>
+        <app-widget [structure]="column" (widgetEvent)="onWidgetEvent($event)"></app-widget>
       </div>
     </mat-card-content>
     <mat-card-actions>

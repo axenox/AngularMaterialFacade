@@ -11,13 +11,9 @@ export class InputSelectComponent implements OnInit {
   @Input()
     widget: IWidgetInputSelectInterface;
 
-  @Input()
-    filter: any;
+  value: string;
 
-  constructor() { }
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onRefresh(){
     console.log("works")
