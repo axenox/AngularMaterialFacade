@@ -217,6 +217,11 @@ export class DataTableComponent implements OnInit {
     this.onRefresh();
   }
 
+  onSearch(){
+    this.trigger.togglePopover();
+    this.onRefresh();
+  }
+
   onRefresh() {
     this.widget.filters.forEach((col: IWidgetFilter) => {
       const value = this.filter[col.input_widget.data_column_name];
@@ -225,6 +230,5 @@ export class DataTableComponent implements OnInit {
       }
     });
     this.loadData(this.filterChips);
-    this.trigger.togglePopover();
   }
 }

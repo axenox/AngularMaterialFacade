@@ -69,16 +69,16 @@ export class ButtonComponent implements OnInit {
   }
 
   onClickShowDialog(action: IActionShowDialog) {
-    this.loadShowDialog('angular-test-2')
-      .subscribe((widgetData: IWidgetDataTable) => {
+    /* this.loadShowDialog('angular-test-2')
+      .subscribe((widgetData: IWidgetDataTable) => { */
         const dialogConfig = new MatDialogConfig();
 
-        dialogConfig.data = {structure: widgetData, pageSelector: 'angular-test-2'};
+        dialogConfig.data = {structure: action.widget, pageSelector: 'angular-test-2'};
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
     
         const dialogRef = this.dialog.open(DialogComponent, dialogConfig);
-      });
+     /*  }); */
 
     /*dialogRef.afterClosed().subscribe(
       data => {

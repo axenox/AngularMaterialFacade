@@ -18,12 +18,15 @@ import { HostDirective } from './host.directive';
 import { InputComponent } from '../input/input.component';
 import { InputSelectComponent } from '../input-select/input-select.component';
 import { IWidgetEvent } from '../interfaces/events/widget-event.interface';
+import { ContainerComponent } from '../container/container.component';
 
 const COMPONENT_REGISTER = {
   DataTable: DataTableComponent,
   Filter: FilterComponent,
-  //Input: InputComponent,
+  Input: InputComponent,
   InputSelect: InputSelectComponent,
+  Dialog: ContainerComponent,
+  Form: ContainerComponent
 };
 
 @Component({

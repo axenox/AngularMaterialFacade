@@ -37,6 +37,7 @@ import {MatCardModule} from '@angular/material/card';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatMenuModule} from '@angular/material/menu';
 import { HostDirective } from './widget/host.directive';
+import { ContainerComponent } from './container/container.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { HostDirective } from './widget/host.directive';
     InputSelectComponent,
     ButtonComponent,
     HostDirective,
+    ContainerComponent,
     
   ],
   imports: [
