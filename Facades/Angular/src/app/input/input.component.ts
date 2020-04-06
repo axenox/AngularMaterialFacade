@@ -24,8 +24,9 @@ export class InputComponent implements OnInit {
     this.widgetEvent.emit(widgetEvent);
   }
 
-  onKeyUp(event: any) {
-    console.log("keyUp works")
+  onKeyUp(event: KeyboardEvent) {
+    const widgetEvent: IWidgetEvent = { source: this.widget, type: WidgetEventType.KEYPRESSED, value: event.code};
+    this.widgetEvent.emit(widgetEvent);
   }
 
 }

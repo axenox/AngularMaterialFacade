@@ -143,6 +143,9 @@ export class DataTableComponent implements OnInit {
     if (event.type === WidgetEventType.VALUE_CHANGED){
       this.filter[(event.source as IWidgetDataColumn).attribute_alias] = event.value;
     }
+    if (event.type === WidgetEventType.KEYPRESSED && event.value === 'Enter'){
+      this.onRefresh();
+    }
   }
 
   tableFilter() {

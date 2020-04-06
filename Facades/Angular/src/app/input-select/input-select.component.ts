@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { IWidgetInputSelectInterface } from '../interfaces/widgets/input-select.interface';
+import { IWidgetEvent, WidgetEventType } from '../interfaces/events/widget-event.interface';
 
 @Component({
   selector: 'app-input-select',
@@ -11,12 +12,20 @@ export class InputSelectComponent implements OnInit {
   @Input()
     widget: IWidgetInputSelectInterface;
 
+  @Output()
+    widgetEvent = new EventEmitter<IWidgetEvent>();
+
   value: string;
 
   ngOnInit() {}
 
-  onRefresh(){
-    console.log("works")
+  onChange(value: string) {
+    const widgetEvent: IWidgetEvent = { source: this.widget, type: WidgetEventType.VALUE_CHANGED, value};
+    this.widgetEvent.emit(widgetEvent);
   }
 
+  onKeyUp(event: KeyboardEvent) {
+    const widgetEvent: IWidgetEvent = { source: this.widget, type: WidgetEventType.KEYPRESSED, value: event.code};
+    this.widgetEvent.emit(widgetEvent);
+  }
 }
