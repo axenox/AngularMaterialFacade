@@ -37,7 +37,14 @@ trait JsonBuilderTrait
      */
     protected function buildJsonFromAction(ActionInterface $action) : array
     {
-        return $this->buildJsonFromObject($action);
+        $props = $this->buildJsonFromObject($action);
+        $fallbacks = [];
+        foreach (class_parents($action) as $fallbackClass) {
+            $widgetType = StringDataType::substringAfter($fallbackClass, '\\', $fallbackClass, false, true);
+            $fallbacks[] = $widgetType;
+        }
+        $props['fallback_actions'] = $fallbacks;
+        return $props;
     }
     
     /**
