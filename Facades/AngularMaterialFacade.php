@@ -159,6 +159,12 @@ class AngularMaterialFacade extends AbstractAjaxFacade
             fclose($file);
         }
         
+        $props['~angular_interface'] = $angularPath;
+        $component = StringDataType::substringBefore($angularPath, '.');
+        $component = str_replace('-', '_', $component);
+        $component = StringDataType::convertCaseUnderscoreToPascal($component);
+        $props['~angular_component'] = $component . 'Component';
+        
         $this->jsonPropsByAngularPath[$path] = $props;
         
         return $props;
