@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule} from '@angular/material/table';
-import { DataTableComponent } from './data-table/data-table.component';
+import { DataTableComponent } from './widgets/data-table/data-table.component';
 import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
@@ -22,22 +22,23 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { PageComponent } from './page/page.component';
-import { WidgetComponent } from './widget/widget.component';
+import { WidgetComponent } from './widgets/widget.component';
 import { CdkTableModule } from '@angular/cdk/table';
-import { DialogComponent } from './dialog/dialog.component';
+import { DialogComponent } from './widgets/dialog/dialog.component';
 import { SnackbarTestComponent } from './snackbar-test/snackbar-test.component';
-import { FilterComponent } from './filter/filter.component';
-import { InputComponent } from './input/input.component';
-import { InputSelectComponent } from './input-select/input-select.component';
-import { ButtonComponent } from './button/button.component';
+import { FilterComponent } from './widgets/filter/filter.component';
+import { InputComponent } from './widgets/input/input.component';
+import { InputSelectComponent } from './widgets/input-select/input-select.component';
+import { ButtonComponent } from './widgets/button/button.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MdePopoverModule } from '@material-extended/mde';
 import {MatCardModule} from '@angular/material/card';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatMenuModule} from '@angular/material/menu';
-import { HostDirective } from './widget/host.directive';
-import { ContainerComponent } from './container/container.component';
+import { HostDirective } from './widgets/host.directive';
+import { ContainerComponent } from './widgets/container/container.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -85,7 +86,9 @@ import { ContainerComponent } from './container/container.component';
     MdePopoverModule,
     MatCardModule,
     FlexLayoutModule,
-    MatMenuModule
+    MatMenuModule,
+    MatSelectModule,
+    MatCheckboxModule
   ],
   entryComponents: [
     DialogComponent,

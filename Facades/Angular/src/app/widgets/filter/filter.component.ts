@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { IWidgetFilter } from '../interfaces/widgets/filter.interface';
-import { IWidgetEvent } from '../interfaces/events/widget-event.interface';
+import { IWidgetFilter } from '../../interfaces/widgets/filter.interface';
+import { IWidgetEvent } from '../../interfaces/events/widget-event.interface';
 
 @Component({
   selector: 'app-filter',

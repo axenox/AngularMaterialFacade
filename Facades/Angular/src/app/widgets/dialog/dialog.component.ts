@@ -2,11 +2,11 @@ import { Component, OnInit, Input, Inject } from '@angular/core';
 import { DataTableComponent } from '../data-table/data-table.component';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SnackbarTestComponent } from '../snackbar-test/snackbar-test.component';
-import { IActionGoToPage } from '../interfaces/actions/go-to-page.interface';
-import { IWidgetDataTable } from '../interfaces/widgets/data-table.interface';
-import { IWidgetInterface } from '../interfaces/widgets/widget.interface';
-import { environment } from '../../environments/environment';
+import { SnackbarTestComponent } from '../../snackbar-test/snackbar-test.component';
+import { IActionGoToPage } from '../../interfaces/actions/go-to-page.interface';
+import { IWidgetDataTable } from '../../interfaces/widgets/data-table.interface';
+import { IWidgetInterface } from '../../interfaces/widgets/widget.interface';
+import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 

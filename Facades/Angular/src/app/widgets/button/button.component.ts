@@ -1,17 +1,18 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
-import { IWidgetInputInterface } from '../interfaces/widgets/input.interface';
-import { IWidgetButton } from '../interfaces/widgets/button.interface';
-import { PageComponent } from '../page/page.component'
+import { IWidgetInputInterface } from '../../interfaces/widgets/input.interface';
+import { IWidgetButton } from '../../interfaces/widgets/button.interface';
+import { PageComponent } from '../../page/page.component'
 import { Router, ActivatedRoute } from '@angular/router';
-import { IActionGoToPage } from '../interfaces/actions/go-to-page.interface';
-import { IActionInterface } from '../interfaces/actions/action.interface';
+import { IActionGoToPage } from '../../interfaces/actions/go-to-page.interface';
+import { IActionInterface } from '../../interfaces/actions/action.interface';
 import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { DialogComponent } from '../dialog/dialog.component';
-import { IWidgetDataTable } from '../interfaces/widgets/data-table.interface';
-import { IWidgetInterface } from '../interfaces/widgets/widget.interface';
+import { IWidgetDataTable } from '../../interfaces/widgets/data-table.interface';
+import { IWidgetInterface } from '../../interfaces/widgets/widget.interface';
 import { environment } from 'src/environments/environment';
-import { IActionShowDialog } from '../interfaces/actions/show-dialog.interface';
+import { IActionShowDialog } from '../../interfaces/actions/show-dialog.interface';
+import { SelectionModel } from '@angular/cdk/collections';
 
 const ACTION_SHOW_WIDGET = 'exface.Core.ShowWidget';
 
@@ -29,7 +30,10 @@ export class ButtonComponent implements OnInit {
   widget: IWidgetButton;
 
   @Input()
-  resource: PageComponent;
+  pageSelector: string;
+ 
+  @Input()
+  selection: SelectionModel<any>;
 
   @Input()
   structure: IWidgetInterface;

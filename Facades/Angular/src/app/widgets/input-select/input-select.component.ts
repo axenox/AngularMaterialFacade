@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { IWidgetInputSelectInterface } from '../interfaces/widgets/input-select.interface';
-import { IWidgetEvent, WidgetEventType } from '../interfaces/events/widget-event.interface';
+import { IWidgetInputSelectInterface } from '../../interfaces/widgets/input-select.interface';
+import { IWidgetEvent, WidgetEventType } from '../../interfaces/events/widget-event.interface';
 
 @Component({
   selector: 'app-input-select',

@@ -13,13 +13,14 @@ import { MatTableDataSource } from '@angular/material/table';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { IWidgetDataColumn } from '../interfaces/widgets/data-column.interface';
-import { IWidgetDataTable } from '../interfaces/widgets/data-table.interface';
-import { IWidgetFilter } from '../interfaces/widgets/filter.interface';
+import { IWidgetDataColumn } from '../../interfaces/widgets/data-column.interface';
+import { IWidgetDataTable } from '../../interfaces/widgets/data-table.interface';
+import { IWidgetFilter } from '../../interfaces/widgets/filter.interface';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 import { MdePopoverTrigger } from '@material-extended/mde';
-import { IWidgetEvent, WidgetEventType } from '../interfaces/events/widget-event.interface';
+import { IWidgetEvent, WidgetEventType } from '../../interfaces/events/widget-event.interface';
+import {SelectionModel, DataSource} from '@angular/cdk/collections';
 
 export interface IColumnDef {
   columnDef: string;
@@ -71,6 +72,8 @@ export class DataTableComponent implements OnInit {
 
   quickSearch: string;
 
+  selection = new SelectionModel<any>(true, []);
+
   pager: PageEvent = {
     length: null,
     pageIndex: 0,
@@ -97,7 +100,8 @@ export class DataTableComponent implements OnInit {
   constructor(private dialog: MatDialog, private http: HttpClient) {}
 
   ngOnInit() {
-    this.displayedColumns = this.widget.columns.map(c => c.data_column_name);
+    this.displayedColumns = ['_checkboxes_'];
+    this.displayedColumns.push(...this.widget.columns.map(c => c.data_column_name));
     this.displayedColumns.push('_actions_');
     this.loadData();
 
@@ -230,5 +234,23 @@ export class DataTableComponent implements OnInit {
       }
     });
     this.loadData(this.filterChips);
+  }
+
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.rows ? this.rows.length : 0;
+    return numSelected === numRows;
+  }
+
+  masterToggle() {
+    this.isAllSelected() ?
+        this.selection.clear() :
+        this.rows.forEach(row => this.selection.select(row));
+  }
+  checkboxLabel(row?: any): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
 }

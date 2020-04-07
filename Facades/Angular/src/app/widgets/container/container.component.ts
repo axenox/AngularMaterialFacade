@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IWidgetContainer } from '../interfaces/widgets/container.interface';
+import { IWidgetContainer } from '../../interfaces/widgets/container.interface';
 
 @Component({
   selector: 'app-container',

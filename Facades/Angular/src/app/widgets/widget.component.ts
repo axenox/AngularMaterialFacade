@@ -11,14 +11,14 @@ import {
   Output,
   EventEmitter,
 } from '@angular/core';
-import { DataTableComponent } from '../data-table/data-table.component';
+import { DataTableComponent } from './data-table/data-table.component';
 import { IWidgetInterface } from '../interfaces/widgets/widget.interface';
-import { FilterComponent } from '../filter/filter.component';
+import { FilterComponent } from './filter/filter.component';
 import { HostDirective } from './host.directive';
-import { InputComponent } from '../input/input.component';
-import { InputSelectComponent } from '../input-select/input-select.component';
+import { InputComponent } from './input/input.component';
+import { InputSelectComponent } from './input-select/input-select.component';
 import { IWidgetEvent } from '../interfaces/events/widget-event.interface';
-import { ContainerComponent } from '../container/container.component';
+import { ContainerComponent } from './container/container.component';
 
 const COMPONENT_REGISTER = {
   DataTable: DataTableComponent,
