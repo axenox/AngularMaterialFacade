@@ -53,23 +53,24 @@ export class WidgetComponent implements OnInit, OnChanges {
   constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
 
   ngOnInit() {
-    const component: Type<any> = this.getComponent(this.structure.widget_type);
-    if (component) {
-      const componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
-      const viewContainerRef = this.appHost.viewContainerRef;
-      const componentRef: ComponentRef<any> = viewContainerRef.createComponent(componentFactory);
-      componentRef.instance.widget = this.structure;
-      componentRef.instance.pageSelector = this.pageSelector;
-      if (componentRef.instance.widgetEvent) {
-        componentRef.instance.widgetEvent.subscribe(
-          (event: IWidgetEvent) => this.onWidgetEvent(event)
-        );
-      }
-    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('change: '+ changes);
+    if (changes.structure && this.structure) {
+      const component: Type<any> = this.getComponent(this.structure.widget_type);
+      if (component) {
+        const componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
+        const viewContainerRef = this.appHost.viewContainerRef;
+        const componentRef: ComponentRef<any> = viewContainerRef.createComponent(componentFactory);
+        componentRef.instance.widget = this.structure;
+        componentRef.instance.pageSelector = this.pageSelector;
+        if (componentRef.instance.widgetEvent) {
+          componentRef.instance.widgetEvent.subscribe(
+            (event: IWidgetEvent) => this.onWidgetEvent(event)
+          );
+        }
+      }
+    }
   }
 
   getComponent(widgetType: string) {

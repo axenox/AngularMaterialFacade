@@ -13,6 +13,7 @@ import { IWidgetInterface } from '../../interfaces/widgets/widget.interface';
 import { environment } from 'src/environments/environment';
 import { IActionShowDialog } from '../../interfaces/actions/show-dialog.interface';
 import { SelectionModel } from '@angular/cdk/collections';
+import { ActionsService } from 'src/app/api/actions.service';
 
 const ACTION_SHOW_WIDGET = 'exface.Core.ShowWidget';
 
@@ -23,7 +24,7 @@ const ACTION_SHOW_WIDGET = 'exface.Core.ShowWidget';
 })
 export class ButtonComponent implements OnInit {
 
-  constructor(private dialog: MatDialog, private http: HttpClient){}
+  constructor(private dialog: MatDialog, private actions: ActionsService){}
 
 
   @Input()
@@ -39,19 +40,6 @@ export class ButtonComponent implements OnInit {
   structure: IWidgetInterface;
 
   ngOnInit(): void {}
-
-  loadShowDialog(resource: string){
-      // Load JSON description of widget
-      // When loaded, save it and load data of table
-      return this.http
-        .get<IWidgetDataTable>(
-          environment.url +
-            '?action=' +
-            ACTION_SHOW_WIDGET +
-            '&resource=' +
-            resource
-        );
-  }
 
   onClick(): void {
     switch (true) {
@@ -73,16 +61,16 @@ export class ButtonComponent implements OnInit {
   }
 
   onClickShowDialog(action: IActionShowDialog) {
-    /* this.loadShowDialog('angular-test-2')
-      .subscribe((widgetData: IWidgetDataTable) => { */
+    this.actions.showWidget(this.pageSelector, action.widget.id)
+      .subscribe((widgetData: IWidgetInterface) => {
         const dialogConfig = new MatDialogConfig();
 
-        dialogConfig.data = {structure: action.widget, pageSelector: 'angular-test-2'};
+        dialogConfig.data = {structure: widgetData, pageSelector: 'angular-test-2'};
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
     
         const dialogRef = this.dialog.open(DialogComponent, dialogConfig);
-     /*  }); */
+     });
 
     /*dialogRef.afterClosed().subscribe(
       data => {
