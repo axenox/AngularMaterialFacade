@@ -1,19 +1,14 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
-import { IWidgetInputInterface } from '../../interfaces/widgets/input.interface';
 import { IWidgetButton } from '../../interfaces/widgets/button.interface';
-import { PageComponent } from '../../page/page.component'
-import { Router, ActivatedRoute } from '@angular/router';
+import { DataResponse } from '../../page/page.component'
 import { IActionGoToPage } from '../../interfaces/actions/go-to-page.interface';
-import { IActionInterface } from '../../interfaces/actions/action.interface';
 import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { HttpClient } from '@angular/common/http';
 import { DialogComponent } from '../dialog/dialog.component';
-import { IWidgetDataTable } from '../../interfaces/widgets/data-table.interface';
 import { IWidgetInterface } from '../../interfaces/widgets/widget.interface';
-import { environment } from 'src/environments/environment';
 import { IActionShowDialog } from '../../interfaces/actions/show-dialog.interface';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ActionsService } from 'src/app/api/actions.service';
+import { zip } from 'rxjs';
 
 const ACTION_SHOW_WIDGET = 'exface.Core.ShowWidget';
 
@@ -61,25 +56,21 @@ export class ButtonComponent implements OnInit {
   }
 
   onClickShowDialog(action: IActionShowDialog) {
-    this.actions.showWidget(this.pageSelector, action.widget.id)
-      .subscribe((widgetData: IWidgetInterface) => {
-        const dialogConfig = new MatDialogConfig();
+    const uid = this.selection.selected.length>0 && this.selection.selected[0].UID;
+    if (uid) {
+      const showWidget$ = this.actions.showWidget(this.pageSelector, action.widget.id);
+      const readPrefill$ = this.actions.readPrefill(action.widget.id, uid);
+      zip(showWidget$, readPrefill$, (structure: IWidgetInterface, prefill: DataResponse) => ({structure, prefill, pageSelector: this.pageSelector}))
+        .subscribe(data => {
+          const dialogConfig = new MatDialogConfig();
 
-        dialogConfig.data = {structure: widgetData, pageSelector: 'angular-test-2'};
-        dialogConfig.disableClose = true;
-        dialogConfig.autoFocus = true;
-    
-        const dialogRef = this.dialog.open(DialogComponent, dialogConfig);
-     });
-
-    /*dialogRef.afterClosed().subscribe(
-      data => {
-        console.log("Dialog output:", data);
-        if (data){
-          Object.assign(row,data);
-        }
-      }
-    );*/
+          dialogConfig.data = data;
+          dialogConfig.disableClose = true;
+          dialogConfig.autoFocus = true;
+      
+          const dialogRef = this.dialog.open(DialogComponent, dialogConfig);
+        });
+    }
   }
 
   isActionGoToPage(object: any): object is IActionGoToPage {

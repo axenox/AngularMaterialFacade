@@ -7,9 +7,11 @@ import { Observable } from 'rxjs';
 import { DataResponse } from '../page/page.component';
 import { SortDirection } from '@angular/material/sort';
 import { IWidgetInterface } from '../interfaces/widgets/widget.interface';
+import { WidgetEventType } from '../interfaces/events/widget-event.interface';
 
 enum Actions {
-  ACTION_SHOW_WIDGET = 'exface.Core.ShowWidget'
+  ACTION_SHOW_WIDGET = 'exface.Core.ShowWidget',
+  ACTION_READ_PREFILL = 'exface.Core.ReadPrefill'
 }
 
 @Injectable({
@@ -19,20 +21,10 @@ export class ActionsService {
 
   constructor(private http: HttpClient) { }
 
-  private getQuery(action: Actions, params?: {[key: string]: string}): string {
-    let query = 
-      environment.url +
-        '?action=' +
-        action;
-        
-    if (params) {
-      Object.keys(params).forEach(key => query += '&' + key + '=' + params[key]);
-    }
-    return query;
-  }
-
   /**
    * Load JSON description of widget
+   * @param pageSelector the UI-Page to show
+   * @param element the id of the widget to show
    */
   public showWidget(pageSelector: string, element?: string): Observable<IWidgetInterface>{
     const params: {[param: string]: string} = { 
@@ -58,6 +50,7 @@ export class ActionsService {
    * @param length the number of rows to load
    * @param q quick-search entry
    */
+
   public readData(pageSelector: string, widget: IWidgetDataTable, sort: string, order: SortDirection, 
     start: number, length: number, q: string, filterEntries?: FilterEntry[]): Observable<DataResponse> {
       const params: {[param: string]: string} = {
@@ -91,8 +84,22 @@ export class ActionsService {
         });
       }
 
-      return this.http.get<DataResponse>(environment.url, { params })
+      return this.http.get<DataResponse>(environment.url, { params });
+  }
 
-
+  /**
+   * read data for editing of an entry
+   * @param element the id of the widget to show
+   * @param UID the id of the data to show
+   */
+  public readPrefill(element: string, UID: string): Observable<DataResponse>{
+    const params: {[param: string]: string} = {
+      action: Actions.ACTION_READ_PREFILL,
+      'data[object_alias]': 'exface.Core.MESSAGE',
+      resource: 'exface.core.messages',
+      element,
+      'data[rows][0][UID]': UID
+    }
+    return this.http.get<DataResponse>(environment.url, { params });
   }
 }
