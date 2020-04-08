@@ -9,6 +9,14 @@ import { IWidgetInterface } from '../../interfaces/widgets/widget.interface';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
+import { FormControl, FormGroup } from '@angular/forms';
+import { DataRow } from 'src/app/api/actions.service';
+
+export interface IDialogData {
+  structure: IWidgetInterface;
+  pageSelector: string;
+  prefillRow: DataRow;
+}
 
 @Component({
   selector: 'app-dialog',
@@ -18,19 +26,28 @@ import { ActivatedRoute } from '@angular/router';
 export class DialogComponent implements OnInit {
   
   @Input()
-    structure: IWidgetInterface;
-    pageSelector:string;
+  structure: IWidgetInterface;
+  
+  pageSelector:string;
+
+  formGroup: FormGroup;
+
 
   constructor(
     private dialogRef: MatDialogRef<DialogComponent>,
     private _snackBar: MatSnackBar,
     private http: HttpClient, private route: ActivatedRoute,
-    @Inject(MAT_DIALOG_DATA) public data: any){}
-
-    resource: string;
+    @Inject(MAT_DIALOG_DATA) public data: IDialogData) {}
 
 
   ngOnInit() {  
+    // create a FormGroup, that will be used for every child of this widget
+    this.formGroup=new FormGroup({});
+    if (this.data.prefillRow) {
+      Object.keys(this.data.prefillRow).forEach((key: string) => {
+        this.formGroup.addControl(key, new FormControl(this.data.prefillRow[key]))
+      });
+    }
   }
 
   saved() {

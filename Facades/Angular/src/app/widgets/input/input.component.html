@@ -1,4 +1,6 @@
-<mat-form-field>
-    <mat-label>{{widget.caption}}</mat-label>
-    <input matInput [(ngModel)]="value" type="text" (ngModelChange)="onChange($event)" (keyup)="onKeyUp($event)"/>
-</mat-form-field>
+<ng-container [formGroup]="formGroup">
+    <mat-form-field>
+        <mat-label>{{widget.caption}}</mat-label>
+        <input matInput [formControlName]="widget.attribute_alias" type="text" (ngModelChange)="onChange($event)" (keyup)="onKeyUp($event)"/>
+    </mat-form-field>
+</ng-container>

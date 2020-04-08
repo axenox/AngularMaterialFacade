@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { IWidgetContainer } from '../../interfaces/widgets/container.interface';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-container',
@@ -10,6 +11,9 @@ export class ContainerComponent implements OnInit {
 
   @Input()
   widget: IWidgetContainer
+
+  @Input()
+  formGroup: FormGroup;
 
   constructor() { }
 

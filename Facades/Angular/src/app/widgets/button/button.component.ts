@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { IWidgetButton } from '../../interfaces/widgets/button.interface';
-import { DataResponse } from '../../page/page.component'
+import { DataResponse } from '../../api/actions.service'
 import { IActionGoToPage } from '../../interfaces/actions/go-to-page.interface';
 import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DialogComponent } from '../dialog/dialog.component';
+import { DialogComponent, IDialogData } from '../dialog/dialog.component';
 import { IWidgetInterface } from '../../interfaces/widgets/widget.interface';
 import { IActionShowDialog } from '../../interfaces/actions/show-dialog.interface';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -60,11 +60,13 @@ export class ButtonComponent implements OnInit {
     if (uid) {
       const showWidget$ = this.actions.showWidget(this.pageSelector, action.widget.id);
       const readPrefill$ = this.actions.readPrefill(action.widget.id, uid);
-      zip(showWidget$, readPrefill$, (structure: IWidgetInterface, prefill: DataResponse) => ({structure, prefill, pageSelector: this.pageSelector}))
-        .subscribe(data => {
+      zip(showWidget$, readPrefill$, (structure: IWidgetInterface, prefill: DataResponse) => ({structure, prefill}))
+        .subscribe(pair => {
           const dialogConfig = new MatDialogConfig();
+          const prefillRow = pair.prefill && pair.prefill.rows.length>0 && pair.prefill.rows[0];
+          const dialogData: IDialogData = {structure: pair.structure, pageSelector: this.pageSelector, prefillRow};
 
-          dialogConfig.data = data;
+          dialogConfig.data = dialogData;
           dialogConfig.disableClose = true;
           dialogConfig.autoFocus = true;
       

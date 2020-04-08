@@ -4,14 +4,26 @@ import { IWidgetDataTable } from '../interfaces/widgets/data-table.interface';
 import { FilterEntry } from '../widgets/data-table/data-table.component';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-import { DataResponse } from '../page/page.component';
 import { SortDirection } from '@angular/material/sort';
 import { IWidgetInterface } from '../interfaces/widgets/widget.interface';
-import { WidgetEventType } from '../interfaces/events/widget-event.interface';
 
 enum Actions {
   ACTION_SHOW_WIDGET = 'exface.Core.ShowWidget',
   ACTION_READ_PREFILL = 'exface.Core.ReadPrefill'
+}
+
+export interface DataRow {
+  UID?: string;
+}
+
+export interface DataResponse {
+  rows: DataRow[];
+  recordsFiltered?: number;
+  recordsTotal?: number;
+  recordsLimit?: number;
+  recordsOffset?: number;
+  footerRows?: number;
+  success?: string;
 }
 
 @Injectable({

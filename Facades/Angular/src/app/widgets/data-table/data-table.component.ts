@@ -21,7 +21,8 @@ import { environment } from '../../../environments/environment';
 import { MdePopoverTrigger } from '@material-extended/mde';
 import { IWidgetEvent, WidgetEventType } from '../../interfaces/events/widget-event.interface';
 import {SelectionModel, DataSource} from '@angular/cdk/collections';
-import { ActionsService } from 'src/app/api/actions.service';
+import { ActionsService, DataResponse, DataRow } from 'src/app/api/actions.service';
+import { FormGroup, FormControl } from '@angular/forms';
 
 export interface IColumnDef {
   columnDef: string;
@@ -34,19 +35,6 @@ export interface FilterEntry {
   name: string;
   value: any;
 
-}
-
-// tslint:disable-next-line:no-empty-interface
-export interface DataRow {}
-
-export interface DataResponse {
-  rows: DataRow[];
-  recordsFiltered?: number;
-  recordsTotal?: number;
-  recordsLimit?: number;
-  recordsOffset?: number;
-  footerRows?: number;
-  success?: string;
 }
 
 @Component({
@@ -95,6 +83,8 @@ export class DataTableComponent implements OnInit {
 
   rows: DataRow[];
 
+  filterFormGroup = new FormGroup({});
+
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MdePopoverTrigger, { static: false }) trigger: MdePopoverTrigger;
@@ -110,6 +100,13 @@ export class DataTableComponent implements OnInit {
     this.sort.sortChange.subscribe((sort: Sort) => {
       this.loadData(this.filterChips);
     });
+
+    // create controls for the filter widgets
+    this.widget.filters.forEach((filterWidget: IWidgetFilter) => {
+      this.filterFormGroup.addControl(filterWidget.input_widget.attribute_alias, new FormControl(''))
+    });
+    
+
   }
   
   

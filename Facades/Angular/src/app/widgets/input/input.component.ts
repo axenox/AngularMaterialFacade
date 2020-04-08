@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { IWidgetInputInterface } from '../../interfaces/widgets/input.interface';
 import { IWidgetEvent, WidgetEventType } from '../../interfaces/events/widget-event.interface';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-input',
@@ -11,11 +12,12 @@ export class InputComponent implements OnInit {
 
   @Input()
   widget: IWidgetInputInterface;
+
+  @Input()
+  formGroup: FormGroup;
   
   @Output()
   widgetEvent = new EventEmitter<IWidgetEvent>();
-
-  value: string;
 
   ngOnInit() {}
 

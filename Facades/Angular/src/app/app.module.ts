@@ -19,7 +19,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { PageComponent } from './page/page.component';
 import { WidgetComponent } from './widgets/widget.component';
@@ -88,7 +88,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     FlexLayoutModule,
     MatMenuModule,
     MatSelectModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    ReactiveFormsModule
   ],
   entryComponents: [
     DialogComponent,

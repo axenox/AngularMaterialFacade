@@ -19,6 +19,7 @@ import { InputComponent } from './input/input.component';
 import { InputSelectComponent } from './input-select/input-select.component';
 import { IWidgetEvent } from '../interfaces/events/widget-event.interface';
 import { ContainerComponent } from './container/container.component';
+import { FormControl, FormGroup } from '@angular/forms';
 
 const COMPONENT_REGISTER = {
   DataTable: DataTableComponent,
@@ -44,6 +45,9 @@ export class WidgetComponent implements OnInit, OnChanges {
   @Output()
   widgetEvent = new EventEmitter<IWidgetEvent>();
 
+  @Input()
+  formGroup: FormGroup;
+
 /*
   @ViewChild('content', { read: ViewContainerRef, static: true })
   content: ViewContainerRef;*/
@@ -57,13 +61,19 @@ export class WidgetComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.structure && this.structure) {
-      const component: Type<any> = this.getComponent(this.structure.widget_type);
+      const widgetType = this.structure.widget_type;
+      const component: Type<any> = this.getComponent(widgetType);
       if (component) {
         const componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
         const viewContainerRef = this.appHost.viewContainerRef;
         const componentRef: ComponentRef<any> = viewContainerRef.createComponent(componentFactory);
         componentRef.instance.widget = this.structure;
         componentRef.instance.pageSelector = this.pageSelector;
+        
+        if (this.formGroup) {
+          componentRef.instance.formGroup = this.formGroup;
+        }
+
         if (componentRef.instance.widgetEvent) {
           componentRef.instance.widgetEvent.subscribe(
             (event: IWidgetEvent) => this.onWidgetEvent(event)

@@ -33,12 +33,12 @@
         <mat-icon >menu</mat-icon>
       </button>
       <mat-menu #menu="matMenu" class="buttonmenue">
-        <app-button *ngFor="let button of widget.buttons" [widget]="button"></app-button>
+        <app-button *ngFor="let button of widget.buttons" [widget]="button" [selection]="selection" [pageSelector]="pageSelector"></app-button>
       </mat-menu>
     </div>
     <span class="test-spacer"></span>
     <div fxShow="true" fxHide.lt-md="true">
-      <app-button *ngFor="let button of widget.buttons" [widget]="button"  [selection]="selection" [pageSelector]="pageSelector"></app-button>
+      <app-button *ngFor="let button of widget.buttons" [widget]="button" [selection]="selection" [pageSelector]="pageSelector"></app-button>
     </div>
   </mat-toolbar-row>
 </mat-toolbar>
@@ -58,8 +58,8 @@
       <br>
       <br>
       </div>
-      <div *ngFor="let column of widget.filters" class="filter">        
-        <app-widget [structure]="column" (widgetEvent)="onWidgetEvent($event)"></app-widget>
+      <div *ngFor="let column of widget.filters" class="filter">
+        <app-widget [structure]="column" [formGroup]="filterFormGroup" (widgetEvent)="onWidgetEvent($event)"></app-widget>
       </div>
     </mat-card-content>
     <mat-card-actions>

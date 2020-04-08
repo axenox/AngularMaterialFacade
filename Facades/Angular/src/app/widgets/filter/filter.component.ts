@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { IWidgetFilter } from '../../interfaces/widgets/filter.interface';
 import { IWidgetEvent } from '../../interfaces/events/widget-event.interface';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-filter',
@@ -11,6 +12,9 @@ export class FilterComponent implements OnInit {
 
   @Input()
   widget: IWidgetFilter;
+
+  @Input()
+  formGroup: FormGroup;
 
   @Output()
   widgetEvent = new EventEmitter<IWidgetEvent>();

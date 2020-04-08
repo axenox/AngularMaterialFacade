@@ -4,21 +4,6 @@ import { IWidgetInterface } from '../interfaces/widgets/widget.interface';
 import { ActionsService } from '../api/actions.service';
 import { Observable } from 'rxjs';
 
-const ACTION_SHOW_WIDGET = 'exface.Core.ShowWidget';
-
-// tslint:disable-next-line:no-empty-interface
-export interface DataRow {}
-
-export interface DataResponse {
-  rows: DataRow[];
-  recordsFiltered?: number;
-  recordsTotal?: number;
-  recordsLimit?: number;
-  recordsOffset?: number;
-  footerRows?: number;
-  success?: string;
-}
-
 @Component({
   selector: 'app-page',
   templateUrl: './page.component.html'
