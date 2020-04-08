@@ -21,6 +21,7 @@ import { environment } from '../../../environments/environment';
 import { MdePopoverTrigger } from '@material-extended/mde';
 import { IWidgetEvent, WidgetEventType } from '../../interfaces/events/widget-event.interface';
 import {SelectionModel, DataSource} from '@angular/cdk/collections';
+import { ActionsService } from 'src/app/api/actions.service';
 
 export interface IColumnDef {
   columnDef: string;
@@ -28,10 +29,11 @@ export interface IColumnDef {
   cell: (element: any) => string;
 }
 
-export interface FilterChip {
+export interface FilterEntry {
   property: string;
   name: string;
   value: any;
+
 }
 
 // tslint:disable-next-line:no-empty-interface
@@ -86,7 +88,7 @@ export class DataTableComponent implements OnInit {
   removable = true;
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  filterChips: FilterChip[] = [];
+  filterChips: FilterEntry[] = [];
   dialogRef: any;
 
   response: DataResponse = { rows: [] };
@@ -97,7 +99,7 @@ export class DataTableComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MdePopoverTrigger, { static: false }) trigger: MdePopoverTrigger;
 
-  constructor(private dialog: MatDialog, private http: HttpClient) {}
+  constructor(private dialog: MatDialog, private actions: ActionsService) {}
 
   ngOnInit() {
     this.displayedColumns = ['_checkboxes_'];
@@ -121,14 +123,14 @@ export class DataTableComponent implements OnInit {
 
   removeChipWithName(name: string) {
     const chip = this.filterChips.find(
-      (c: FilterChip) => c.name === name
+      (c: FilterEntry) => c.name === name
     );
     if (chip) {
       this.removeChip(chip);
     }
   }
 
-  removeChip(chip: FilterChip): void {
+  removeChip(chip: FilterEntry): void {
     const index = this.filterChips.indexOf(chip);
 
     if (index >= 0) {
@@ -158,7 +160,7 @@ export class DataTableComponent implements OnInit {
 
       // Spaltenweise filtern
       let match = true;
-      this.filterChips.forEach((chip: FilterChip) => {
+      this.filterChips.forEach((chip: FilterEntry) => {
         const rowValue = row[chip.property];
         if (
           !rowValue ||
@@ -171,44 +173,15 @@ export class DataTableComponent implements OnInit {
     };
   }
 
-  loadData(chips?: FilterChip[]) {
-    const params = {
-      action: this.widget.lazy_loading_action.alias,
-      resource: this.pageSelector,
-      element: this.widget.id,
-      object: this.widget.object_alias,
-      q: '',
-      'data[oId]': this.widget.lazy_loading_action.object_alias,
-      sort: this.sort.active,
-      order: this.sort.direction,
-      start: (this.pager.pageIndex * this.pager.pageSize).toString(),
-      length: this.pager.pageSize.toString()
-    };
-
-    if (this.quickSearch) {
-      params.q = this.quickSearch;
-    }
-
-    if (chips && chips.length > 0) {
-      params['data[filters][operator]'] = 'AND';
-
-      chips.forEach((chip: FilterChip, index: number) => {
-        params['data[filters][conditions][' + index + '][expression]'] =
-          chip.property;
-        params['data[filters][conditions][' + index + '][value]'] = chip.value;
-        params['data[filters][conditions][' + index + '][comperator]'] = '==';
-        params['data[filters][conditions][' + index + '][object_alias]'] =
-          'exface.Core.MESSAGE';
-      });
-    }
-    this.http
-      .get<DataResponse>(environment.url, { params })
+  loadData(filterEntries?: FilterEntry[]) {
+    this.actions.readData(this.pageSelector, this.widget, this.sort.active, this.sort.direction, 
+      this.pager.pageIndex * this.pager.pageSize, this.pager.pageSize, this.quickSearch, filterEntries)
       .subscribe((response: DataResponse) => {
         this.response = response;
         this.rows = response.rows;
-        if (this.response && this.response.recordsTotal <= this.pager.pageIndex * this.pager.pageSize) {
+        if (this.response && this.pager.pageIndex > 0 && this.response.recordsTotal <= this.pager.pageIndex * this.pager.pageSize) {
           this.pager.pageIndex = 0;
-          this.loadData(chips);
+          this.loadData(filterEntries);
         }
         else {
           this.createDataSource();

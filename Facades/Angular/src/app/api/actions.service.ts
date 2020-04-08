@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent } from '@angular/common/http';
 import { IWidgetDataTable } from '../interfaces/widgets/data-table.interface';
-import { FilterEntry } from '../widgets/data-table/data-table.component'
+import { FilterEntry } from '../widgets/data-table/data-table.component';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { DataResponse } from '../page/page.component';
@@ -55,23 +55,28 @@ export class ActionsService {
    * @param sort the column used for sorting
    * @param order 'asc' or 'desc' for ascending or descending sorting
    * @param start the first row number to show
-   * @param end the last row number to show
+   * @param length the number of rows to load
    * @param q quick-search entry
    */
   public readData(pageSelector: string, widget: IWidgetDataTable, sort: string, order: SortDirection, 
-    start: number, end: number, q: string, filterEntries?: FilterEntry[]): Observable<DataResponse> {
+    start: number, length: number, q: string, filterEntries?: FilterEntry[]): Observable<DataResponse> {
       const params: {[param: string]: string} = {
         action: widget.lazy_loading_action.alias,
         resource: pageSelector,
         element: widget.id,
         object: widget.object_alias,
-        'data[oId]': widget.lazy_loading_action.object_alias,
-        q,
-        sort,
-        order,
         start: start.toString(),
         length: length.toString()
       };
+
+      if (q) {
+        params.q = q;
+      }
+
+      if (sort) {
+        params.sort = sort;
+        params.order = order;
+      }
     
       if (filterEntries && filterEntries.length > 0) {
         params['data[filters][operator]'] = 'AND';
