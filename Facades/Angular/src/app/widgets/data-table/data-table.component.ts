@@ -147,6 +147,9 @@ export class DataTableComponent implements OnInit {
       this.filter[(event.source as IWidgetDataColumn).attribute_alias] = event.value;
     }
     if (event.type === WidgetEventType.KEYPRESSED && event.value === 'Enter'){
+      this.onSearch();
+    }
+    if (event.type === WidgetEventType.DATA_CHANGED){
       this.onRefresh();
     }
   }
@@ -194,7 +197,6 @@ export class DataTableComponent implements OnInit {
   onSearch(){
     this.trigger.togglePopover();
     this.onRefresh();
-    this.selection.clear();
   }
 
   onRefresh() {
@@ -205,6 +207,7 @@ export class DataTableComponent implements OnInit {
       }
     });
     this.loadData(this.filterChips);
+    this.selection.clear();
   }
 
   isAllSelected() {

@@ -1,8 +1,11 @@
+<h1 mat-dialog-title>test</h1>
 <mat-dialog-content >
     <app-widget *ngIf="data" [structure]="data.structure" [pageSelector]="data.pageSelector" [formGroup]="formGroup"></app-widget>
 </mat-dialog-content>
     
 <div mat-dialog-actions class="dialogbuttons" >
-    <button class="mat-button"(click)="close()">Abbrechen</button>
-    <button class="mat-raised-button" (click)="saved()" [mat-dialog-close]="data">Speichern</button>
+    <button mat-button *ngFor="let button of data.structure.buttons" (click)="onClick(button)">
+        <mat-icon *ngIf="button.icon" fontSet="fa" fontIcon="fa-{{button.icon}}"></mat-icon>
+        {{button.caption}}
+    </button>
 </div>

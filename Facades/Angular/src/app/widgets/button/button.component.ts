@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, Output, EventEmitter } from '@angular/core';
 import { IWidgetButton } from '../../interfaces/widgets/button.interface';
 import { DataResponse } from '../../api/actions.service'
 import { IActionGoToPage } from '../../interfaces/actions/go-to-page.interface';
@@ -9,6 +9,8 @@ import { IActionShowDialog } from '../../interfaces/actions/show-dialog.interfac
 import { SelectionModel } from '@angular/cdk/collections';
 import { ActionsService } from 'src/app/api/actions.service';
 import { zip } from 'rxjs';
+import { IWidgetDialog } from 'src/app/interfaces/widgets/dialog.interface';
+import { IWidgetEvent, WidgetEventType } from 'src/app/interfaces/events/widget-event.interface';
 
 const ACTION_SHOW_WIDGET = 'exface.Core.ShowWidget';
 
@@ -33,6 +35,9 @@ export class ButtonComponent implements OnInit {
 
   @Input()
   structure: IWidgetInterface;
+
+  @Output()
+  widgetEvent = new EventEmitter<IWidgetEvent>();
 
   ngOnInit(): void {}
 
@@ -60,7 +65,7 @@ export class ButtonComponent implements OnInit {
     if (uid) {
       const showWidget$ = this.actions.showWidget(this.pageSelector, action.widget.id);
       const readPrefill$ = this.actions.readPrefill(action.widget.id, uid);
-      zip(showWidget$, readPrefill$, (structure: IWidgetInterface, prefill: DataResponse) => ({structure, prefill}))
+      zip(showWidget$, readPrefill$, (structure: IWidgetDialog, prefill: DataResponse) => ({structure, prefill}))
         .subscribe(pair => {
           const dialogConfig = new MatDialogConfig();
           const prefillRow = pair.prefill && pair.prefill.rows.length>0 && pair.prefill.rows[0];
@@ -71,6 +76,10 @@ export class ButtonComponent implements OnInit {
           dialogConfig.autoFocus = true;
       
           const dialogRef = this.dialog.open(DialogComponent, dialogConfig);
+          dialogRef.afterClosed().subscribe(result => {
+            const event: IWidgetEvent = {source: this.widget, type: WidgetEventType.DATA_CHANGED, value: result};
+            this.widgetEvent.emit(event);
+          });
         });
     }
   }

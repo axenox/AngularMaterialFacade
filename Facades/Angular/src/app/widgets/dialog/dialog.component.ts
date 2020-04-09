@@ -10,10 +10,12 @@ import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
-import { DataRow } from 'src/app/api/actions.service';
+import { DataRow, ActionsService, Actions } from 'src/app/api/actions.service';
+import { IWidgetDialog } from 'src/app/interfaces/widgets/dialog.interface';
+import { IWidgetButton } from 'src/app/interfaces/widgets/button.interface';
 
 export interface IDialogData {
-  structure: IWidgetInterface;
+  structure: IWidgetDialog;
   pageSelector: string;
   prefillRow: DataRow;
 }
@@ -26,8 +28,7 @@ export interface IDialogData {
 export class DialogComponent implements OnInit {
   
   @Input()
-  structure: IWidgetInterface;
-  
+
   pageSelector:string;
 
   formGroup: FormGroup;
@@ -37,8 +38,8 @@ export class DialogComponent implements OnInit {
     private dialogRef: MatDialogRef<DialogComponent>,
     private _snackBar: MatSnackBar,
     private http: HttpClient, private route: ActivatedRoute,
+    private actions: ActionsService,
     @Inject(MAT_DIALOG_DATA) public data: IDialogData) {}
-
 
   ngOnInit() {  
     // create a FormGroup, that will be used for every child of this widget
@@ -50,17 +51,17 @@ export class DialogComponent implements OnInit {
     }
   }
 
-  saved() {
-    this._snackBar.openFromComponent(SnackbarTestComponent, {
-      duration: 2000,
-      panelClass:['snackbarsettings']
-    });
-  
+  onClick(button: IWidgetButton) {
+    if(button.action && button.action.alias === Actions.ACTION_UPDATE_DATA){
+      this.actions.updateData(this.formGroup.value).subscribe((result: any) => {
+        this._snackBar.openFromComponent(SnackbarTestComponent, {
+          duration: 2000,
+          panelClass:['snackbarsettings']
+        });
+        this.dialogRef.close({data: {result}});
+      });
+    }
   }
-  
-  close() {
-    this.dialogRef.close();
-  }
-}
+} 
 
 

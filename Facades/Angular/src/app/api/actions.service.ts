@@ -7,9 +7,10 @@ import { Observable } from 'rxjs';
 import { SortDirection } from '@angular/material/sort';
 import { IWidgetInterface } from '../interfaces/widgets/widget.interface';
 
-enum Actions {
+export enum Actions {
   ACTION_SHOW_WIDGET = 'exface.Core.ShowWidget',
-  ACTION_READ_PREFILL = 'exface.Core.ReadPrefill'
+  ACTION_READ_PREFILL = 'exface.Core.ReadPrefill',
+  ACTION_UPDATE_DATA = 'exface.Core.UpdateData'
 }
 
 export interface DataRow {
@@ -29,6 +30,7 @@ export interface DataResponse {
 @Injectable({
   providedIn: 'root'
 })
+
 export class ActionsService {
 
   constructor(private http: HttpClient) { }
@@ -115,4 +117,19 @@ export class ActionsService {
     }
     return this.http.get<DataResponse>(environment.url, { params });
   }
+
+  public updateData( data: {[key: string]: string}){
+    const params: {[param: string]: string} = {
+      action: Actions.ACTION_UPDATE_DATA,
+      'data[object_alias]': 'exface.Core.MESSAGE',
+      resource: 'exface.core.messages'
+    }
+
+    Object.keys(data).forEach((key: string) => {
+      params[`data[rows][0][${key}]`] = data[key];
+    });
+
+    return this.http.get<DataResponse>(environment.url, { params });
+  }
 }
+
