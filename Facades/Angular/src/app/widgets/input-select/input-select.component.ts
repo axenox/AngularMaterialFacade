@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { IWidgetInputSelectInterface } from '../../interfaces/widgets/input-select.interface';
 import { IWidgetEvent, WidgetEventType } from '../../interfaces/events/widget-event.interface';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-input-select',
@@ -10,7 +11,10 @@ import { IWidgetEvent, WidgetEventType } from '../../interfaces/events/widget-ev
 export class InputSelectComponent implements OnInit {
   
   @Input()
-    widget: IWidgetInputSelectInterface;
+  widget: IWidgetInputSelectInterface;
+
+  @Input()
+  formGroup: FormGroup;
 
   @Output()
     widgetEvent = new EventEmitter<IWidgetEvent>();

@@ -194,6 +194,7 @@ export class DataTableComponent implements OnInit {
   onSearch(){
     this.trigger.togglePopover();
     this.onRefresh();
+    this.selection.clear();
   }
 
   onRefresh() {

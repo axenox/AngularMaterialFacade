@@ -20,12 +20,14 @@ import { InputSelectComponent } from './input-select/input-select.component';
 import { IWidgetEvent } from '../interfaces/events/widget-event.interface';
 import { ContainerComponent } from './container/container.component';
 import { FormControl, FormGroup } from '@angular/forms';
+import { InputTextComponent } from './input-text/input-text.component';
 
 const COMPONENT_REGISTER = {
   DataTable: DataTableComponent,
   Filter: FilterComponent,
   Input: InputComponent,
   InputSelect: InputSelectComponent,
+  InputText: InputTextComponent,
   Dialog: ContainerComponent,
   Form: ContainerComponent
 };
@@ -85,7 +87,7 @@ export class WidgetComponent implements OnInit, OnChanges {
 
   getComponent(widgetType: string) {
     const component = COMPONENT_REGISTER[widgetType];
-    if (!component && widgetType.startsWith('Input')){
+    if (!component && widgetType.startsWith('Input') && widgetType !== 'InputHidden'){
       return InputComponent;
     }
     return component;

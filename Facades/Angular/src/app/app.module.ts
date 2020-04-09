@@ -39,6 +39,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import { HostDirective } from './widgets/host.directive';
 import { ContainerComponent } from './widgets/container/container.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { InputTextComponent } from './widgets/input-text/input-text.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     ButtonComponent,
     HostDirective,
     ContainerComponent,
+    InputTextComponent,
     
   ],
   imports: [

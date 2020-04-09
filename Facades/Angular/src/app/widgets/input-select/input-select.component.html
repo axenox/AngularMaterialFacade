@@ -1,6 +1,8 @@
-<mat-form-field>
-    <mat-label>{{widget.caption}}</mat-label>
-    <mat-select [(ngModel)]="value" matNativeControl (ngModelChange)="onChange($event)" (keyup)="onKeyUp($event)">
-        <mat-option *ngFor="let option of widget.selectable_options | keyvalue" [value]="option.key">{{option.value}}</mat-option>
-    </mat-select>
-</mat-form-field>
+<ng-container [formGroup]="formGroup">
+    <mat-form-field appearance="outline">
+        <mat-label>{{widget.caption}}</mat-label>
+            <mat-select matNativeControl [formControlName]="widget.attribute_alias" (ngModelChange)="onChange($event)" (keyup)="onKeyUp($event)">
+            <mat-option *ngFor="let option of widget.selectable_options | keyvalue" [value]="option.key">{{option.value}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+</ng-container>

@@ -84,13 +84,14 @@ export class ActionsService {
       }
     
       if (filterEntries && filterEntries.length > 0) {
+        params['data[object_alias]'] = 'exface.Core.MESSAGE'
         params['data[filters][operator]'] = 'AND';
   
         filterEntries.forEach((chip: FilterEntry, index: number) => {
           params['data[filters][conditions][' + index + '][expression]'] =
             chip.property;
           params['data[filters][conditions][' + index + '][value]'] = chip.value;
-          params['data[filters][conditions][' + index + '][comperator]'] = '==';
+          params['data[filters][conditions][' + index + '][comparator]'] = '==';
           params['data[filters][conditions][' + index + '][object_alias]'] =
             'exface.Core.MESSAGE';
         });
