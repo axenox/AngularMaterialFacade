@@ -1,0 +1,11 @@
+<ng-container [formGroup]="formGroup">
+    <mat-form-field class="full-width" appearance="outline">
+        <mat-label>{{widget.caption}}</mat-label>
+        <textarea   matInput 
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="3"
+                cdkAutosizeMaxRows="8"
+                [formControlName]="widget.attribute_alias"></textarea>
+    </mat-form-field>
+</ng-container>

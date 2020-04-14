@@ -1,1 +1,1 @@
-<app-widget *ngIf="structure" [structure]="structure" [pageSelector]="resource"></app-widget>
+<app-widget [structure]="structure$ | async" [pageSelector]="resource"></app-widget>

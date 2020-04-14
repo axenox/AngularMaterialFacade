@@ -1,0 +1,36 @@
+table {
+  width: 100%;
+}
+
+mat-toolbar-row {
+  height: 48px;
+}
+
+mat-toolbar-row > button {
+  min-width: 32px;
+  padding: 0 8px;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.mat-chip > button {
+  width: initial;
+}
+
+label.mat-form-field-label {
+  font-weight: bold;
+}
+
+.test-spacer {
+  flex: 1 1 auto;
+}
+
+.mde-popover > button{
+  float: right;
+}
+
+::ng-deep .buttonmenue {
+  width: 190px;
+}

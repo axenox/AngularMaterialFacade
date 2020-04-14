@@ -1,0 +1,108 @@
+<mat-toolbar class="exf-datatable-toolbar">
+  <mat-toolbar-row>
+    <span>{{widget.caption}}</span>
+    <span class="toolbar-spacer"></span>
+    
+    <mat-chip-list #chipList aria-label="filter selection">
+      <div class="mat-chip mat-focus-indicator mat-primary mat-standard-chip">
+        
+        <input matInput [(ngModel)]="quickSearch" type="text"/>
+        <button mat-icon-button>
+          <mat-icon (click)="onRefresh()">search</mat-icon>
+        </button>
+      </div>
+      <div fxShow="true" fxHide.lt-md="true">
+        <mat-chip *ngFor="let filterChip of filterChips" [selectable]="selectable"
+          [removable]="removable" (removed)="removeChip(filterChip)">
+            {{filterChip.name}}: {{filterChip.value}}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+      </div>
+    </mat-chip-list>
+    <button 
+    mat-icon-button 
+    [mdePopoverTriggerFor]="appPopover"
+    mdePopoverTriggerOn="click" 
+    #popoverTrigger="mdePopoverTrigger">
+      <mat-icon>filter_list</mat-icon>
+    </button>
+  </mat-toolbar-row>
+  <mat-toolbar-row>
+    <div fxShow="true" fxHide.gt-sm="true">
+      <button mat-button [matMenuTriggerFor]="menu">
+        <mat-icon >menu</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu" class="buttonmenue">
+        <app-button *ngFor="let button of widget.buttons" [widget]="button" [selection]="selection" [pageSelector]="pageSelector" (widgetEvent)="onWidgetEvent($event)"></app-button>
+      </mat-menu>
+    </div>
+    <span class="test-spacer"></span>
+    <div fxShow="true" fxHide.lt-md="true">
+      <app-button *ngFor="let button of widget.buttons" [widget]="button" [selection]="selection" [pageSelector]="pageSelector" (widgetEvent)="onWidgetEvent($event)"></app-button>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdePopoverCloseOnClick]="false">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Filters</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div fxShow="true" fxHide.gt-sm="true">
+        <mat-chip *ngFor="let filterChip of filterChips" [selectable]="selectable"
+          [removable]="removable" (removed)="removeChip(filterChip)">
+            {{filterChip.name}}: {{filterChip.value}}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      </mat-chip>
+      <br>
+      <br>
+      </div>
+      <div *ngFor="let column of widget.filters" class="filter">
+        <app-widget [structure]="column" [formGroup]="filterFormGroup" (widgetEvent)="onWidgetEvent($event)"></app-widget>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button class="searchbutton" (click)="onSearch()" aria-label="search icon button" matTooltip="Filter Anwenden">
+              <mat-icon>search</mat-icon> Search
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</mde-popover>
+
+<mat-table #table [dataSource]="dataSource" matSort>
+  <ng-container [cdkColumnDef]="'_checkboxes_'">
+    <mat-header-cell class="headercell" *cdkHeaderCellDef>
+      <mat-checkbox color="primary"
+                    (change)="$event ? masterToggle() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()"
+                    [aria-label]="checkboxLabel()">
+      </mat-checkbox>
+    </mat-header-cell>
+    <mat-cell *cdkCellDef="let row">
+      <mat-checkbox color="primary"
+                    (click)="$event.stopPropagation()"
+                    (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)"
+                    [aria-label]="checkboxLabel(row)">
+
+      </mat-checkbox>
+    </mat-cell>
+  </ng-container>
+  <ng-container *ngFor="let column of widget.columns" [matColumnDef]="column.data_column_name" class="mask rgba-black-light">
+    <mat-header-cell mat-sort-header *cdkHeaderCellDef>{{ column.caption }}</mat-header-cell>
+    <mat-cell *cdkCellDef="let row">{{ row[column.data_column_name] }}</mat-cell>
+  </ng-container>
+  <ng-container [cdkColumnDef]="'_actions_'">  
+    <mat-header-cell class="headercell" *cdkHeaderCellDef></mat-header-cell>
+    <mat-cell *cdkCellDef="let row">
+      <button mat-button>button</button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+
+<mat-paginator [pageSize]="widget.paginator.page_size" [pageSizeOptions]="widget.paginator.page_sizes" [length]="response.recordsTotal" [pageIndex]="pager.pageIndex" showFirstLastButtons (page)="onPaginate($event)"></mat-paginator>

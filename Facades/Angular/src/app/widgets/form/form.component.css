@@ -1,0 +1,30 @@
+.grid {
+    width: 100%;
+}
+
+/* clearfix */
+.grid:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+
+.grid-item {
+    width: 49%;
+    height: 70px;
+    float: left;
+    padding-right: 1%;
+}
+
+.grid-item--width2 {
+    width: 99%;
+    padding-right: 1%;
+}
+
+.grid-item--height2{
+    height: 105px;
+}
+
+.grid-sizer{
+    width: 1%;
+}

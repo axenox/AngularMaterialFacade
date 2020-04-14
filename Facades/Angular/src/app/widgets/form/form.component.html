@@ -1,0 +1,6 @@
+<div class="grid">
+    <div class="grid-sizer"></div>
+    <div *ngFor="let w of widget.widgets" [ngClass]="{'grid-item': true, 'grid-item--width2': w.widget_type==='InputText','grid-item--height2': w.widget_type==='InputText'}">
+        <app-widget [structure]="w" [formGroup]="formGroup"></app-widget>
+    </div>
+</div>

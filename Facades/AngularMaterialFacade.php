@@ -70,6 +70,9 @@ class AngularMaterialFacade extends AbstractAjaxFacade
      */
     protected function createResponseFromError(ServerRequestInterface $request, \Throwable $exception, UiPageInterface $page = null) : ResponseInterface 
     {
+        foreach ($this->buildHeadersAccessControl() as $name => $value) {
+            header("$name: $value", false);
+        }
         throw $exception;
     }
     
@@ -158,6 +161,12 @@ class AngularMaterialFacade extends AbstractAjaxFacade
         } finally {
             fclose($file);
         }
+        
+        $props['~angular_interface'] = $angularPath;
+        $component = StringDataType::substringBefore($angularPath, '.');
+        $component = str_replace('-', '_', $component);
+        $component = StringDataType::convertCaseUnderscoreToPascal($component);
+        $props['~angular_component'] = $component . 'Component';
         
         $this->jsonPropsByAngularPath[$path] = $props;
         

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DataTableComponent } from './data-table/data-table.component';
+import { DataTableComponent } from './widgets/data-table/data-table.component';
 import { PageComponent } from './page/page.component';
 
 const routes: Routes = [

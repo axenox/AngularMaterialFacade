@@ -20,7 +20,14 @@ trait JsonBuilderTrait
      */
     protected function buildJsonFromWidget(WidgetInterface $widget) : array
     {
-        return $this->buildJsonFromObject($widget);
+        $props = $this->buildJsonFromObject($widget);
+        $fallbacks = [];
+        foreach (class_parents($widget) as $fallbackClass) {
+            $widgetType = StringDataType::substringAfter($fallbackClass, '\\', $fallbackClass, false, true);
+            $fallbacks[] = $widgetType;
+        }
+        $props['fallback_widgets'] = $fallbacks;
+        return $props;
     }
     
     /**
@@ -30,7 +37,14 @@ trait JsonBuilderTrait
      */
     protected function buildJsonFromAction(ActionInterface $action) : array
     {
-        return $this->buildJsonFromObject($action);
+        $props = $this->buildJsonFromObject($action);
+        $fallbacks = [];
+        foreach (class_parents($action) as $fallbackClass) {
+            $widgetType = StringDataType::substringAfter($fallbackClass, '\\', $fallbackClass, false, true);
+            $fallbacks[] = $widgetType;
+        }
+        $props['fallback_actions'] = $fallbacks;
+        return $props;
     }
     
     /**
@@ -43,7 +57,11 @@ trait JsonBuilderTrait
     {
         $json = [];
         $uxonProps = $this->getJsonProperties($object);
-        foreach ($uxonProps as $property) {
+        foreach ($uxonProps as $key => $property) {
+            if (StringDataType::startsWith($key, '~angular_')) {
+                $json[$key] = $property;
+                continue;
+            }
             if (($value = $this->buildJsonPropertyValue($object, $property)) !== null) {
                 $json[$property] = $value;
             }
