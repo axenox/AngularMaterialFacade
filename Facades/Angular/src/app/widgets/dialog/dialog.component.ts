@@ -27,10 +27,6 @@ export interface IDialogData {
 })
 export class DialogComponent implements OnInit {
   
-  @Input()
-
-  pageSelector:string;
-
   formGroup: FormGroup;
 
 
@@ -60,6 +56,8 @@ export class DialogComponent implements OnInit {
         });
         this.dialogRef.close({data: {result}});
       });
+    }else{
+      this.dialogRef.close()
     }
   }
 } 

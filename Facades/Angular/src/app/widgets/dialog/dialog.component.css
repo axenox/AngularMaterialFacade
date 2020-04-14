@@ -1,5 +1,11 @@
-.dialogbuttons{
+.dialogbuttons {
    float: right;
+}
+
+.dialog-button-icon {
+    vertical-align: inherit;
+    width: unset;
+    padding-right: 6px;
 }
 
 .mat-button {
