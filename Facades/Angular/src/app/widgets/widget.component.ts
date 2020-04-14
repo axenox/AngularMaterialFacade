@@ -21,6 +21,7 @@ import { IWidgetEvent } from '../interfaces/events/widget-event.interface';
 import { ContainerComponent } from './container/container.component';
 import { FormControl, FormGroup } from '@angular/forms';
 import { InputTextComponent } from './input-text/input-text.component';
+import { FormComponent } from './form/form.component';
 
 const COMPONENT_REGISTER = {
   DataTable: DataTableComponent,
@@ -29,7 +30,7 @@ const COMPONENT_REGISTER = {
   InputSelect: InputSelectComponent,
   InputText: InputTextComponent,
   Dialog: ContainerComponent,
-  Form: ContainerComponent
+  Form: FormComponent
 };
 
 @Component({

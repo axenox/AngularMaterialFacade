@@ -40,6 +40,7 @@ import { HostDirective } from './widgets/host.directive';
 import { ContainerComponent } from './widgets/container/container.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { InputTextComponent } from './widgets/input-text/input-text.component';
+import { FormComponent } from './widgets/form/form.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { InputTextComponent } from './widgets/input-text/input-text.component';
     HostDirective,
     ContainerComponent,
     InputTextComponent,
+    FormComponent,
     
   ],
   imports: [
