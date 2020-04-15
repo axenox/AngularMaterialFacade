@@ -1,4 +1,8 @@
-<button mat-button (click)="onClick()">
-    <mat-icon *ngIf="widget.icon" fontSet="fa" fontIcon="fa-{{widget.icon}}"></mat-icon>
+<button *ngIf="widget.visibility > 50" mat-flat-button (click)="onClick()" color="primary">
+    <mat-icon class="dialog-button-icon" *ngIf="widget.icon" fontSet="fa" fontIcon="fa-{{widget.icon}}"></mat-icon>
+    {{widget.caption}}
+</button>
+<button *ngIf="widget.visibility <= 50" mat-flat-button (click)="onClick()">
+    <mat-icon class="dialog-button-icon" *ngIf="widget.icon" fontSet="fa" fontIcon="fa-{{widget.icon}}"></mat-icon>
     {{widget.caption}}
 </button>

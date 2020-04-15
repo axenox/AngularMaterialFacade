@@ -19,7 +19,7 @@ import { InputComponent } from './input/input.component';
 import { InputSelectComponent } from './input-select/input-select.component';
 import { IWidgetEvent } from '../interfaces/events/widget-event.interface';
 import { ContainerComponent } from './container/container.component';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { InputTextComponent } from './input-text/input-text.component';
 import { FormComponent } from './form/form.component';
 

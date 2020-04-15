@@ -16,8 +16,6 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { IWidgetDataColumn } from '../../interfaces/widgets/data-column.interface';
 import { IWidgetDataTable } from '../../interfaces/widgets/data-table.interface';
 import { IWidgetFilter } from '../../interfaces/widgets/filter.interface';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
 import { MdePopoverTrigger } from '@material-extended/mde';
 import { IWidgetEvent, WidgetEventType } from '../../interfaces/events/widget-event.interface';
 import {SelectionModel, DataSource} from '@angular/cdk/collections';

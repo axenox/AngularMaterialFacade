@@ -10,6 +10,7 @@ import { DataRow, ActionsService, Actions } from 'src/app/api/actions.service';
 import { IWidgetDialog } from 'src/app/interfaces/widgets/dialog.interface';
 import { IWidgetButton } from 'src/app/interfaces/widgets/button.interface';
 import { IWidgetContainer } from 'src/app/interfaces/widgets/container.interface';
+import { IWidgetEvent, WidgetEventType } from 'src/app/interfaces/events/widget-event.interface';
 
 export interface IDialogData {
   structure: IWidgetDialog;
@@ -58,19 +59,15 @@ export class DialogComponent implements OnInit {
     })
   }
 
-  onClick(button: IWidgetButton) {
-    if(button.action){
-      this.actions.action(button.action.alias, [this.formGroup.value]).subscribe((result: any) => {
-        this._snackBar.open(result.success, undefined, {
-          duration: 2000,
-          panelClass:['snackbar-success']
-        });
-        this.dialogRef.close({data: {result}});
-      });
-    }else{
-      this.dialogRef.close()
+  onWidgetEvent(event: IWidgetEvent) {
+    if(event.type === WidgetEventType.ACTION_CALLED){
+      this.dialogRef.close({data: {result: event.value}});
+    } 
+    
+    if(event.type === WidgetEventType.CLICKED){
+      this.dialogRef.close();
     }
   }
-} 
+}
 
 

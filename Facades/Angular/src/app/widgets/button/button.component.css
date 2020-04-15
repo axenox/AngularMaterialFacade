@@ -1,3 +1,13 @@
+.dialog-button-icon {
+    vertical-align: inherit;
+    width: unset;
+    padding-right: 6px;
+}
+
+.mat-button {
+    margin-right: 3px;
+}
+
 mat-icon.fa {
     line-height: 22px;
 } 

@@ -14,8 +14,18 @@ export enum Actions {
   ACTION_SHOW_OBJECT_EDIT_DIALOG = 'exface.Core.ShowObjectEditDialog'
 }
 
-export interface DataRow {
-  UID?: string;
+export interface DataRow {}
+
+export interface DataSheet {
+  /**
+   * the alias of the meta object.
+   */
+  object_alias: string;
+
+  /**
+   * the data that will be passed to the server action.
+   */
+  rows: DataRow[];
 }
 
 export interface DataResponse {
@@ -26,6 +36,38 @@ export interface DataResponse {
   recordsOffset?: number;
   footerRows?: number;
   success?: string;
+}
+
+export interface Request {
+  /**
+   * the alias of the action to call.
+   */
+  action: string;
+
+  /**
+   * current page alias.
+   */
+  resource: string;
+
+  /**
+   * the data that will be passed to the server action.
+   */
+  data?: DataSheet;
+
+  /**
+   * the prefill data that will be passed to the server action.
+   */
+  prefill?: DataSheet;
+
+  /**
+   * the alias of the meta object.
+   */
+  object_alias?: string;
+  
+  /**
+   * ID of the widget.
+   */
+  element?: string;
 }
 
 @Injectable({
@@ -104,33 +146,32 @@ export class ActionsService {
   }
 
   /**
-   * read data for editing of an entry
-   * @param element the id of the widget to show
-   * @param UID the id of the data to show
+   * generic calling of a server action
+   * @param request the needed data to fullfill the request.
    */
-  public readPrefill(element: string, UID: string): Observable<DataResponse>{
+  public callAction(request: Request){
     const params: {[param: string]: string} = {
-      action: Actions.ACTION_READ_PREFILL,
-      'data[object_alias]': 'exface.Core.MESSAGE',
-      resource: 'exface.core.messages',
-      element,
-      'data[rows][0][UID]': UID
-    }
-    return this.http.get<DataResponse>(environment.url, { params });
-  }
-
-  public action( actionKey: string, dataArray: {[key: string]: string}[]){
-    const params: {[param: string]: string} = {
-      action: actionKey,
-      'data[object_alias]': 'exface.Core.MESSAGE',
-      resource: 'exface.core.messages'
+      action: request.action,
+      resource: request.resource,
     }
 
-    dataArray.forEach((data: {[key: string]: string}, index: number) => {
-      Object.keys(data).forEach((key: string) => {
-        params[`data[rows][${index}][${key}]`] = data[key];
+    if (request.resource) {
+      params.resource = request.resource;
+    }
+
+    if (request.element) {
+      params.element = request.element;
+    }
+
+    if (request.data) {
+      params['data[object_alias]'] = request.data.object_alias;
+      request.data.rows.forEach((data: {[key: string]: string}, index: number) => {
+        Object.keys(data).forEach((key: string) => {
+          params[`data[rows][${index}][${key}]`] = data[key];
+        });  
       });  
-    });
+    }
+
 
     return this.http.get<DataResponse>(environment.url, { params });
   }

@@ -5,16 +5,6 @@
 <mat-dialog-content>
     <app-widget *ngIf="data" [structure]="data.structure" [pageSelector]="data.pageSelector" [formGroup]="formGroup"></app-widget>
 </mat-dialog-content>
-    
 <div mat-dialog-actions class="dialogbuttons" >
-    <ng-container *ngFor="let button of data.structure.buttons">
-        <button *ngIf="button.visibility > 50" mat-flat-button (click)="onClick(button)" color="primary">
-            <mat-icon class="dialog-button-icon" *ngIf="button.icon" fontSet="fa" fontIcon="fa-{{button.icon}}"></mat-icon>
-            {{button.caption}}
-        </button>
-        <button *ngIf="button.visibility <= 50" mat-flat-button (click)="onClick(button)">
-            <mat-icon class="dialog-button-icon" *ngIf="button.icon" fontSet="fa" fontIcon="fa-{{button.icon}}"></mat-icon>
-            {{button.caption}}
-        </button>
-    </ng-container>
+    <app-button *ngFor="let button of data.structure.buttons" [inputRows]="[formGroup.value]" [widget]="button" [pageSelector]="data.pageSelector" (widgetEvent)="onWidgetEvent($event)"></app-button>
 </div>

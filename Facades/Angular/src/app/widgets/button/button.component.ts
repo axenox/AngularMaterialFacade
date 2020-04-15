@@ -1,19 +1,16 @@
 import { Component, OnInit, Input, Inject, Output, EventEmitter } from '@angular/core';
 import { IWidgetButton } from '../../interfaces/widgets/button.interface';
-import { DataResponse, Actions } from '../../api/actions.service'
+import { DataResponse, DataRow, Request, ActionsService, Actions } from '../../api/actions.service'
 import { IActionGoToPage } from '../../interfaces/actions/go-to-page.interface';
 import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogComponent, IDialogData } from '../dialog/dialog.component';
 import { IWidgetInterface } from '../../interfaces/widgets/widget.interface';
 import { IActionShowDialog } from '../../interfaces/actions/show-dialog.interface';
-import { SelectionModel } from '@angular/cdk/collections';
-import { ActionsService } from 'src/app/api/actions.service';
-import { zip, of, EMPTY } from 'rxjs';
+import { zip, of } from 'rxjs';
 import { IWidgetDialog } from 'src/app/interfaces/widgets/dialog.interface';
 import { IWidgetEvent, WidgetEventType } from 'src/app/interfaces/events/widget-event.interface';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
-const ACTION_SHOW_WIDGET = 'exface.Core.ShowWidget';
+import { Action } from 'rxjs/internal/scheduler/Action';
 
 @Component({
   selector: 'app-button',
@@ -32,7 +29,7 @@ export class ButtonComponent implements OnInit {
   pageSelector: string;
  
   @Input()
-  selection: SelectionModel<any>;
+  inputRows: DataRow[];
 
   @Input()
   structure: IWidgetInterface;
@@ -44,20 +41,30 @@ export class ButtonComponent implements OnInit {
 
   onClick(): void {
     const action = this.widget.action;
-    const selectedRows = this.selection.selected.length;
-    if (selectedRows < action.input_rows_min) {
-      if (action.input_rows_min === action.input_rows_max) {
-        alert(`Please select ${action.input_rows_min} row(s)`);
-        return;
-      } else {
-        alert(`Please select at least ${action.input_rows_min} row(s)`);
+    if (!action) {
+      const event: IWidgetEvent = {source: this.widget, type: WidgetEventType.CLICKED, value: true};
+      this.widgetEvent.emit(event);  
+  
+      return;
+    }
+
+    const selectedRows = this.inputRows.length;
+    if(action.input_rows_min != null && action.input_rows_max != null) {
+      if (selectedRows < action.input_rows_min) {
+        if (action.input_rows_min === action.input_rows_max) {
+          alert(`Please select ${action.input_rows_min} row(s)`);
+          return;
+        } else {
+          alert(`Please select at least ${action.input_rows_min} row(s)`);
+          return;
+        }
+      } 
+      if (selectedRows > action.input_rows_max) {
+        alert(`You can not select more then ${action.input_rows_max} row(s).`);
         return;
       }
     }
-    if (selectedRows > action.input_rows_max) {
-      alert(`You can not select more then ${action.input_rows_max} row(s).`);
-      return;
-    }
+    
 
     switch (true) {
         case this.isActionGoToPage(action):
@@ -67,16 +74,19 @@ export class ButtonComponent implements OnInit {
           this.onClickShowDialog(action as IActionShowDialog);
           break;
         default:
-            this.actions.action(action.alias, this.selection.selected ).subscribe(
+            const request: Request = {action: action.alias, resource: this.pageSelector, data: {rows: this.inputRows, object_alias: action.object_alias}}
+            this.actions.callAction(request).subscribe(
               (result) => {
-                const event: IWidgetEvent = {source: this.widget, type: WidgetEventType.DATA_CHANGED, value: action.alias};
+                const event: IWidgetEvent = {source: this.widget, type: WidgetEventType.ACTION_CALLED, value: true};
+                this.widgetEvent.emit(event);
                 this._snackBar.open(result.success, undefined, {
                   duration: 2000,
                   panelClass:['snackbar-success']
                 });
               },
               (error) => {
-                const event: IWidgetEvent = {source: this.widget, type: WidgetEventType.DATA_CHANGED, value: action.alias};
+                const event: IWidgetEvent = {source: this.widget, type: WidgetEventType.ACTION_CALLED, value: false};
+                this.widgetEvent.emit(event);
                 this._snackBar.open(error.statusText, undefined, {
                   duration: 2000,
                   panelClass:['snackbar-error']
@@ -92,13 +102,19 @@ export class ButtonComponent implements OnInit {
   }
 
   onClickShowDialog(action: IActionShowDialog) {
+    const showWidget$ = this.actions.showWidget(this.pageSelector, action.widget.id);
+
     let readPrefill$ = of(undefined);
-    if (action.alias === Actions.ACTION_SHOW_OBJECT_EDIT_DIALOG) {
-      const uid = this.selection.selected.length>0 && this.selection.selected[0].UID;
-      readPrefill$ = this.actions.readPrefill(action.widget.id, uid);
+    if (action.prefill_with_prefill_data) {
+      const request: Request = {
+        action: Actions.ACTION_READ_PREFILL, 
+        resource: this.pageSelector, 
+        data: {object_alias: action.object_alias, rows: action.prefill_with_input_data ? this.inputRows : []},
+        element: action.widget.id
+      };
+      readPrefill$ = this.actions.callAction(request);
     }
     
-    const showWidget$ = this.actions.showWidget(this.pageSelector, action.widget.id);
     zip(showWidget$, readPrefill$, (structure: IWidgetDialog, prefill: DataResponse) => ({structure, prefill}))
       .subscribe(pair => {
         const dialogConfig = new MatDialogConfig();
@@ -111,8 +127,10 @@ export class ButtonComponent implements OnInit {
       
         const dialogRef = this.dialog.open(DialogComponent, dialogConfig);
         dialogRef.afterClosed().subscribe(result => {
-          const event: IWidgetEvent = {source: this.widget, type: WidgetEventType.DATA_CHANGED, value: result};
-          this.widgetEvent.emit(event);
+          if (result) {
+            const event: IWidgetEvent = {source: this.widget, type: WidgetEventType.DATA_CHANGED, value: result};
+            this.widgetEvent.emit(event);
+          }
         });
       });
   }

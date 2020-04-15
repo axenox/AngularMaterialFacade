@@ -33,12 +33,12 @@
         <mat-icon >menu</mat-icon>
       </button>
       <mat-menu #menu="matMenu" class="buttonmenue">
-        <app-button *ngFor="let button of widget.buttons" [widget]="button" [selection]="selection" [pageSelector]="pageSelector" (widgetEvent)="onWidgetEvent($event)"></app-button>
+        <app-button *ngFor="let button of widget.buttons" [inputRows]="selection.selected" [widget]="button" [pageSelector]="pageSelector" (widgetEvent)="onWidgetEvent($event)"></app-button>
       </mat-menu>
     </div>
     <span class="test-spacer"></span>
     <div fxShow="true" fxHide.lt-md="true">
-      <app-button *ngFor="let button of widget.buttons" [widget]="button" [selection]="selection" [pageSelector]="pageSelector" (widgetEvent)="onWidgetEvent($event)"></app-button>
+      <app-button *ngFor="let button of widget.buttons" [inputRows]="selection.selected" [widget]="button" [pageSelector]="pageSelector" (widgetEvent)="onWidgetEvent($event)"></app-button>
     </div>
   </mat-toolbar-row>
 </mat-toolbar>
