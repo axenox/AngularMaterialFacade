@@ -11,6 +11,7 @@ import { ActionsService } from 'src/app/api/actions.service';
 import { zip, of, EMPTY } from 'rxjs';
 import { IWidgetDialog } from 'src/app/interfaces/widgets/dialog.interface';
 import { IWidgetEvent, WidgetEventType } from 'src/app/interfaces/events/widget-event.interface';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 const ACTION_SHOW_WIDGET = 'exface.Core.ShowWidget';
 
@@ -21,7 +22,7 @@ const ACTION_SHOW_WIDGET = 'exface.Core.ShowWidget';
 })
 export class ButtonComponent implements OnInit {
 
-  constructor(private dialog: MatDialog, private actions: ActionsService){}
+  constructor(private dialog: MatDialog, private _snackBar: MatSnackBar, private actions: ActionsService){}
 
 
   @Input()
@@ -66,9 +67,22 @@ export class ButtonComponent implements OnInit {
           this.onClickShowDialog(action as IActionShowDialog);
           break;
         default:
-            this.actions.action(action.alias, {} ).subscribe((result) => {
-              console.log(`action ${action.alias} executed.`);
-            });
+            this.actions.action(action.alias, this.selection.selected ).subscribe(
+              (result) => {
+                const event: IWidgetEvent = {source: this.widget, type: WidgetEventType.DATA_CHANGED, value: action.alias};
+                this._snackBar.open(result.success, undefined, {
+                  duration: 2000,
+                  panelClass:['snackbar-success']
+                });
+              },
+              (error) => {
+                const event: IWidgetEvent = {source: this.widget, type: WidgetEventType.DATA_CHANGED, value: action.alias};
+                this._snackBar.open(error.statusText, undefined, {
+                  duration: 2000,
+                  panelClass:['snackbar-error']
+                });
+              },              
+            );
     } 
   }
 

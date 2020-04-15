@@ -119,15 +119,17 @@ export class ActionsService {
     return this.http.get<DataResponse>(environment.url, { params });
   }
 
-  public action( actionKey: string, data: {[key: string]: string}){
+  public action( actionKey: string, dataArray: {[key: string]: string}[]){
     const params: {[param: string]: string} = {
       action: actionKey,
       'data[object_alias]': 'exface.Core.MESSAGE',
       resource: 'exface.core.messages'
     }
 
-    Object.keys(data).forEach((key: string) => {
-      params[`data[rows][0][${key}]`] = data[key];
+    dataArray.forEach((data: {[key: string]: string}, index: number) => {
+      Object.keys(data).forEach((key: string) => {
+        params[`data[rows][${index}][${key}]`] = data[key];
+      });  
     });
 
     return this.http.get<DataResponse>(environment.url, { params });

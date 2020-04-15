@@ -1,13 +1,8 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
-import { DataTableComponent } from '../data-table/data-table.component';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SnackbarTestComponent } from '../../snackbar-test/snackbar-test.component';
-import { IActionGoToPage } from '../../interfaces/actions/go-to-page.interface';
-import { IWidgetDataTable } from '../../interfaces/widgets/data-table.interface';
 import { IWidgetInterface } from '../../interfaces/widgets/widget.interface';
 import { IWidgetValueInterface } from '../../interfaces/widgets/value.interface';
-import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -65,10 +60,10 @@ export class DialogComponent implements OnInit {
 
   onClick(button: IWidgetButton) {
     if(button.action){
-      this.actions.action(button.action.alias, this.formGroup.value).subscribe((result: any) => {
-        this._snackBar.openFromComponent(SnackbarTestComponent, {
+      this.actions.action(button.action.alias, [this.formGroup.value]).subscribe((result: any) => {
+        this._snackBar.open(result.success, undefined, {
           duration: 2000,
-          panelClass:['snackbarsettings']
+          panelClass:['snackbar-success']
         });
         this.dialogRef.close({data: {result}});
       });
