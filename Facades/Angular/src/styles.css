@@ -5,8 +5,18 @@
 html, body { height: 100%; }
 body { margin: 0%; font-family: Roboto, "Helvetica Neue", sans-serif;}
 
-.snackbarsettings{
-    background-color: rgba(1, 209, 1, 0.822);
+.snackbar-success{
+    background-color: green;
+    color: white;    
+    font-size: large;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    width: 100%;
+    margin-bottom: auto;
+}
+
+.snackbar-error{
+    background-color: red;
+    color: white;
     font-size: large;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     width: 100%;

@@ -25,7 +25,6 @@ import { PageComponent } from './page/page.component';
 import { WidgetComponent } from './widgets/widget.component';
 import { CdkTableModule } from '@angular/cdk/table';
 import { DialogComponent } from './widgets/dialog/dialog.component';
-import { SnackbarTestComponent } from './snackbar-test/snackbar-test.component';
 import { FilterComponent } from './widgets/filter/filter.component';
 import { InputComponent } from './widgets/input/input.component';
 import { InputSelectComponent } from './widgets/input-select/input-select.component';
@@ -49,7 +48,6 @@ import { FormComponent } from './widgets/form/form.component';
     WidgetComponent,
     PageComponent,
     DialogComponent,
-    SnackbarTestComponent,
     FilterComponent,
     InputComponent,
     InputSelectComponent,
@@ -97,7 +95,6 @@ import { FormComponent } from './widgets/form/form.component';
   ],
   entryComponents: [
     DialogComponent,
-    SnackbarTestComponent,
   ],
 
   providers: [],

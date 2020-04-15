@@ -10,7 +10,8 @@ import { IWidgetInterface } from '../interfaces/widgets/widget.interface';
 export enum Actions {
   ACTION_SHOW_WIDGET = 'exface.Core.ShowWidget',
   ACTION_READ_PREFILL = 'exface.Core.ReadPrefill',
-  ACTION_UPDATE_DATA = 'exface.Core.UpdateData'
+  ACTION_UPDATE_DATA = 'exface.Core.UpdateData',
+  ACTION_SHOW_OBJECT_EDIT_DIALOG = 'exface.Core.ShowObjectEditDialog'
 }
 
 export interface DataRow {
@@ -118,15 +119,17 @@ export class ActionsService {
     return this.http.get<DataResponse>(environment.url, { params });
   }
 
-  public updateData( data: {[key: string]: string}){
+  public action( actionKey: string, dataArray: {[key: string]: string}[]){
     const params: {[param: string]: string} = {
-      action: Actions.ACTION_UPDATE_DATA,
+      action: actionKey,
       'data[object_alias]': 'exface.Core.MESSAGE',
       resource: 'exface.core.messages'
     }
 
-    Object.keys(data).forEach((key: string) => {
-      params[`data[rows][0][${key}]`] = data[key];
+    dataArray.forEach((data: {[key: string]: string}, index: number) => {
+      Object.keys(data).forEach((key: string) => {
+        params[`data[rows][${index}][${key}]`] = data[key];
+      });  
     });
 
     return this.http.get<DataResponse>(environment.url, { params });
