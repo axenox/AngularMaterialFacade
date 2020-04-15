@@ -97,6 +97,11 @@ trait JsonBuilderTrait
             $val = call_user_func([$object, $getterMethod]);
             return $this->buildJsonValue($val);
         }
+        $getterMethod = 'is' . StringDataType::convertCaseUnderscoreToPascal($property);
+        if (method_exists($object, $getterMethod)) {
+            $val = call_user_func([$object, $getterMethod]);
+            return $this->buildJsonValue($val);
+        }
         throw new RuntimeException('Cannot get UXON property "' . $property . '" of class "' . get_class($object) . '" via getter-method: method "' . $getterMethod . '()" not found!');
     }
     
