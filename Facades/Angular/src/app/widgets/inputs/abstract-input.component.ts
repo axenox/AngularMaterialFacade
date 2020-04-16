@@ -7,13 +7,7 @@ const ERROR_MESSAGES= {
 'required': 'You must enter a value'
 }
 
-
-@Component({
-  selector: 'app-input',
-  templateUrl: './input.component.html',
-  styleUrls: ['./input.component.css']
-})
-export class InputComponent implements OnInit {
+export class AbstractInputComponent  {
 
   @Input()
   widget: IWidgetInputInterface;
@@ -23,8 +17,6 @@ export class InputComponent implements OnInit {
   
   @Output()
   widgetEvent = new EventEmitter<IWidgetEvent>();
-
-  ngOnInit() {}
 
   onChange(value: string) {
     const widgetEvent: IWidgetEvent = { source: this.widget, type: WidgetEventType.VALUE_CHANGED, value};

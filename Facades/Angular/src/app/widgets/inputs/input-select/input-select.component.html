@@ -3,6 +3,9 @@
         <mat-label>{{widget.caption}}</mat-label>
             <mat-select matNativeControl [formControlName]="widget.attribute_alias" (ngModelChange)="onChange($event)" (keyup)="onKeyUp($event)">
             <mat-option *ngFor="let option of widget.selectable_options | keyvalue" [value]="option.key">{{option.value}}</mat-option>
-        </mat-select>
+            </mat-select>
+            <mat-error *ngIf="hasError(widget.attribute_alias)">
+                <div *ngFor="let error of getTranslatedErrors(widget.attribute_alias)">{{error}}</div>
+            </mat-error>
     </mat-form-field>
 </ng-container>
