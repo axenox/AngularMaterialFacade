@@ -5,12 +5,13 @@ import { IWidgetInterface } from '../../interfaces/widgets/widget.interface';
 import { IWidgetValueInterface } from '../../interfaces/widgets/value.interface';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ActionsService } from 'src/app/api/actions.service';
 import { DataRow, Actions } from 'src/app/api/actions.interface';
 import { IWidgetDialog } from 'src/app/interfaces/widgets/dialog.interface';
 import { IWidgetContainer } from 'src/app/interfaces/widgets/container.interface';
 import { IWidgetEvent, WidgetEventType } from 'src/app/interfaces/events/widget-event.interface';
+import { IWidgetInputInterface } from 'src/app/interfaces/widgets/input.interface';
 
 export interface IDialogData {
   structure: IWidgetDialog;
@@ -38,23 +39,25 @@ export class DialogComponent implements OnInit {
   ngOnInit() {  
     // create a FormGroup, that will be used for every child of this widget
     this.formGroup=new FormGroup({});
-    const inputWidgets = [];
-    this.fillInputWidgets(this.data.structure.widgets, inputWidgets);
-    inputWidgets.forEach((widgetName: string) => {
-      this.formGroup.addControl(widgetName, new FormControl(this.data.prefillRow ? this.data.prefillRow[widgetName] : undefined));
-    })
+    this.fillInputWidgets(this.data.structure.widgets);
   }
 
   /**
-   * fill the array names with names of (children)-widgets, that are of type Input...
+   * add the needed controls to the form group, for all descendant children of type Input...
    */
-  fillInputWidgets(widgets: IWidgetInterface[], names: string[]) {
+  fillInputWidgets(widgets: IWidgetInterface[]) {
     widgets.forEach((widget: IWidgetInterface) => {
       if (widget.widget_type.startsWith('Input')) {
-        names.push((widget as IWidgetValueInterface).attribute_alias);
+        const inputWidget = widget as IWidgetInputInterface;
+        const widgetName = inputWidget.attribute_alias;
+        const validators: ValidatorFn[] = [];
+        if(inputWidget.required) {
+          validators.push(Validators.required);
+        }
+        this.formGroup.addControl(widgetName, new FormControl(this.data.prefillRow ? this.data.prefillRow[widgetName] : undefined, validators));
       }
       if ((widget as IWidgetContainer).widgets) {
-        this.fillInputWidgets((widget as IWidgetContainer).widgets, names);
+        this.fillInputWidgets((widget as IWidgetContainer).widgets);
       }
     })
   }

@@ -1,3 +1,7 @@
 .full-width{
     width: 100%;
 }
+
+::ng-deep .mat-form-field-subscript-wrapper {
+    margin-top: -14px;
+}

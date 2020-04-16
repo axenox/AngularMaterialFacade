@@ -3,6 +3,11 @@ import { IWidgetInputInterface } from '../../interfaces/widgets/input.interface'
 import { IWidgetEvent, WidgetEventType } from '../../interfaces/events/widget-event.interface';
 import { FormGroup } from '@angular/forms';
 
+const ERROR_MESSAGES= {
+'required': 'You must enter a value'
+}
+
+
 @Component({
   selector: 'app-input',
   templateUrl: './input.component.html',
@@ -31,4 +36,23 @@ export class InputComponent implements OnInit {
     this.widgetEvent.emit(widgetEvent);
   }
 
+  hasError(property: string): boolean {
+    const control = this.formGroup.get(property);
+    return control && control.invalid && (control.dirty || control.touched);
+  }  
+
+  /**
+ * get Array of translated Errors
+ */
+  getTranslatedErrors(property: string): string[] {
+    const control = this.formGroup.get(property);
+    const result: string[] = [];
+    if (control) {
+      for (const error of Object.keys(control.errors)) {
+        const message = ERROR_MESSAGES[error] || error;
+        result.push(message);
+      } 
+    }
+    return result;
+  }
 }

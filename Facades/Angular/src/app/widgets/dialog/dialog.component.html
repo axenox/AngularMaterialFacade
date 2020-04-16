@@ -6,5 +6,5 @@
     <app-widget *ngIf="data" [structure]="data.structure" [pageSelector]="data.pageSelector" [formGroup]="formGroup"></app-widget>
 </mat-dialog-content>
 <div mat-dialog-actions class="dialogbuttons" >
-    <app-button *ngFor="let button of data.structure.buttons" [inputRows]="[formGroup.value]" [widget]="button" [pageSelector]="data.pageSelector" (widgetEvent)="onWidgetEvent($event)"></app-button>
+    <app-button *ngFor="let button of data.structure.buttons" [formGroup]="formGroup" [widget]="button" [pageSelector]="data.pageSelector" (widgetEvent)="onWidgetEvent($event)"></app-button>
 </div>

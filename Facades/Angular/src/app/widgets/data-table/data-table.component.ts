@@ -148,7 +148,7 @@ export class DataTableComponent implements OnInit {
     if (event.type === WidgetEventType.KEYPRESSED && event.value === 'Enter'){
       this.onSearch();
     }
-    if (event.type === WidgetEventType.DATA_CHANGED){
+    if (event.type === WidgetEventType.DATA_CHANGED || event.type === WidgetEventType.ACTION_CALLED){
       this.onRefresh();
     }
   }

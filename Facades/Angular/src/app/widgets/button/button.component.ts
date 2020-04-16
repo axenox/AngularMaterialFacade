@@ -12,6 +12,7 @@ import { IWidgetDialog } from 'src/app/interfaces/widgets/dialog.interface';
 import { IWidgetEvent, WidgetEventType } from 'src/app/interfaces/events/widget-event.interface';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Action } from 'rxjs/internal/scheduler/Action';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-button',
@@ -33,6 +34,9 @@ export class ButtonComponent implements OnInit {
   inputRows: DataRow[];
 
   @Input()
+  formGroup: FormGroup;
+
+  @Input()
   structure: IWidgetInterface;
 
   @Output()
@@ -40,7 +44,12 @@ export class ButtonComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  getInput(): DataRow[] {
+    return this.inputRows || (this.formGroup && [this.formGroup.value]);
+  }
+
   onClick(): void {
+    const input = this.getInput();
     const action = this.widget.action;
     if (!action) {
       const event: IWidgetEvent = {source: this.widget, type: WidgetEventType.CLICKED, value: true};
@@ -49,7 +58,7 @@ export class ButtonComponent implements OnInit {
       return;
     }
 
-    const selectedRows = this.inputRows.length;
+    const selectedRows = input.length;
     if(action.input_rows_min != null && action.input_rows_max != null) {
       if (selectedRows < action.input_rows_min) {
         if (action.input_rows_min === action.input_rows_max) {
@@ -75,7 +84,12 @@ export class ButtonComponent implements OnInit {
           this.onClickShowDialog(action as IActionShowDialog);
           break;
         default:
-            const request: Request = {action: action.alias, resource: this.pageSelector, data: {rows: this.inputRows, object_alias: action.object_alias}}
+            // check if the form values are valid, if not "touch" the form to show the invalid fields
+            if (this.formGroup && !this.formGroup.valid) {
+              this.formGroup.markAllAsTouched();
+              return;
+            }
+            const request: Request = {action: action.alias, resource: this.pageSelector, data: {rows: input, object_alias: action.object_alias}}
             this.actions.callAction(request).subscribe(
               (result: DataResponse) => {
                 const event: IWidgetEvent = {source: this.widget, type: WidgetEventType.ACTION_CALLED, value: true};
@@ -110,7 +124,7 @@ export class ButtonComponent implements OnInit {
       const request: Request = {
         action: Actions.ACTION_READ_PREFILL, 
         resource: this.pageSelector, 
-        data: {object_alias: action.object_alias, rows: action.prefill_with_input_data ? this.inputRows : []},
+        data: {object_alias: action.object_alias, rows: action.prefill_with_input_data ? this.getInput() : []},
         element: action.widget.id
       };
       readPrefill$ = this.actions.callAction(request);

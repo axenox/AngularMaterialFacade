@@ -2,5 +2,8 @@
     <mat-form-field class="full-width" appearance="outline">
         <mat-label>{{widget.caption}}</mat-label>
         <input matInput [formControlName]="widget.attribute_alias" type="text" (ngModelChange)="onChange($event)" (keyup)="onKeyUp($event)"/>
+        <mat-error *ngIf="hasError(widget.attribute_alias)">
+            <div *ngFor="let error of getTranslatedErrors(widget.attribute_alias)">{{error}}</div>
+        </mat-error>
     </mat-form-field>
 </ng-container>
