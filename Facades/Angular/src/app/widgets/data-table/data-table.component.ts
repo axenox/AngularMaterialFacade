@@ -19,7 +19,8 @@ import { IWidgetFilter } from '../../interfaces/widgets/filter.interface';
 import { MdePopoverTrigger } from '@material-extended/mde';
 import { IWidgetEvent, WidgetEventType } from '../../interfaces/events/widget-event.interface';
 import {SelectionModel, DataSource} from '@angular/cdk/collections';
-import { ActionsService, DataResponse, DataRow } from 'src/app/api/actions.service';
+import { ActionsService } from 'src/app/api/actions.service';
+import { DataResponse, DataRow } from 'src/app/api/actions.interface';
 import { FormGroup, FormControl } from '@angular/forms';
 
 export interface IColumnDef {
@@ -219,6 +220,7 @@ export class DataTableComponent implements OnInit {
         this.selection.clear() :
         this.rows.forEach(row => this.selection.select(row));
   }
+
   checkboxLabel(row?: any): string {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;

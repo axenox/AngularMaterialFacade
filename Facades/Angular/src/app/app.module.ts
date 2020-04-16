@@ -18,7 +18,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { PageComponent } from './page/page.component';
@@ -40,6 +40,8 @@ import { ContainerComponent } from './widgets/container/container.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { InputTextComponent } from './widgets/input-text/input-text.component';
 import { FormComponent } from './widgets/form/form.component';
+import { ActionsService } from './api/actions.service';
+import { apiFactory } from './api/api-factory';
 
 @NgModule({
   declarations: [
@@ -55,8 +57,7 @@ import { FormComponent } from './widgets/form/form.component';
     HostDirective,
     ContainerComponent,
     InputTextComponent,
-    FormComponent,
-    
+    FormComponent, 
   ],
   imports: [
     BrowserModule,
@@ -97,7 +98,10 @@ import { FormComponent } from './widgets/form/form.component';
     DialogComponent,
   ],
 
-  providers: [],
+  providers: [
+    {provide: ActionsService, useFactory: apiFactory, deps: [HttpClient]}
+  ],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

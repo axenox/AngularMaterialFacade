@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Inject, Output, EventEmitter } from '@angular/core';
 import { IWidgetButton } from '../../interfaces/widgets/button.interface';
-import { DataResponse, DataRow, Request, ActionsService, Actions } from '../../api/actions.service'
+import { ActionsService } from '../../api/actions.service'
+import { DataResponse, DataRow, Request, Actions } from '../../api/actions.interface'
 import { IActionGoToPage } from '../../interfaces/actions/go-to-page.interface';
 import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogComponent, IDialogData } from '../dialog/dialog.component';
@@ -76,7 +77,7 @@ export class ButtonComponent implements OnInit {
         default:
             const request: Request = {action: action.alias, resource: this.pageSelector, data: {rows: this.inputRows, object_alias: action.object_alias}}
             this.actions.callAction(request).subscribe(
-              (result) => {
+              (result: DataResponse) => {
                 const event: IWidgetEvent = {source: this.widget, type: WidgetEventType.ACTION_CALLED, value: true};
                 this.widgetEvent.emit(event);
                 this._snackBar.open(result.success, undefined, {
@@ -84,10 +85,10 @@ export class ButtonComponent implements OnInit {
                   panelClass:['snackbar-success']
                 });
               },
-              (error) => {
+              (error: any) => {
                 const event: IWidgetEvent = {source: this.widget, type: WidgetEventType.ACTION_CALLED, value: false};
                 this.widgetEvent.emit(event);
-                this._snackBar.open(error.statusText, undefined, {
+                this._snackBar.open(error && error.statusText ? error.statusText : 'Unknown error', undefined, {
                   duration: 2000,
                   panelClass:['snackbar-error']
                 });

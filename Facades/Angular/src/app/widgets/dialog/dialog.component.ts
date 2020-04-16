@@ -6,9 +6,9 @@ import { IWidgetValueInterface } from '../../interfaces/widgets/value.interface'
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
-import { DataRow, ActionsService, Actions } from 'src/app/api/actions.service';
+import { ActionsService } from 'src/app/api/actions.service';
+import { DataRow, Actions } from 'src/app/api/actions.interface';
 import { IWidgetDialog } from 'src/app/interfaces/widgets/dialog.interface';
-import { IWidgetButton } from 'src/app/interfaces/widgets/button.interface';
 import { IWidgetContainer } from 'src/app/interfaces/widgets/container.interface';
 import { IWidgetEvent, WidgetEventType } from 'src/app/interfaces/events/widget-event.interface';
 
