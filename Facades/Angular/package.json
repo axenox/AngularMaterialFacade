@@ -29,6 +29,7 @@
     "hammerjs": "^2.0.8",
     "masonry-layout": "^4.2.2",
     "rxjs": "~6.5.4",
+    "sweetalert2": "^9.10.12",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
   },

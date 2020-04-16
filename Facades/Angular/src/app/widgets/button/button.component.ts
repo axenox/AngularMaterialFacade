@@ -13,6 +13,7 @@ import { IWidgetEvent, WidgetEventType } from 'src/app/interfaces/events/widget-
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Action } from 'rxjs/internal/scheduler/Action';
 import { FormGroup } from '@angular/forms';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-button',
@@ -59,18 +60,30 @@ export class ButtonComponent implements OnInit {
     }
 
     const selectedRows = input.length;
-    if(action.input_rows_min != null && action.input_rows_max != null) {
+    if(action.input_rows_min != null || action.input_rows_max != null) {
       if (selectedRows < action.input_rows_min) {
         if (action.input_rows_min === action.input_rows_max) {
-          alert(`Please select ${action.input_rows_min} row(s)`);
+          Swal.fire({
+            text: `Please select ${action.input_rows_min} row(s)`,
+            icon: 'warning',
+            confirmButtonText: 'OK'
+          });
           return;
         } else {
-          alert(`Please select at least ${action.input_rows_min} row(s)`);
+          Swal.fire({
+            text: `Please select at least ${action.input_rows_min} row(s)`,
+            icon: 'warning',
+            confirmButtonText: 'OK'
+          });
           return;
         }
       } 
       if (selectedRows > action.input_rows_max) {
-        alert(`You can not select more then ${action.input_rows_max} row(s).`);
+        Swal.fire({
+          text: `You can not select more then ${action.input_rows_max} row(s).`,
+          icon: 'warning',
+          confirmButtonText: 'OK'
+        });
         return;
       }
     }
