@@ -133,7 +133,7 @@ export class ButtonComponent implements OnInit {
     const showWidget$ = this.actions.showWidget(this.pageSelector, action.widget.id);
 
     let readPrefill$ = of(undefined);
-    if (action.prefill_with_prefill_data) {
+    if (action.prefill_with_prefill_data || action.prefill_with_input_data || action.prefill_with_filter_context) {
       const request: Request = {
         action: Actions.ACTION_READ_PREFILL, 
         resource: this.pageSelector, 

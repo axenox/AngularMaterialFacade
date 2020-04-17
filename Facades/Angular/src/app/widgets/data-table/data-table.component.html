@@ -92,7 +92,11 @@
   </ng-container>
   <ng-container *ngFor="let column of widget.columns" [matColumnDef]="column.data_column_name" class="mask rgba-black-light">
     <mat-header-cell mat-sort-header *cdkHeaderCellDef>{{ column.caption }}</mat-header-cell>
-    <mat-cell *cdkCellDef="let row">{{ row[column.data_column_name] }}</mat-cell>
+    <mat-cell *cdkCellDef="let row">
+      <ng-container *ngIf="row[column.data_column_name]">
+        {{ row[column.data_column_name] }} 
+      </ng-container>
+    </mat-cell>
   </ng-container>
   <ng-container [cdkColumnDef]="'_actions_'">  
     <mat-header-cell class="headercell" *cdkHeaderCellDef></mat-header-cell>
@@ -104,5 +108,21 @@
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>
+
+<div class="fab-container">
+  <button mat-fab class="fab-toggler"
+          (click)="onToggleFab()"
+          color="primary">
+    <i class="material-icons" [@fabToggler]="{value: fabTogglerState}">more_vert</i> <!-- Animation here -->
+  </button>
+  <div [@speedDialStagger]="buttons.length"> <!-- and here -->
+    <button *ngFor="let btn of buttons"
+            mat-mini-fab
+            class="fab-secondary"   
+            color="secondary">
+      <i class="material-icons">{{btn.icon}}</i>
+    </button>
+  </div>
+</div>
 
 <mat-paginator [pageSize]="widget.paginator.page_size" [pageSizeOptions]="widget.paginator.page_sizes" [length]="response.recordsTotal" [pageIndex]="pager.pageIndex" showFirstLastButtons (page)="onPaginate($event)"></mat-paginator>

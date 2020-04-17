@@ -22,6 +22,7 @@ import {SelectionModel, DataSource} from '@angular/cdk/collections';
 import { ActionsService } from 'src/app/api/actions.service';
 import { DataResponse, DataRow } from 'src/app/api/actions.interface';
 import { FormGroup, FormControl } from '@angular/forms';
+import { DataTableAnimations } from './data.table.animations'
 
 export interface IColumnDef {
   columnDef: string;
@@ -39,7 +40,8 @@ export interface FilterEntry {
 @Component({
   selector: 'app-data-table',
   templateUrl: './data-table.component.html',
-  styleUrls: ['./data-table.component.css']
+  styleUrls: ['./data-table.component.css'],
+  animations:  DataTableAnimations
 })
 export class DataTableComponent implements OnInit {
   @Input()
@@ -227,4 +229,42 @@ export class DataTableComponent implements OnInit {
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
+
+
+
+
+  fabButtons = [
+    {
+      icon: 'timeline'
+    },
+    {
+      icon: 'view_headline'
+    },
+    {
+      icon: 'room'
+    },
+    {
+      icon: 'lightbulb_outline'
+    },
+    {
+      icon: 'lock'
+    }
+  ];
+  buttons = [];
+  fabTogglerState = 'inactive';
+
+  showItems() {
+    this.fabTogglerState = 'active';
+    this.buttons = this.fabButtons;
+  }
+
+  hideItems() {
+    this.fabTogglerState = 'inactive';
+    this.buttons = [];
+  }
+
+  onToggleFab() {
+    this.buttons.length ? this.hideItems() : this.showItems();
+  }
+
 }
