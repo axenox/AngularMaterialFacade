@@ -68,7 +68,7 @@ class AngularMaterialFacade extends AbstractAjaxFacade
      * {@inheritDoc}
      * @see \exface\Core\Facades\AbstractAjaxFacade\AbstractAjaxFacade::createResponseFromError()
      */
-    protected function createResponseFromError(ServerRequestInterface $request, \Throwable $exception, UiPageInterface $page = null) : ResponseInterface 
+    public function createResponseFromError(ServerRequestInterface $request, \Throwable $exception, UiPageInterface $page = null) : ResponseInterface 
     {
         foreach ($this->buildHeadersAccessControl() as $name => $value) {
             header("$name: $value", false);
@@ -341,5 +341,15 @@ class AngularMaterialFacade extends AbstractAjaxFacade
             $this->elementClassesByCoreClass[$coreClassname] = $elem_class;
         }
         return $elem_class;
+    }
+    
+    public function getPageTemplateFilePathDefault() : string
+    {
+        return '';
+    }
+    
+    protected function buildHtmlPage(WidgetInterface $widget, string $pagetTemplateFilePath = null) : string
+    {
+        return '';
     }
 }
