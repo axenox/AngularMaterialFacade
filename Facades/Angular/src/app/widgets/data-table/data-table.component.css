@@ -52,7 +52,7 @@ label.mat-form-field-label {
     margin-bottom: 5px;
 }
 
-.fab-container > div > button {
+::ng-deep .fab-container button {
   margin-bottom: 17px;
 }
 

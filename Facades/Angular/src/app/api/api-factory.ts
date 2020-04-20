@@ -3,6 +3,6 @@ import { HttpWithLogActionsService } from './server-adapter/http-with-log-action
 import { HttpActionsService } from './server-adapter/http-actions.service';
 
 export function apiFactory(http: HttpClient) {
-  //return new HttpActionsService(http);
-  return new HttpWithLogActionsService(http);
+  return new HttpActionsService(http);
+  //return new HttpWithLogActionsService(http);
 }

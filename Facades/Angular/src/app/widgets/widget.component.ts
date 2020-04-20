@@ -22,15 +22,17 @@ import { ContainerComponent } from './container/container.component';
 import { FormGroup } from '@angular/forms';
 import { InputTextComponent } from './inputs/input-text/input-text.component';
 import { FormComponent } from './form/form.component';
+import { InputComboTableComponent } from './inputs/input-combo-table/input-combo-table.component';
 
 const COMPONENT_REGISTER = {
-  DataTable: DataTableComponent,
-  Filter: FilterComponent,
-  Input: InputComponent,
-  InputSelect: InputSelectComponent,
-  InputText: InputTextComponent,
-  Dialog: ContainerComponent,
-  Form: FormComponent
+  'DataTable': DataTableComponent,
+  'Filter': FilterComponent,
+  'Input': InputComponent,
+  'InputSelect': InputSelectComponent,
+  'InputText': InputTextComponent,
+  'Dialog': ContainerComponent,
+  'Form': FormComponent,
+  'InputComboTable': InputComboTableComponent,
 };
 
 @Component({

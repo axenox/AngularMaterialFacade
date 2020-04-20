@@ -108,7 +108,8 @@ constructor(http: HttpClient) {
       params['data[object_alias]'] = request.data.object_alias;
       request.data.rows.forEach((data: {[key: string]: string}, index: number) => {
         Object.keys(data).forEach((key: string) => {
-          params[`data[rows][${index}][${key}]`] = data[key];
+          const value= data[key] != null ? data[key] : '';
+          params[`data[rows][${index}][${key}]`] = value;
         });  
       });  
     }

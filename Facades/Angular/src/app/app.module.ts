@@ -42,6 +42,8 @@ import { InputTextComponent } from './widgets/inputs/input-text/input-text.compo
 import { FormComponent } from './widgets/form/form.component';
 import { ActionsService } from './api/actions.service';
 import { apiFactory } from './api/api-factory';
+import { InputComboTableComponent } from './widgets/inputs/input-combo-table/input-combo-table.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -57,7 +59,8 @@ import { apiFactory } from './api/api-factory';
     HostDirective,
     ContainerComponent,
     InputTextComponent,
-    FormComponent, 
+    FormComponent,
+    InputComboTableComponent, 
   ],
   imports: [
     BrowserModule,
@@ -92,7 +95,8 @@ import { apiFactory } from './api/api-factory';
     MatMenuModule,
     MatSelectModule,
     MatCheckboxModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatAutocompleteModule
   ],
   entryComponents: [
     DialogComponent,
