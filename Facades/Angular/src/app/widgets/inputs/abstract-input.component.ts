@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { IWidgetInputInterface } from '../../interfaces/widgets/input.interface';
 import { IWidgetEvent, WidgetEventType } from '../../interfaces/events/widget-event.interface';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 
 const ERROR_MESSAGES= {
 'required': 'You must enter a value'
@@ -14,6 +14,9 @@ export class AbstractInputComponent  {
 
   @Input()
   formGroup: FormGroup;
+
+  @Input()
+  pageSelector: string;
   
   @Output()
   widgetEvent = new EventEmitter<IWidgetEvent>();
@@ -28,16 +31,16 @@ export class AbstractInputComponent  {
     this.widgetEvent.emit(widgetEvent);
   }
 
-  hasError(property: string): boolean {
-    const control = this.formGroup.get(property);
+  hasError(): boolean {
+    const control = this.getControl();
     return control && control.invalid && (control.dirty || control.touched);
   }  
 
   /**
  * get Array of translated Errors
  */
-  getTranslatedErrors(property: string): string[] {
-    const control = this.formGroup.get(property);
+  getTranslatedErrors(): string[] {
+    const control = this.getControl();
     const result: string[] = [];
     if (control) {
       for (const error of Object.keys(control.errors)) {
@@ -46,5 +49,9 @@ export class AbstractInputComponent  {
       } 
     }
     return result;
+  }
+
+  getControl() {
+    return this.formGroup.get(this.widget.attribute_alias);
   }
 }

@@ -7,8 +7,8 @@
                 cdkAutosizeMinRows="3"
                 cdkAutosizeMaxRows="10"
                 [formControlName]="widget.attribute_alias"></textarea>
-        <mat-error *ngIf="hasError(widget.attribute_alias)">
-            <div *ngFor="let error of getTranslatedErrors(widget.attribute_alias)">{{error}}</div>
+        <mat-error *ngIf="hasError()">
+            <div *ngFor="let error of getTranslatedErrors()">{{error}}</div>
         </mat-error>
     </mat-form-field>
 </ng-container>
