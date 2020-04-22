@@ -24,7 +24,8 @@ class NgmDataTable extends NgmBasicElement
     {
         switch (strtolower($property)) {
             case 'caption': return $this->getCaption();
-            case 'default_search_button_id': return $this->getDefaultSearchButtonId();   
+            case 'default_search_button_id': return $this->getDefaultSearchButtonId();
+            case 'uid_data_column_name': return $this->getUidColumnName();  
         }
         return parent::buildJsonPropertyValue($object, $property);
     }
@@ -51,5 +52,17 @@ class NgmDataTable extends NgmBasicElement
     protected function getCaption() : string
     {
         return $this->getWidget()->getCaption() ? $this->getWidget()->getCaption() : $this->getMetaObject()->getName();
+    }
+    
+    /**
+     * 
+     * @return string
+     */
+    protected function getUidColumnName() : string
+    {
+        if ($this->getWidget()->hasUidColumn() === false) {
+            return '';
+        }
+        return $this->getWidget()->getUidColumn()->getDataColumnName();
     }
 }

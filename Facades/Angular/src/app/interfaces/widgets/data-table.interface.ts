@@ -15,4 +15,5 @@ export interface IWidgetDataTable extends IWidgetInterface {
     paginator: IDataPaginatorInterface;
     multi_select: boolean;
     default_search_button_id: string;
+    uid_data_column_name: string;
 }
