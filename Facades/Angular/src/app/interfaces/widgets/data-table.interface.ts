@@ -14,4 +14,5 @@ export interface IWidgetDataTable extends IWidgetInterface {
     lazy_loading_action: IActionInterface;
     paginator: IDataPaginatorInterface;
     multi_select: boolean;
+    default_search_button_id: string;
 }
