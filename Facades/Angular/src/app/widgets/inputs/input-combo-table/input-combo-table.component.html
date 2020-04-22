@@ -1,18 +1,26 @@
-<ng-container [formGroup]="formGroup">
-  <input type="hidden"
-    [formControlName]="widget.attribute_alias"
-    (ngModelChange)="onChange($event)"/>
-</ng-container>
 <mat-form-field class="full-width"  appearance="outline">
   <mat-label>{{widget.caption}}</mat-label>
   <input type="text"
+    #inputAutoComplete
     matInput
     [(ngModel)]="text"
     [matAutocomplete]="auto"
-    (ngModelChange)="onInputChange($event)"/>
-  <mat-autocomplete #auto="matAutocomplete">
+    (ngModelChange)="onInputChange($event)"
+    (click)="onClick()"
+    (keydown)="activateOpening()"
+    [appHiddenControlValidator]="getControl()"
+    />
+  <mat-autocomplete #auto="matAutocomplete" (opened)="handleOpen()">
     <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
       {{option.text}}
     </mat-option>
   </mat-autocomplete>
-</mat-form-field>
+</mat-form-field>  
+  <ng-container [formGroup]="formGroup">
+    <input type="hidden"
+      [formControlName]="widget.attribute_alias"
+      (ngModelChange)="onChange($event)"/>
+    <mat-error *ngIf="hasError()">
+      <div *ngFor="let error of getTranslatedErrors()">{{error}}</div>
+    </mat-error>                
+  </ng-container>

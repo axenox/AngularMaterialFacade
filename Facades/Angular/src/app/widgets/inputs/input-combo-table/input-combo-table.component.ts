@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -6,6 +6,7 @@ import { ActionsService } from 'src/app/api/actions.service';
 import { AbstractInputComponent } from '../abstract-input.component';
 import { DataResponse, DataRow } from 'src/app/api/actions.interface';
 import { IWidgetInputComboTable } from 'src/app/interfaces/widgets/input-combo-table.interface';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 
 export interface ISelectValue {
@@ -30,24 +31,40 @@ export class InputComboTableComponent extends AbstractInputComponent implements 
 
   filteredOptions: Observable<ISelectValue[]>;
 
+  canBeOpened: boolean = false;
+
   /**
    * value for the text shown to user, it is not the real value saved in the hidden component
    */
-  text: string;
+  text: string | ISelectValue;
+
+  @ViewChild(MatAutocompleteTrigger, {read: MatAutocompleteTrigger}) 
+  inputAutoComplete: MatAutocompleteTrigger;
+
 
   constructor(private actions: ActionsService) { 
     super();
   }
 
-  onInputChange(value: any) {
+  onInputChange(value: string | ISelectValue) {
     if (value && value.hasOwnProperty('text') && value.hasOwnProperty('value')) {
-      this.text = value.text;
-      this.getControl().setValue(value.value);
+      const newValue = this.text as ISelectValue;
+      this.setControlValue(newValue.value);
+      setTimeout(() => {this.text = newValue.text}, 1);
     } else {
-      this.filteredOptions = this.loadData(value);
+      this.filteredOptions = this.loadData(value as string);
     }
   }
 
+  activateOpening() {
+    this.canBeOpened = true;
+  }
+
+  onClick() {
+    this.activateOpening();
+    this.inputAutoComplete.openPanel();
+  }
+ 
   ngOnInit() {
     this.filteredOptions = this.loadData('');
   }
@@ -58,8 +75,17 @@ export class InputComboTableComponent extends AbstractInputComponent implements 
         return '';
       }
       
-      this.getControl().setValue(selectValue.value);
+      this.setControlValue(selectValue.value);
       return selectValue && selectValue.text ? selectValue.text : '';
+    }
+  }
+
+  handleOpen() {
+    console.log('opened');
+    if (!this.canBeOpened) {
+      // this.inputAutoComplete.closePanel();
+    } else {
+      this.canBeOpened = false;
     }
   }
 
@@ -75,14 +101,22 @@ export class InputComboTableComponent extends AbstractInputComponent implements 
     const tableWidget = this.widget.table;
     return this.actions.readData(this.pageSelector, tableWidget, null, null, 0, 999, value)
       .pipe(map((response: DataResponse) => {
+        if (!response.rows || response.rows.length === 0) {
+          this.setControlValue(null);
+        }
         return response.rows.map((row: DataRow) => {
           const text = row[this.widget.text_attribute_alias];
           const value = row[this.widget.value_attribute_alias];
-          if (!this.text && this.getControl().value && value === this.getControl().value) {
+          if (this.text == null && this.getControl().value && value === this.getControl().value) {
             this.text = text;
           }
           return { text, value };
         })
       }));
+  }
+
+  setControlValue(value: any) {
+    this.getControl().setValue(value);
+    this.getControl().markAsTouched();
   }
 }

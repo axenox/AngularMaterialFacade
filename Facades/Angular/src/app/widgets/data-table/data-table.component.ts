@@ -229,38 +229,16 @@ export class DataTableComponent implements OnInit {
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
   }
-
-
-
-
-  exampleButtons = [
-    {
-      icon: 'timeline'
-    },
-    {
-      icon: 'view_headline'
-    },
-    {
-      icon: 'room'
-    },
-    {
-      icon: 'lightbulb_outline'
-    },
-    {
-      icon: 'lock'
-    }
-  ];
-  buttons = [];
+  
   fabTogglerState = 'inactive';
 
   showItems() {
     this.fabTogglerState = 'active';
-    this.buttons = this.exampleButtons; //this.widget.buttons;
+    this.widget.buttons;
   }
 
   hideItems() {
     this.fabTogglerState = 'inactive';
-    this.buttons = [];
   }
 
   onToggleFab() {
