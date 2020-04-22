@@ -10,5 +10,4 @@ import { IWidgetInputSelectInterface } from 'src/app/interfaces/widgets/input-se
 export class InputSelectComponent extends AbstractInputComponent {
   @Input()
   widget: IWidgetInputSelectInterface;
-
 }

@@ -233,7 +233,7 @@ export class DataTableComponent implements OnInit {
 
 
 
-  fabButtons = [
+  exampleButtons = [
     {
       icon: 'timeline'
     },
@@ -255,7 +255,7 @@ export class DataTableComponent implements OnInit {
 
   showItems() {
     this.fabTogglerState = 'active';
-    this.buttons = this.fabButtons;
+    this.buttons = this.exampleButtons; //this.widget.buttons;
   }
 
   hideItems() {
@@ -264,7 +264,7 @@ export class DataTableComponent implements OnInit {
   }
 
   onToggleFab() {
-    this.buttons.length ? this.hideItems() : this.showItems();
+    this.fabTogglerState==='active' ? this.hideItems() : this.showItems();
   }
 
 }

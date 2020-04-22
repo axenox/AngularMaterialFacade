@@ -115,13 +115,23 @@
           color="primary">
     <i class="material-icons" [@fabToggler]="{value: fabTogglerState}">more_vert</i> <!-- Animation here -->
   </button>
-  <div [@speedDialStagger]="buttons.length"> <!-- and here -->
+  <div [@speedDialStagger]="fabTogglerState === 'active' ? widget.buttons.length : 0"> <!-- and here -->
+  <!--
     <button *ngFor="let btn of buttons"
             mat-mini-fab
             class="fab-secondary"   
             color="secondary">
-      <i class="material-icons">{{btn.icon}}</i>
-    </button>
+        <i class="material-icons">{{btn.icon}}</i>
+      </button>  
+    -->
+    <ng-container *ngFor="let button of widget.buttons">
+      <ng-container *ngIf="fabTogglerState === 'active'">
+        <app-button mat-mini-fab class="fab-secondary" color="secondary" 
+           *ngIf="button.visibility > 50" [inputRows]="selection.selected" [widget]="button" [pageSelector]="pageSelector" [iconOnly]="true" (widgetEvent)="onWidgetEvent($event)">
+        </app-button>
+      </ng-container>
+    </ng-container>
+  
   </div>
 </div>
 

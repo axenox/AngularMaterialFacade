@@ -16,6 +16,9 @@ export class FormComponent implements OnInit {
   @Input()
   formGroup: FormGroup;
 
+  @Input()
+  pageSelector: string;
+
   constructor() { }
 
   ngOnInit(): void {

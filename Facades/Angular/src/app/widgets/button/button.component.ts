@@ -40,6 +40,9 @@ export class ButtonComponent implements OnInit {
   @Input()
   structure: IWidgetInterface;
 
+  @Input()
+  iconOnly: boolean;
+
   @Output()
   widgetEvent = new EventEmitter<IWidgetEvent>();
 

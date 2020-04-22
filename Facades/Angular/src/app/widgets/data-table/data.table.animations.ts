@@ -17,16 +17,16 @@ import {
       state('active', style({
         transform: 'rotate(270deg)'
       })),
-      transition('* <=> *', animate('200ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+      transition('* <=> *', animate('100ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
     trigger('speedDialStagger', [
       transition('* => *', [
   
         query(':enter', style({ opacity: 0 }), {optional: true}),
   
-        query(':enter', stagger('40ms',
+        query(':enter', stagger('20ms',
           [
-            animate('200ms cubic-bezier(0.4, 0.0, 0.2, 1)',
+            animate('100ms cubic-bezier(0.4, 0.0, 0.2, 1)',
               keyframes(
                 [
                   style({opacity: 0, transform: 'translateY(10px)'}),
@@ -38,7 +38,7 @@ import {
         ), {optional: true}),
   
         query(':leave',
-          animate('200ms cubic-bezier(0.4, 0.0, 0.2, 1)',
+          animate('100ms cubic-bezier(0.4, 0.0, 0.2, 1)',
             keyframes([
               style({opacity: 1}),
               style({opacity: 0}),
