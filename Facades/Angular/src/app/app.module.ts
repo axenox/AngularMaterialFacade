@@ -44,6 +44,7 @@ import { ActionsService } from './api/actions.service';
 import { apiFactory } from './api/api-factory';
 import { InputComboTableComponent } from './widgets/inputs/input-combo-table/input-combo-table.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { HiddenControlValidatorDirective } from './widgets/inputs/input-combo-table/hidden-control-validator.directive';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     ContainerComponent,
     InputTextComponent,
     FormComponent,
-    InputComboTableComponent, 
+    InputComboTableComponent,
+    HiddenControlValidatorDirective, 
   ],
   imports: [
     BrowserModule,

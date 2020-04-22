@@ -37,12 +37,18 @@ label.mat-form-field-label {
 
 .fab-container {
   position: fixed;
-  bottom: 15px;
+  bottom: 30px;
   right: 15px;
   z-index: 100;
   display: flex;
   flex-direction: column-reverse;
   align-items: center;
+}
+
+@media only screen and (max-width: 600px) {
+  .fab-container {
+    bottom: 70px;
+  }
 }
 
 .fab-container > div {
