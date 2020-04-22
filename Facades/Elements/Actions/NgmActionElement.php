@@ -7,6 +7,7 @@ use axenox\AngularMaterialFacade\Facades\Elements\NgmBasicElement;
 use exface\Core\Interfaces\Actions\ActionInterface;
 use exface\Core\Interfaces\Facades\FacadeInterface;
 use exface\Core\Interfaces\iCanBeConvertedToUxon;
+use exface\Core\Interfaces\WorkbenchInterface;
 
 /**
  *
@@ -53,5 +54,10 @@ class NgmActionElement
     public function getAction() : ActionInterface
     {
         return $this->action;
+    }
+    
+    public function getWorkbench() : WorkbenchInterface
+    {
+        return $this->facade->getWorkbench();
     }
 }

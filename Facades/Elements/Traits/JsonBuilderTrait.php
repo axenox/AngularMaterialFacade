@@ -8,6 +8,7 @@ use exface\Core\DataTypes\StringDataType;
 use exface\Core\Exceptions\RuntimeException;
 use exface\Core\CommonLogic\UxonObject;
 use exface\Core\CommonLogic\Filemanager;
+use exface\Core\Factories\ActionFactory;
 
 trait JsonBuilderTrait
 {
@@ -39,6 +40,9 @@ trait JsonBuilderTrait
         $fallbacks = [];
         foreach (class_parents($widget) as $fallbackClass) {
             $widgetType = StringDataType::substringAfter($fallbackClass, '\\', $fallbackClass, false, true);
+            if ($widgetType === 'AbstractWidget') {
+                break;
+            }
             $fallbacks[] = $widgetType;
         }
         return $fallbacks;
@@ -53,7 +57,7 @@ trait JsonBuilderTrait
     {
         $props = [];
         $props['fallback_actions'] = $this->getFallbackActionAliases($action, $props);
-        $props = $this->buildJsonFromObject($action);
+        $props = $this->buildJsonFromObject($action, $props);
         return $props;
     }
     
@@ -66,8 +70,12 @@ trait JsonBuilderTrait
     {
         $fallbacks = [];
         foreach (class_parents($action) as $fallbackClass) {
-            $alias = StringDataType::substringAfter($fallbackClass, '\\', $fallbackClass, false, true);
-            $fallbacks[] = $alias;
+            if (StringDataType::endsWith($fallbackClass, 'AbstractAction')) {
+                break;
+            }
+            $action = ActionFactory::createFromString($this->getWorkbench(), '\\' . $fallbackClass);
+            //$alias = StringDataType::substringAfter($fallbackClass, '\\', $fallbackClass, false, true);
+            $fallbacks[] = $action->getAliasWithNamespace();
         }
         return $fallbacks;
     }
