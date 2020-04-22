@@ -21,30 +21,50 @@ trait JsonBuilderTrait
     protected function buildJsonFromWidget(WidgetInterface $widget) : array
     {
         $props = $this->buildJsonFromObject($widget);
+        $props['fallback_widgets'] = $this->getFallbackWidgetTypes($widget);
+        return $props;
+    }
+    
+    /**
+     * 
+     * @param WidgetInterface $widget
+     * @return string[]
+     */
+    protected function getFallbackWidgetTypes(WidgetInterface $widget) : array
+    {
         $fallbacks = [];
         foreach (class_parents($widget) as $fallbackClass) {
             $widgetType = StringDataType::substringAfter($fallbackClass, '\\', $fallbackClass, false, true);
             $fallbacks[] = $widgetType;
         }
-        $props['fallback_widgets'] = $fallbacks;
-        return $props;
+        return $fallbacks;
     }
     
     /**
      *
      * @param ActionInterface $action
-     * @return array
+     * @return string[]
      */
     protected function buildJsonFromAction(ActionInterface $action) : array
     {
         $props = $this->buildJsonFromObject($action);
+        $props['fallback_actions'] = $this->getFallbackActionAliases($action);
+        return $props;
+    }
+    
+    /**
+     * 
+     * @param ActionInterface $action
+     * @return array
+     */
+    protected function getFallbackActionAliases(ActionInterface $action) : array
+    {
         $fallbacks = [];
         foreach (class_parents($action) as $fallbackClass) {
-            $widgetType = StringDataType::substringAfter($fallbackClass, '\\', $fallbackClass, false, true);
-            $fallbacks[] = $widgetType;
+            $alias = StringDataType::substringAfter($fallbackClass, '\\', $fallbackClass, false, true);
+            $fallbacks[] = $alias;
         }
-        $props['fallback_actions'] = $fallbacks;
-        return $props;
+        return $fallbacks;
     }
     
     /**

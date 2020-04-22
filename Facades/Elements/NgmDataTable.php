@@ -20,7 +20,7 @@ class NgmDataTable extends NgmBasicElement
      */
     protected function buildJsonPropertyValue(iCanBeConvertedToUxon $object, $property)
     {
-        switch ($property) {
+        switch (strtolower($property)) {
             case 'caption':
                 return $this->getWidget()->getCaption() ? $this->getWidget()->getCaption() : $this->getMetaObject()->getName();
         }
