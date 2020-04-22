@@ -20,11 +20,12 @@ trait JsonBuilderTrait
      */
     protected function buildJsonFromWidget(WidgetInterface $widget) : array
     {
-        $props = $this->buildJsonFromObject($widget);
+        $props = [];
         $props['fallback_widgets'] = $this->getFallbackWidgetTypes($widget);
         if ($widget->getPage()->hasModel()) {
             $props['page_alias'] = $widget->getPage()->getAliasWithNamespace();
         }
+        $props = $this->buildJsonFromObject($widget, $props);
         return $props;
     }
     
@@ -50,8 +51,9 @@ trait JsonBuilderTrait
      */
     protected function buildJsonFromAction(ActionInterface $action) : array
     {
+        $props = [];
+        $props['fallback_actions'] = $this->getFallbackActionAliases($action, $props);
         $props = $this->buildJsonFromObject($action);
-        $props['fallback_actions'] = $this->getFallbackActionAliases($action);
         return $props;
     }
     
@@ -74,15 +76,19 @@ trait JsonBuilderTrait
      * Generic config JSON generator for anything, that has a UXON model.
      *
      * @param iCanBeConvertedToUxon $object
+     * @param array $staticProperties
      * @return array
      */
-    protected function buildJsonFromObject(iCanBeConvertedToUxon $object) : array
+    protected function buildJsonFromObject(iCanBeConvertedToUxon $object, array $staticProperties = []) : array
     {
-        $json = [];
+        $json = $staticProperties;
         $uxonProps = $this->getJsonProperties($object);
         foreach ($uxonProps as $key => $property) {
-            if (StringDataType::startsWith($key, '~angular_')) {
+            if (is_numeric($key) === false && StringDataType::startsWith($key, '~angular_')) {
                 $json[$key] = $property;
+                continue;
+            }
+            if ($json[$property] !== null) {
                 continue;
             }
             if (($value = $this->buildJsonPropertyValue($object, $property)) !== null) {
