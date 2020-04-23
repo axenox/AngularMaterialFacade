@@ -1,15 +1,24 @@
-<ng-container *ngIf="iconOnly">
+<ng-container *ngIf="type==='IconOnlyBig'">
+    <button mat-fab class="fab-secondary" color="primary" (click)="onClick()">
+        <mat-icon *ngIf="widget.icon" fontSet="fa" fontIcon="fa-{{widget.icon}}"></mat-icon>
+    </button>
+</ng-container>
+
+<ng-container *ngIf="type==='IconOnly'">
     <button mat-mini-fab class="fab-secondary" color="secondary" (click)="onClick()">
         <mat-icon *ngIf="widget.icon" fontSet="fa" fontIcon="fa-{{widget.icon}}"></mat-icon>
     </button>
 </ng-container>
 
-<ng-container *ngIf="!iconOnly">
-    <button *ngIf="widget.visibility > 50" mat-flat-button (click)="onClick()" color="primary">
+<ng-container *ngIf="type==='Flat'">
+    <button mat-flat-button (click)="onClick()" color="{{widget.visibility>50 ? 'primary' : null}}">
         <mat-icon class="dialog-button-icon" *ngIf="widget.icon" fontSet="fa" fontIcon="fa-{{widget.icon}}"></mat-icon>
         {{widget.caption}}
     </button>
-    <button *ngIf="widget.visibility <= 50" mat-flat-button (click)="onClick()">
+</ng-container>
+
+<ng-container *ngIf="type==='Default'">
+    <button mat-button (click)="onClick()" color="{{widget.visibility>50 ? 'primary' : null}}">
         <mat-icon class="dialog-button-icon" *ngIf="widget.icon" fontSet="fa" fontIcon="fa-{{widget.icon}}"></mat-icon>
         {{widget.caption}}
     </button>
