@@ -42,9 +42,9 @@ import { InputTextComponent } from './widgets/inputs/input-text/input-text.compo
 import { FormComponent } from './widgets/form/form.component';
 import { ActionsService } from './api/actions.service';
 import { apiFactory } from './api/api-factory';
-import { InputComboTableComponent } from './widgets/inputs/input-combo-table/input-combo-table.component';
+import { InputComboComponent } from './widgets/inputs/input-combo/input-combo.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { HiddenControlValidatorDirective } from './widgets/inputs/input-combo-table/hidden-control-validator.directive';
+import { HiddenControlValidatorDirective } from './widgets/inputs/input-combo/hidden-control-validator.directive';
 
 @NgModule({
   declarations: [
@@ -61,7 +61,7 @@ import { HiddenControlValidatorDirective } from './widgets/inputs/input-combo-ta
     ContainerComponent,
     InputTextComponent,
     FormComponent,
-    InputComboTableComponent,
+    InputComboComponent,
     HiddenControlValidatorDirective, 
   ],
   imports: [

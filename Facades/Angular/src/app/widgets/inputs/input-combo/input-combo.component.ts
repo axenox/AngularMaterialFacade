@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { ActionsService } from 'src/app/api/actions.service';
 import { AbstractInputComponent } from '../abstract-input.component';
 import { DataResponse, DataRow } from 'src/app/api/actions.interface';
-import { IWidgetInputComboTable } from 'src/app/interfaces/widgets/input-combo-table.interface';
+import { IWidgetInputCombo } from 'src/app/interfaces/widgets/input-combo.interface';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 
@@ -16,15 +16,15 @@ export interface ISelectValue {
 
 
 @Component({
-  selector: 'app-input-combo-table',
-  templateUrl: './input-combo-table.component.html',
-  styleUrls: ['./input-combo-table.component.css']
+  selector: 'app-input-combo',
+  templateUrl: './input-combo.component.html',
+  styleUrls: ['./input-combo.component.css']
 })
 
-export class InputComboTableComponent extends AbstractInputComponent implements OnInit {
+export class InputComboComponent extends AbstractInputComponent implements OnInit {
 
   @Input()
-  widget: IWidgetInputComboTable;
+  widget: IWidgetInputCombo;
 
   @Input()
   formGroup: FormGroup;
@@ -87,7 +87,7 @@ export class InputComboTableComponent extends AbstractInputComponent implements 
     }
   }
 
-  handleOpen(param: any) {
+  handleOpen() {
     if (!this.canBeOpened) {
       this.inputAutoComplete.closePanel();
     } else {
