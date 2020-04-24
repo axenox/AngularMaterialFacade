@@ -81,9 +81,8 @@ export class InputComboTableComponent extends AbstractInputComponent implements 
   }
 
   handleOpen() {
-    console.log('opened');
     if (!this.canBeOpened) {
-      // this.inputAutoComplete.closePanel();
+      this.inputAutoComplete.closePanel();
     } else {
       this.canBeOpened = false;
     }
