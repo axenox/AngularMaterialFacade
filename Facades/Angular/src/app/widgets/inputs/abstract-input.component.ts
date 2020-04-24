@@ -44,7 +44,8 @@ export class AbstractInputComponent  {
     const result: string[] = [];
     if (control) {
       for (const error of Object.keys(control.errors)) {
-        const message = ERROR_MESSAGES[error] || error;
+        //const message = ERROR_MESSAGES[error] || error;
+        const message = this.widget.validation_error_text;
         result.push(message);
       } 
     }

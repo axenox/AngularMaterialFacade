@@ -10,7 +10,8 @@
     (keydown)="activateOpening()"
     [appHiddenControlValidator]="getControl()"
     />
-  <mat-autocomplete #auto="matAutocomplete" (opened)="handleOpen()">
+    <mat-icon style="cursor:pointer" matSuffix (click)="onClick()">arrow_drop_down</mat-icon>
+  <mat-autocomplete #auto="matAutocomplete" (opened)="handleOpen()" (closed)="handleClosed()">
     <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
       {{option.text}}
     </mat-option>

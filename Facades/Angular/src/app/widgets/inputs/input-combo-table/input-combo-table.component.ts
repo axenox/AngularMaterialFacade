@@ -33,6 +33,8 @@ export class InputComboTableComponent extends AbstractInputComponent implements 
 
   canBeOpened: boolean = false;
 
+  opened: boolean = false;
+
   /**
    * value for the text shown to user, it is not the real value saved in the hidden component
    */
@@ -61,8 +63,13 @@ export class InputComboTableComponent extends AbstractInputComponent implements 
   }
 
   onClick() {
-    this.activateOpening();
-    this.inputAutoComplete.openPanel();
+    if (this.opened) {
+      this.inputAutoComplete.closePanel();
+      this.canBeOpened=false;
+    } else {
+      this.activateOpening();
+      this.inputAutoComplete.openPanel();
+    }
   }
  
   ngOnInit() {
@@ -80,12 +87,16 @@ export class InputComboTableComponent extends AbstractInputComponent implements 
     }
   }
 
-  handleOpen() {
+  handleOpen(param: any) {
     if (!this.canBeOpened) {
       this.inputAutoComplete.closePanel();
     } else {
-      this.canBeOpened = false;
+      this.opened = true;
     }
+  }
+
+  handleClosed() {
+    this.opened = false;
   }
 
   /*
@@ -98,7 +109,7 @@ export class InputComboTableComponent extends AbstractInputComponent implements 
 
   loadData(value: string): Observable<ISelectValue[]> {
     const tableWidget = this.widget.table;
-    return this.actions.readData(this.pageSelector, tableWidget, null, null, 0, 999, value)
+    return this.actions.readData(this.pageSelector, tableWidget, null, null, 0, 999, value.trim())
       .pipe(map((response: DataResponse) => {
         if (!response.rows || response.rows.length === 0) {
           this.setControlValue(null);
