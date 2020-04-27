@@ -13,7 +13,7 @@ use exface\Core\CommonLogic\DataSheets\DataColumn;
  * @author Andrej Kabachnik
  *        
  */
-class NgmForm extends NgmBasicElement
+class NgmForm extends NgmWidgetGrid
 {
     
     /**
