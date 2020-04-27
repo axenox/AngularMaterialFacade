@@ -249,4 +249,8 @@ export class DataTableComponent implements OnInit {
   getPrimaryButtons(){
     return this.widget.buttons ? this.widget.buttons.filter((button: IWidgetButton)=>button.visibility>50) : [];
   }
+
+  getLesserButtons(){
+    return this.widget.buttons ? this.widget.buttons.filter((button: IWidgetButton)=>button.visibility <= 30) : [];
+  }
 }

@@ -41,8 +41,16 @@
     <span class="test-spacer"></span>
     <div fxShow="true" fxHide.lt-md="true">
       <ng-container *ngFor="let button of widget.buttons">
-          <app-button *ngIf= "button.visibility <= 50 " [inputRows]="selection.selected" [widget]="button" [pageSelector]="pageSelector" (widgetEvent)="onWidgetEvent($event)" class="menuebutton" type="Default"></app-button>
+          <app-button *ngIf= "button.visibility === 50 " [inputRows]="selection.selected" [widget]="button" [pageSelector]="pageSelector" (widgetEvent)="onWidgetEvent($event)" class="menuebutton" type="Default"></app-button>
       </ng-container> 
+      <button mat-button *ngIf="getLesserButtons().length > 0" [matMenuTriggerFor]="morebuttons">
+        ... <mat-icon>arrow_drop_down</mat-icon>
+      </button>
+      <mat-menu #morebuttons>
+        <ng-container *ngFor="let button of getLesserButtons()">
+          <app-button  [inputRows]="selection.selected" [widget]="button" [pageSelector]="pageSelector" (widgetEvent)="onWidgetEvent($event)" class="menuebutton" type="Default"></app-button>
+        </ng-container>
+      </mat-menu>
     </div>
   </mat-toolbar-row>
 </mat-toolbar>
