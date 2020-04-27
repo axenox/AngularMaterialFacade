@@ -22,7 +22,7 @@ import { ContainerComponent } from './container/container.component';
 import { FormGroup } from '@angular/forms';
 import { InputTextComponent } from './inputs/input-text/input-text.component';
 import { FormComponent } from './form/form.component';
-import { InputComboTableComponent } from './inputs/input-combo-table/input-combo-table.component';
+import { InputComboComponent } from './inputs/input-combo/input-combo.component';
 
 const COMPONENT_REGISTER = {
   'DataTable': DataTableComponent,
@@ -32,7 +32,7 @@ const COMPONENT_REGISTER = {
   'InputText': InputTextComponent,
   'Dialog': ContainerComponent,
   'Form': FormComponent,
-  'InputComboTable': InputComboTableComponent,
+  'InputCombo': InputComboComponent
 };
 
 @Component({
@@ -66,8 +66,7 @@ export class WidgetComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.structure && this.structure) {
-      const widgetType = this.structure.widget_type;
-      const component: Type<any> = this.getComponent(widgetType);
+      const component: Type<any> = this.getComponent();
       if (component) {
         const componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
         const viewContainerRef = this.appHost.viewContainerRef;
@@ -88,10 +87,16 @@ export class WidgetComponent implements OnInit, OnChanges {
     }
   }
 
-  getComponent(widgetType: string) {
-    const component = COMPONENT_REGISTER[widgetType];
-    if (!component && widgetType.startsWith('Input') && widgetType !== 'InputHidden'){
-      return InputComponent;
+  getComponent() {
+    const widgetType = this.structure.widget_type;
+    let component = COMPONENT_REGISTER[widgetType];
+    if (!component && widgetType !== 'InputHidden'){
+      for(let type of this.structure.fallback_widgets) {
+        component = COMPONENT_REGISTER[type];
+        if (component) {
+          return component;
+        }
+      }
     }
     return component;
   }

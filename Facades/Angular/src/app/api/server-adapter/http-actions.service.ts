@@ -60,7 +60,7 @@ constructor(http: HttpClient) {
         length: length.toString()
       };
 
-      if (q) {
+      if (q != null) {
         params.q = q;
       }
 

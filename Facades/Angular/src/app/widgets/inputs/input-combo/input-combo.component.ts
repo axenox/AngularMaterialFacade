@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { ActionsService } from 'src/app/api/actions.service';
 import { AbstractInputComponent } from '../abstract-input.component';
 import { DataResponse, DataRow } from 'src/app/api/actions.interface';
-import { IWidgetInputComboTable } from 'src/app/interfaces/widgets/input-combo-table.interface';
+import { IWidgetInputCombo } from 'src/app/interfaces/widgets/input-combo.interface';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 
@@ -16,15 +16,15 @@ export interface ISelectValue {
 
 
 @Component({
-  selector: 'app-input-combo-table',
-  templateUrl: './input-combo-table.component.html',
-  styleUrls: ['./input-combo-table.component.css']
+  selector: 'app-input-combo',
+  templateUrl: './input-combo.component.html',
+  styleUrls: ['./input-combo.component.css']
 })
 
-export class InputComboTableComponent extends AbstractInputComponent implements OnInit {
+export class InputComboComponent extends AbstractInputComponent implements OnInit {
 
   @Input()
-  widget: IWidgetInputComboTable;
+  widget: IWidgetInputCombo;
 
   @Input()
   formGroup: FormGroup;
@@ -32,6 +32,8 @@ export class InputComboTableComponent extends AbstractInputComponent implements 
   filteredOptions: Observable<ISelectValue[]>;
 
   canBeOpened: boolean = false;
+
+  opened: boolean = false;
 
   /**
    * value for the text shown to user, it is not the real value saved in the hidden component
@@ -61,8 +63,13 @@ export class InputComboTableComponent extends AbstractInputComponent implements 
   }
 
   onClick() {
-    this.activateOpening();
-    this.inputAutoComplete.openPanel();
+    if (this.opened) {
+      this.inputAutoComplete.closePanel();
+      this.canBeOpened=false;
+    } else {
+      this.activateOpening();
+      this.inputAutoComplete.openPanel();
+    }
   }
  
   ngOnInit() {
@@ -81,12 +88,15 @@ export class InputComboTableComponent extends AbstractInputComponent implements 
   }
 
   handleOpen() {
-    console.log('opened');
     if (!this.canBeOpened) {
-      // this.inputAutoComplete.closePanel();
+      this.inputAutoComplete.closePanel();
     } else {
-      this.canBeOpened = false;
+      this.opened = true;
     }
+  }
+
+  handleClosed() {
+    this.opened = false;
   }
 
   /*
@@ -99,7 +109,7 @@ export class InputComboTableComponent extends AbstractInputComponent implements 
 
   loadData(value: string): Observable<ISelectValue[]> {
     const tableWidget = this.widget.table;
-    return this.actions.readData(this.pageSelector, tableWidget, null, null, 0, 999, value)
+    return this.actions.readData(this.pageSelector, tableWidget, null, null, 0, 999, value.trim())
       .pipe(map((response: DataResponse) => {
         if (!response.rows || response.rows.length === 0) {
           this.setControlValue(null);

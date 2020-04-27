@@ -15,6 +15,13 @@ import { Action } from 'rxjs/internal/scheduler/Action';
 import { FormGroup } from '@angular/forms';
 import Swal from 'sweetalert2'
 
+enum Types {
+  IconOnly= 'IconOnly',
+  IconOnlyBig= 'IconOnlyBig',
+  Flat='Flat',
+  Default= 'Default'
+}
+
 @Component({
   selector: 'app-button',
   templateUrl: './button.component.html',
@@ -41,12 +48,16 @@ export class ButtonComponent implements OnInit {
   structure: IWidgetInterface;
 
   @Input()
-  iconOnly: boolean;
+  type: string; 
 
   @Output()
   widgetEvent = new EventEmitter<IWidgetEvent>();
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if(!this.type){
+      this.type = Types.Default;
+    }
+  }
 
   getInput(): DataRow[] {
     return this.inputRows || (this.formGroup && [this.formGroup.value]);
@@ -171,6 +182,6 @@ export class ButtonComponent implements OnInit {
   }
 
   isActionShowDialog(object: any): object is IActionShowDialog {
-    return 'fallback_actions' in object && object.fallback_actions.indexOf('ShowDialog') !== -1;
+    return 'fallback_actions' in object && object.fallback_actions.some((action: string) => action.includes('ShowDialog'));
   }
 }

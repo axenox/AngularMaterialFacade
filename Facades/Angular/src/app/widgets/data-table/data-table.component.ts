@@ -23,6 +23,7 @@ import { ActionsService } from 'src/app/api/actions.service';
 import { DataResponse, DataRow } from 'src/app/api/actions.interface';
 import { FormGroup, FormControl } from '@angular/forms';
 import { DataTableAnimations } from './data.table.animations'
+import { IWidgetButton } from 'src/app/interfaces/widgets/button.interface';
 
 export interface IColumnDef {
   columnDef: string;
@@ -245,4 +246,11 @@ export class DataTableComponent implements OnInit {
     this.fabTogglerState==='active' ? this.hideItems() : this.showItems();
   }
 
+  getPrimaryButtons(){
+    return this.widget.buttons ? this.widget.buttons.filter((button: IWidgetButton)=>button.visibility>50) : [];
+  }
+
+  getLesserButtons(){
+    return this.widget.buttons ? this.widget.buttons.filter((button: IWidgetButton)=>button.visibility <= 30) : [];
+  }
 }

@@ -34,15 +34,23 @@
       </button>
       <mat-menu #menu="matMenu" class="buttonmenue">
         <ng-container *ngFor="let button of widget.buttons">
-          <app-button *ngIf= "button.visibility <= 50 " [inputRows]="selection.selected" [widget]="button" [pageSelector]="pageSelector" (widgetEvent)="onWidgetEvent($event)"></app-button>
+          <app-button *ngIf= "button.visibility <= 50 " [inputRows]="selection.selected" [widget]="button" [pageSelector]="pageSelector" (widgetEvent)="onWidgetEvent($event)" class="menuebutton" type="Default"></app-button>
         </ng-container> 
       </mat-menu>
     </div>
     <span class="test-spacer"></span>
     <div fxShow="true" fxHide.lt-md="true">
       <ng-container *ngFor="let button of widget.buttons">
-          <app-button *ngIf= "button.visibility <= 50 " [inputRows]="selection.selected" [widget]="button" [pageSelector]="pageSelector" (widgetEvent)="onWidgetEvent($event)"></app-button>
+          <app-button *ngIf= "button.visibility === 50 " [inputRows]="selection.selected" [widget]="button" [pageSelector]="pageSelector" (widgetEvent)="onWidgetEvent($event)" class="menuebutton" type="Default"></app-button>
       </ng-container> 
+      <button mat-button *ngIf="getLesserButtons().length > 0" [matMenuTriggerFor]="morebuttons">
+        ... <mat-icon>arrow_drop_down</mat-icon>
+      </button>
+      <mat-menu #morebuttons>
+        <ng-container *ngFor="let button of getLesserButtons()">
+          <app-button  [inputRows]="selection.selected" [widget]="button" [pageSelector]="pageSelector" (widgetEvent)="onWidgetEvent($event)" class="menuebutton" type="Default"></app-button>
+        </ng-container>
+      </mat-menu>
     </div>
   </mat-toolbar-row>
 </mat-toolbar>
@@ -112,30 +120,46 @@
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>
 
-<div class="fab-container">
+<div class="fab-container" *ngIf="getPrimaryButtons().length > 1">
   <button mat-fab class="fab-toggler"
           (click)="onToggleFab()"
           color="primary">
     <i class="material-icons" [@fabToggler]="{value: fabTogglerState}">more_vert</i> <!-- Animation here -->
   </button>
   <div [@speedDialStagger]="fabTogglerState === 'active' ? widget.buttons.length : 0"> <!-- and here -->
-  <!--
-    <button *ngFor="let btn of buttons"
-            mat-mini-fab
-            class="fab-secondary"   
-            color="secondary">
-        <i class="material-icons">{{btn.icon}}</i>
-      </button>  
-    -->
-    <ng-container *ngFor="let button of widget.buttons">
+    <ng-container *ngFor="let button of getPrimaryButtons()">
       <ng-container *ngIf="fabTogglerState === 'active'">
-        <app-button mat-mini-fab class="fab-secondary" color="secondary" 
-           *ngIf="button.visibility > 50" [inputRows]="selection.selected" [widget]="button" [pageSelector]="pageSelector" [iconOnly]="true" (widgetEvent)="onWidgetEvent($event)">
+          <app-button mat-mini-fab 
+          class="fab-secondary"
+          [inputRows]="selection.selected" 
+          [widget]="button" 
+          [pageSelector]="pageSelector" 
+          type="IconOnly"
+          (widgetEvent)="onWidgetEvent($event)" 
+          [matTooltip]="button.caption" 
+          matTooltipPosition="left">
         </app-button>
       </ng-container>
     </ng-container>
-  
   </div>
 </div>
 
-<mat-paginator [pageSize]="widget.paginator.page_size" [pageSizeOptions]="widget.paginator.page_sizes" [length]="response.recordsTotal" [pageIndex]="pager.pageIndex" showFirstLastButtons (page)="onPaginate($event)"></mat-paginator>
+<div class="fab-container" *ngIf="getPrimaryButtons().length === 1">
+  <app-button mat-fab 
+          [widget]="getPrimaryButtons()[0]" 
+          [pageSelector]="pageSelector" 
+          [inputRows]="selection.selected" 
+          [type]="'IconOnlyBig'"
+          (widgetEvent)="onWidgetEvent($event)" 
+          [matTooltip]="getPrimaryButtons()[0].caption" 
+          matTooltipPosition="left">
+  </app-button>
+</div>
+
+<mat-paginator [pageSize]="widget.paginator.page_size" 
+  [pageSizeOptions]="widget.paginator.page_sizes" 
+  [length]="response.recordsTotal" 
+  [pageIndex]="pager.pageIndex" 
+  showFirstLastButtons 
+  (page)="onPaginate($event)">
+</mat-paginator>

@@ -3,7 +3,11 @@
 }
 
 .mat-error {
-    margin-top: -41px;
+    margin-top: -18px;
     margin-left: 12px;
     font-size: 12px;
+}
+
+.dropdownicon {
+    cursor: pointer;
 }
