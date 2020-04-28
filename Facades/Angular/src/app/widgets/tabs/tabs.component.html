@@ -1,0 +1,7 @@
+<mat-tab-group>
+    <mat-tab *ngFor="let tab of widget.widgets" [label]="tab.caption">
+        <app-widget [structure]="tab" [pageSelector]="pageSelector" [formGroup]="formGroup" >
+
+        </app-widget> 
+    </mat-tab>
+  </mat-tab-group>

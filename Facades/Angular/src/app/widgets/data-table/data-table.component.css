@@ -66,3 +66,11 @@ label.mat-form-field-label {
   float: right;
   z-index: 100;
 }
+
+::ng-deep .morebuttons {
+  width: 190px;
+}
+
+div.menubutton{
+  width: 190px;
+}

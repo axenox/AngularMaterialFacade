@@ -20,7 +20,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { PageComponent } from './page/page.component';
 import { WidgetComponent } from './widgets/widget.component';
 import { CdkTableModule } from '@angular/cdk/table';
@@ -29,15 +29,15 @@ import { FilterComponent } from './widgets/filter/filter.component';
 import { InputComponent } from './widgets/inputs/input/input.component';
 import { InputSelectComponent } from './widgets/inputs/input-select/input-select.component';
 import { ButtonComponent } from './widgets/button/button.component';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatToolbarModule} from '@angular/material/toolbar';
+import { MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MdePopoverModule } from '@material-extended/mde';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import {MatMenuModule} from '@angular/material/menu';
+import { MatMenuModule } from '@angular/material/menu';
 import { HostDirective } from './widgets/host.directive';
 import { ContainerComponent } from './widgets/container/container.component';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { InputTextComponent } from './widgets/inputs/input-text/input-text.component';
 import { FormComponent } from './widgets/form/form.component';
 import { ActionsService } from './api/actions.service';
@@ -45,6 +45,8 @@ import { apiFactory } from './api/api-factory';
 import { InputComboComponent } from './widgets/inputs/input-combo/input-combo.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { HiddenControlValidatorDirective } from './widgets/inputs/input-combo/hidden-control-validator.directive';
+import { MatTabsModule } from '@angular/material/tabs';
+import { TabsComponent } from './widgets/tabs/tabs.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +64,8 @@ import { HiddenControlValidatorDirective } from './widgets/inputs/input-combo/hi
     InputTextComponent,
     FormComponent,
     InputComboComponent,
-    HiddenControlValidatorDirective, 
+    HiddenControlValidatorDirective,
+    TabsComponent, 
   ],
   imports: [
     BrowserModule,
@@ -98,7 +101,8 @@ import { HiddenControlValidatorDirective } from './widgets/inputs/input-combo/hi
     MatSelectModule,
     MatCheckboxModule,
     ReactiveFormsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatTabsModule
   ],
   entryComponents: [
     DialogComponent,

@@ -7,6 +7,4 @@ import { AbstractInputComponent } from '../abstract-input.component';
   styleUrls: ['./input-text.component.css']
 })
 export class InputTextComponent extends AbstractInputComponent {
-  
-
 }

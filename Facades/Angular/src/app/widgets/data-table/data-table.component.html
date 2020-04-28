@@ -33,22 +33,22 @@
         <mat-icon >menu</mat-icon>
       </button>
       <mat-menu #menu="matMenu" class="buttonmenue">
-        <ng-container *ngFor="let button of widget.buttons">
-          <app-button *ngIf= "button.visibility <= 50 " [inputRows]="selection.selected" [widget]="button" [pageSelector]="pageSelector" (widgetEvent)="onWidgetEvent($event)" class="menuebutton" type="Default"></app-button>
-        </ng-container> 
+        <div *ngFor="let button of widget.buttons">
+          <app-button *ngIf= "button.visibility <= 50 " [inputRows]="selection.selected" [widget]="button" [pageSelector]="pageSelector" (widgetEvent)="onWidgetEvent($event)" class="menubutton" type="Default"></app-button>
+        </div> 
       </mat-menu>
     </div>
     <span class="test-spacer"></span>
     <div fxShow="true" fxHide.lt-md="true">
       <ng-container *ngFor="let button of widget.buttons">
-          <app-button *ngIf= "button.visibility === 50 " [inputRows]="selection.selected" [widget]="button" [pageSelector]="pageSelector" (widgetEvent)="onWidgetEvent($event)" class="menuebutton" type="Default"></app-button>
+          <app-button *ngIf= "button.visibility === 50 " [inputRows]="selection.selected" [widget]="button" [pageSelector]="pageSelector" (widgetEvent)="onWidgetEvent($event)" type="Default"></app-button>
       </ng-container> 
       <button mat-button *ngIf="getLesserButtons().length > 0" [matMenuTriggerFor]="morebuttons">
         ... <mat-icon>arrow_drop_down</mat-icon>
       </button>
-      <mat-menu #morebuttons>
+      <mat-menu #morebuttons class="morebuttons">
         <ng-container *ngFor="let button of getLesserButtons()">
-          <app-button  [inputRows]="selection.selected" [widget]="button" [pageSelector]="pageSelector" (widgetEvent)="onWidgetEvent($event)" class="menuebutton" type="Default"></app-button>
+          <app-button [inputRows]="selection.selected" [widget]="button" [pageSelector]="pageSelector" (widgetEvent)="onWidgetEvent($event)" class="menubutton" type="Default"></app-button>
         </ng-container>
       </mat-menu>
     </div>
@@ -57,29 +57,42 @@
 
 <mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdePopoverCloseOnClick]="false">
   <mat-card>
-    <mat-card-header>
-      <mat-card-title>Filters</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <div fxShow="true" fxHide.gt-sm="true">
-        <mat-chip *ngFor="let filterChip of filterChips" [selectable]="selectable"
-          [removable]="removable" (removed)="removeChip(filterChip)">
-            {{filterChip.name}}: {{filterChip.value}}
-          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-      </mat-chip>
-      <br>
-      <br>
-      </div>
-      <div *ngFor="let column of widget.filters" class="filter">
-        <app-widget [structure]="column" [formGroup]="filterFormGroup" (widgetEvent)="onWidgetEvent($event)"></app-widget>
-      </div>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button class="searchbutton" (click)="onSearch()" aria-label="search icon button" matTooltip="Filter Anwenden">
-              <mat-icon>search</mat-icon> Search
-      </button>
-    </mat-card-actions>
+    <mat-tab-group>
+    <mat-tab label="Filters">   <mat-card>
+      <mat-card-header>
+        <mat-card-title>Filters</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div fxShow="true" fxHide.gt-sm="true">
+          <mat-chip *ngFor="let filterChip of filterChips" [selectable]="selectable"
+            [removable]="removable" (removed)="removeChip(filterChip)">
+              {{filterChip.name}}: {{filterChip.value}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+        <br>
+        <br>
+        </div>
+        <div *ngFor="let column of widget.filters" class="filter">
+          <app-widget [structure]="column" [formGroup]="filterFormGroup" (widgetEvent)="onWidgetEvent($event)"></app-widget>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button class="searchbutton" (click)="onSearch()" aria-label="search icon button" matTooltip="Filter Anwenden">
+                <mat-icon>search</mat-icon> Search
+        </button>
+      </mat-card-actions>
+    </mat-card> </mat-tab>
+    <mat-tab label="Login"> 
+      <mat-card>
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input matInput type="password">
+        </mat-form-field>
+      </mat-card> 
+    </mat-tab>
+    </mat-tab-group>
   </mat-card>
+
 </mde-popover>
 
 <mat-table #table [dataSource]="dataSource" matSort>

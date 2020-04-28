@@ -23,6 +23,7 @@ import { FormGroup } from '@angular/forms';
 import { InputTextComponent } from './inputs/input-text/input-text.component';
 import { FormComponent } from './form/form.component';
 import { InputComboComponent } from './inputs/input-combo/input-combo.component';
+import { TabsComponent } from './tabs/tabs.component';
 
 const COMPONENT_REGISTER = {
   'DataTable': DataTableComponent,
@@ -32,7 +33,10 @@ const COMPONENT_REGISTER = {
   'InputText': InputTextComponent,
   'Dialog': ContainerComponent,
   'Form': FormComponent,
-  'InputCombo': InputComboComponent
+  'InputCombo': InputComboComponent,
+  'Tabs': TabsComponent,
+  'Tab': ContainerComponent,
+  'WidgetGroup': ContainerComponent
 };
 
 @Component({
