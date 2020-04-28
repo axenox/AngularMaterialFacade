@@ -1,13 +1,25 @@
 .masonrycss {
     column-count: 1;
 }
-
-.item {
+.item1 {
     display: inline-block;
-    margin: 0 3px 0;
-    width: calc(100% / 2 - 3px);
+    margin: 0 6px 0 0;
+    width: 100%;
 }
 
-.item--width2 {
+.item2 {
+    display: inline-block;
+    margin: 0 6px 0 0;
+    width: calc(100% / 2 - 6px);
+}
+
+
+.item3 {
+    display: inline-block;
+    margin: 0 6px 0 0;
+    width: calc(100% / 3 - 6px);
+}
+
+.item--width--full {
     width: 100%;
 }

@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { IWidgetContainer } from '../../interfaces/widgets/container.interface';
 import { FormGroup } from '@angular/forms';
-import Masonry from 'masonry-layout'
+import { IWidgetInputInterface } from 'src/app/interfaces/widgets/input.interface';
+import { IWidgetForm } from 'src/app/interfaces/widgets/form.interface';
 
 @Component({
   selector: 'app-form',
@@ -11,7 +12,7 @@ import Masonry from 'masonry-layout'
 export class FormComponent implements OnInit {
 
   @Input()
-  widget: IWidgetContainer
+  widget: IWidgetForm;
 
   @Input()
   formGroup: FormGroup;
@@ -21,15 +22,16 @@ export class FormComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-    const grid = document.querySelector('.grid'); 
-    const msnry = new Masonry(grid, {
-      itemSelector: '.grid-item',
-      columnWidth: '.grid-sizer',
-      percentPosition: true
-    });
+  ngOnInit(): void {}
 
-    msnry.layout();
+  getWidgetClasses(w: IWidgetInputInterface) {
+    const classes = {};
+    if (w.widget_type==='InputText') {
+      classes['item--width--full']=true;
+    } else {
+      classes['item'+ this.widget.columns_in_grid]=true;
+    }
+    return classes;
   }
 
 }

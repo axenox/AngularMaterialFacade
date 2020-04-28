@@ -1,5 +1,5 @@
 <ng-container [formGroup]="formGroup">
-    <mat-form-field class="max-width" appearance="outline">
+    <mat-form-field class="max-width" appearance="legacy">
         <mat-label>{{widget.caption}}</mat-label>
             <mat-select matNativeControl [formControlName]="widget.attribute_alias" (ngModelChange)="onChange($event)" (keyup)="onKeyUp($event)">
             <mat-option *ngFor="let option of widget.selectable_options | keyvalue" [value]="option.key">{{option.value}}</mat-option>

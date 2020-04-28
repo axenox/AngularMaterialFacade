@@ -1,5 +1,5 @@
 <div class="masonrycss">
-    <div *ngFor="let w of widget.widgets" [ngClass]="{'item': true, 'item--width2': w.widget_type==='InputText'}">
+    <div *ngFor="let w of widget.widgets" [ngClass]="getWidgetClasses(w)">
         <app-widget [structure]="w" [formGroup]="formGroup" [pageSelector]="pageSelector"></app-widget>
     </div>
 </div>

@@ -3,8 +3,8 @@
 }
 
 .mat-error {
-    margin-top: -18px;
-    margin-left: 12px;
+    position: absolute;
+    margin-top: -15px;
     font-size: 12px;
 }
 

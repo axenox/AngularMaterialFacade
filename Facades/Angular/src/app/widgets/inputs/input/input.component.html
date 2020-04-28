@@ -1,5 +1,5 @@
 <ng-container [formGroup]="formGroup">
-    <mat-form-field class="full-width" appearance="outline">
+    <mat-form-field class="full-width" appearance="legacy">
         <mat-label>{{widget.caption}}</mat-label>
         <input matInput [formControlName]="widget.attribute_alias" type="text" (ngModelChange)="onChange($event)" (keyup)="onKeyUp($event)"/>
         <mat-error *ngIf="hasError()">
