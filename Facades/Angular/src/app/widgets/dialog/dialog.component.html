@@ -2,7 +2,7 @@
     <mat-icon *ngIf="data.structure.icon" fontSet="fa" fontIcon="fa-{{data.structure.icon}}"></mat-icon>
     {{data.structure.caption}}
 </h1>
-<mat-dialog-content>
+<mat-dialog-content [ngClass]="{'mat-dialog-heigh': hasTabs(data.structure) ,'mat-dialog-wide': data.structure.columns_in_grid > 1, 'mat-dialog-narrow': data.structure.columns_in_grid === 1  }">
     <app-widget *ngIf="data" [structure]="data.structure" [pageSelector]="data.pageSelector" [formGroup]="formGroup"></app-widget>
 </mat-dialog-content>
 <div mat-dialog-actions class="dialogbuttons" >

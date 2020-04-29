@@ -36,7 +36,7 @@ const COMPONENT_REGISTER = {
   'InputCombo': InputComboComponent,
   'Tabs': TabsComponent,
   'Tab': ContainerComponent,
-  'WidgetGroup': ContainerComponent
+  'WidgetGroup': FormComponent
 };
 
 @Component({

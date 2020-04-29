@@ -28,7 +28,6 @@ export class DialogComponent implements OnInit {
   
   formGroup: FormGroup;
 
-
   constructor(
     private dialogRef: MatDialogRef<DialogComponent>,
     private _snackBar: MatSnackBar,
@@ -70,6 +69,22 @@ export class DialogComponent implements OnInit {
     if(event.type === WidgetEventType.CLICKED){
       this.dialogRef.close();
     }
+  }
+
+  hasTabs(widget: IWidgetContainer | IWidgetInterface): boolean {
+    if (widget.widget_type === 'Tabs') {
+      return true;
+    }
+
+    if (widget.hasOwnProperty('widgets')) {
+      for (let child of (widget as IWidgetContainer).widgets) {
+        if (this.hasTabs(child)) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 }
 

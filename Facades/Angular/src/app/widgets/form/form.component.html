@@ -1,5 +1,7 @@
 <div class="masonrycss">
-    <div *ngFor="let w of widget.widgets" [ngClass]="getWidgetClasses(w)">
-        <app-widget [structure]="w" [formGroup]="formGroup" [pageSelector]="pageSelector"></app-widget>
-    </div>
+    <ng-container *ngFor="let w of widget.widgets">
+        <div *ngIf="w.widget_type !== 'InputHidden'" [ngClass]="getWidgetClasses(w)">
+            <app-widget  [structure]="w" [formGroup]="formGroup" [pageSelector]="pageSelector"></app-widget>
+        </div>
+    </ng-container>
 </div>
