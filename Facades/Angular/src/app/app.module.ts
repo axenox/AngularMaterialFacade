@@ -18,7 +18,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { PageComponent } from './page/page.component';
@@ -47,6 +47,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { HiddenControlValidatorDirective } from './widgets/inputs/input-combo/hidden-control-validator.directive';
 import { MatTabsModule } from '@angular/material/tabs';
 import { TabsComponent } from './widgets/tabs/tabs.component';
+import { LoadingScreenInterceptor } from './components/loading-screen/loading-screen.interceptor';
+import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +67,8 @@ import { TabsComponent } from './widgets/tabs/tabs.component';
     FormComponent,
     InputComboComponent,
     HiddenControlValidatorDirective,
-    TabsComponent, 
+    TabsComponent,
+    LoadingScreenComponent
   ],
   imports: [
     BrowserModule,
@@ -102,14 +105,20 @@ import { TabsComponent } from './widgets/tabs/tabs.component';
     MatCheckboxModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
-    MatTabsModule
+    MatTabsModule,
+    MatProgressSpinnerModule
   ],
   entryComponents: [
     DialogComponent,
   ],
 
   providers: [
-    {provide: ActionsService, useFactory: apiFactory, deps: [HttpClient]}
+    {provide: ActionsService, useFactory: apiFactory, deps: [HttpClient]},
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingScreenInterceptor,
+      multi: true,
+    },
   ],
 
   bootstrap: [AppComponent]

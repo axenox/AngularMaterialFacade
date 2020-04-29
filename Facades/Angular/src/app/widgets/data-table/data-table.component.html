@@ -34,14 +34,14 @@
       </button>
       <mat-menu #menu="matMenu" class="buttonmenue">
         <div *ngFor="let button of widget.buttons">
-          <app-button *ngIf= "button.visibility <= 50 " [inputRows]="selection.selected" [widget]="button" [pageSelector]="pageSelector" (widgetEvent)="onWidgetEvent($event)" class="menubutton" type="Default"></app-button>
+          <app-button *ngIf= "button.visibility <= 50 && widget.default_search_button_id !== button.id" [inputRows]="selection.selected" [widget]="button" [pageSelector]="pageSelector" (widgetEvent)="onWidgetEvent($event)" class="menubutton" type="Default"></app-button>
         </div> 
       </mat-menu>
     </div>
     <span class="test-spacer"></span>
     <div fxShow="true" fxHide.lt-md="true">
       <ng-container *ngFor="let button of widget.buttons">
-          <app-button *ngIf= "button.visibility === 50 " [inputRows]="selection.selected" [widget]="button" [pageSelector]="pageSelector" (widgetEvent)="onWidgetEvent($event)" type="Default"></app-button>
+          <app-button *ngIf= "button.visibility === 50 && widget.default_search_button_id !== button.id" [inputRows]="selection.selected" [widget]="button" [pageSelector]="pageSelector" (widgetEvent)="onWidgetEvent($event)" type="Default"></app-button>
       </ng-container> 
       <button mat-button *ngIf="getLesserButtons().length > 0" [matMenuTriggerFor]="morebuttons">
         ... <mat-icon>arrow_drop_down</mat-icon>
@@ -56,9 +56,7 @@
 </mat-toolbar>
 
 <mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdePopoverCloseOnClick]="false">
-  <mat-card>
-    <mat-tab-group>
-    <mat-tab label="Filters">   <mat-card>
+    <mat-card>
       <mat-card-header>
         <mat-card-title>Filters</mat-card-title>
       </mat-card-header>
@@ -81,18 +79,7 @@
                 <mat-icon>search</mat-icon> Search
         </button>
       </mat-card-actions>
-    </mat-card> </mat-tab>
-    <mat-tab label="Login"> 
-      <mat-card>
-        <mat-form-field>
-          <mat-label>Password</mat-label>
-          <input matInput type="password">
-        </mat-form-field>
-      </mat-card> 
-    </mat-tab>
-    </mat-tab-group>
-  </mat-card>
-
+    </mat-card>
 </mde-popover>
 
 <mat-table #table [dataSource]="dataSource" matSort>

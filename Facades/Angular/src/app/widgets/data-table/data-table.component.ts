@@ -87,6 +87,8 @@ export class DataTableComponent implements OnInit {
 
   filterFormGroup = new FormGroup({});
 
+  isLoading: true;
+
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MdePopoverTrigger, { static: false }) trigger: MdePopoverTrigger;
@@ -247,10 +249,12 @@ export class DataTableComponent implements OnInit {
   }
 
   getPrimaryButtons(){
-    return this.widget.buttons ? this.widget.buttons.filter((button: IWidgetButton)=>button.visibility>50) : [];
+    return this.widget.buttons ? this.widget.buttons.filter((button: IWidgetButton)=>button.visibility>50 && this.widget.default_search_button_id !== button.id) : [];
   }
 
   getLesserButtons(){
-    return this.widget.buttons ? this.widget.buttons.filter((button: IWidgetButton)=>button.visibility <= 30) : [];
+    return this.widget.buttons ? this.widget.buttons.filter((button: IWidgetButton)=>button.visibility <= 30 && this.widget.default_search_button_id !== button.id) : [];
   }
+
+
 }
