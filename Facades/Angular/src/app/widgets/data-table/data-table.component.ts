@@ -96,7 +96,10 @@ export class DataTableComponent implements OnInit {
   constructor(private dialog: MatDialog, private actions: ActionsService) {}
 
   ngOnInit() {
-    this.displayedColumns = ['_checkboxes_'];
+    this.displayedColumns = [];
+    if (this.hasMultiselect()) {
+      this.displayedColumns.push('_checkboxes_');
+    }
     this.displayedColumns.push(...this.widget.columns.map(c => c.data_column_name));
     this.displayedColumns.push('_actions_');
     this.loadData();
@@ -256,5 +259,14 @@ export class DataTableComponent implements OnInit {
     return this.widget.buttons ? this.widget.buttons.filter((button: IWidgetButton)=>button.visibility <= 30 && this.widget.default_search_button_id !== button.id) : [];
   }
 
+  hasMultiselect(){
+    return this.widget.multi_select;
+  }
 
+  rowClicked(row: DataRow) {
+    if (!this.hasMultiselect()) {
+      this.selection.clear();
+    }
+    this.selection.toggle(row);
+  }
 }
