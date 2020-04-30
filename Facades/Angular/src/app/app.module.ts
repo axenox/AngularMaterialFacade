@@ -49,6 +49,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { TabsComponent } from './widgets/tabs/tabs.component';
 import { LoadingScreenInterceptor } from './components/loading-screen/loading-screen.interceptor';
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
+import { InputCheckBoxComponent } from './widgets/inputs/input-checkbox/input-checkbox.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { LoadingScreenComponent } from './components/loading-screen/loading-scre
     InputComboComponent,
     HiddenControlValidatorDirective,
     TabsComponent,
-    LoadingScreenComponent
+    LoadingScreenComponent,
+    InputCheckBoxComponent
   ],
   imports: [
     BrowserModule,
@@ -106,7 +108,8 @@ import { LoadingScreenComponent } from './components/loading-screen/loading-scre
     ReactiveFormsModule,
     MatAutocompleteModule,
     MatTabsModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatCheckboxModule
   ],
   entryComponents: [
     DialogComponent,

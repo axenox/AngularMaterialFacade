@@ -60,7 +60,25 @@ export class ButtonComponent implements OnInit {
   }
 
   getInput(): DataRow[] {
-    return this.inputRows || (this.formGroup && [this.formGroup.value]);
+    if (this.inputRows) {
+      return this.inputRows;
+    }
+    if (!this.formGroup) {
+      return null;
+    }
+
+    const input = {};
+    Object.keys(this.formGroup.value).forEach((key: string) => {
+      let value = this.formGroup.value[key];
+      if (value === true) {
+        value = 1;
+      }
+      if (value === false) {
+        value = 0;
+      }
+      input[key] = value;
+    });
+    return [input];
   }
 
   onClick(): void {
@@ -116,7 +134,11 @@ export class ButtonComponent implements OnInit {
               this.formGroup.markAllAsTouched();
               return;
             }
-            const request: Request = {action: action.alias, resource: this.pageSelector, data: {rows: input, object_alias: action.object_alias}}
+            const request: Request = {
+              action: action.alias, 
+              resource: this.pageSelector, 
+              element: this.widget.id,
+              data: {rows: input, object_alias: action.object_alias}}
             this.actions.callAction(request).subscribe(
               (result: DataResponse) => {
                 const event: IWidgetEvent = {source: this.widget, type: WidgetEventType.ACTION_CALLED, value: true};
@@ -182,6 +204,6 @@ export class ButtonComponent implements OnInit {
   }
 
   isActionShowDialog(object: any): object is IActionShowDialog {
-    return 'fallback_actions' in object && object.fallback_actions.some((action: string) => action.includes('ShowDialog'));
+    return object.alias.includes('ShowDialog') || 'fallback_actions' in object && object.fallback_actions.some((action: string) => action.includes('ShowDialog'));
   }
 }

@@ -32,7 +32,6 @@ export class DialogComponent implements OnInit {
     private dialogRef: MatDialogRef<DialogComponent>,
     private _snackBar: MatSnackBar,
     private http: HttpClient, private route: ActivatedRoute,
-    private actions: ActionsService,
     @Inject(MAT_DIALOG_DATA) public data: IDialogData) {}
 
   ngOnInit() {  
