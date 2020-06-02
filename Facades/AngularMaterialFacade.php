@@ -78,7 +78,8 @@ class AngularMaterialFacade extends AbstractAjaxFacade
         foreach ($this->buildHeadersAccessControl() as $name => $value) {
             header("$name: $value", false);
         }
-        return parent::createResponseFromError($request, $exception, $page);
+        throw $exception;
+        //return parent::createResponseFromError($request, $exception, $page);
     }
     
     /**
@@ -86,7 +87,7 @@ class AngularMaterialFacade extends AbstractAjaxFacade
      * {@inheritDoc}
      * @see \exface\Core\Facades\AbstractAjaxFacade\AbstractAjaxFacade::createResponseUnauthorized()
      */
-    protected function createResponseUnauthorized(ServerRequestInterface $request, \Throwable $exception, UiPageInterface $page = null) : ?ResponseInterface
+    /*protected function createResponseUnauthorized(ServerRequestInterface $request, \Throwable $exception, UiPageInterface $page = null) : ?ResponseInterface
     {
         $page = ! is_null($page) ? $page : UiPageFactory::createEmpty($this->getWorkbench());
         
@@ -102,7 +103,7 @@ class AngularMaterialFacade extends AbstractAjaxFacade
         $responseBody = json_encode($this->getElement($loginPrompt)->buildJson());
             
         return new Response(401, $this->buildHeadersAccessControl(), $responseBody);
-    }
+    }*/
     
     /**
      * 
