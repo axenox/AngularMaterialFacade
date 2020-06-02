@@ -161,7 +161,7 @@ export class ButtonComponent implements OnInit {
   }
 
   onClickGoToPage(action: IActionGoToPage) {
-    document.location.href = '/page/' + action.page_alias;
+    document.location.href = 'page/' + action.page_alias;
     //this.router.navigateByUrl('/page/' + action.page_alias);
   }
 

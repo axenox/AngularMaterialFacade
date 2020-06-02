@@ -1,0 +1,10 @@
+AddDefaultCharset utf-8
+
+Options -Indexes
+
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# index request without any path
+RewriteRule ^dist/.*$ dist/index.html [L,QSA]
