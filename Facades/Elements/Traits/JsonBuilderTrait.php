@@ -45,6 +45,10 @@ trait JsonBuilderTrait
             if ($widgetType === 'AbstractWidget') {
                 break;
             }
+            $reflection = new \ReflectionClass($fallbackClass);
+            if ($reflection->isAbstract()) {
+                continue;
+            }
             $fallbacks[] = $widgetType;
         }
         return $fallbacks;
@@ -75,8 +79,11 @@ trait JsonBuilderTrait
             if (StringDataType::endsWith($fallbackClass, 'AbstractAction')) {
                 break;
             }
+            $reflection = new \ReflectionClass($fallbackClass);
+            if ($reflection->isAbstract()) {
+                continue;
+            }
             $action = ActionFactory::createFromString($this->getWorkbench(), '\\' . $fallbackClass);
-            //$alias = StringDataType::substringAfter($fallbackClass, '\\', $fallbackClass, false, true);
             $fallbacks[] = $action->getAliasWithNamespace();
         }
         return $fallbacks;
