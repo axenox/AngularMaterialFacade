@@ -19,7 +19,9 @@ use exface\Core\Exceptions\RuntimeException;
 use exface\Core\DataTypes\StringDataType;
 use exface\Core\Interfaces\Actions\ActionInterface;
 use axenox\AngularMaterialFacade\Facades\Elements\Actions\NgmActionElement;
-use exface\Core\DataTypes\FilePathDataType;
+use exface\Core\Factories\UiPageFactory;
+use exface\Core\Widgets\LoginPrompt;
+use exface\Core\Interfaces\Log\LoggerInterface;
 
 /**
  * 
@@ -66,15 +68,48 @@ class AngularMaterialFacade extends AbstractAjaxFacade
     /**
      * 
      * {@inheritDoc}
+     * @see \exface\Core\Facades\AbstractAjaxFacade\AbstractAjaxFacade::createResponseUnauthorized()
+     */
+    protected function createResponseUnauthorized(ServerRequestInterface $request, \Throwable $exception, UiPageInterface $page = null) : ?ResponseInterface
+    {
+        $page = ! is_null($page) ? $page : UiPageFactory::createEmpty($this->getWorkbench());
+        
+        try {
+            $loginPrompt = LoginPrompt::createFromException($page, $exception);
+        } catch (\Throwable $e) {
+            $this->getWorkbench()->getLogger()->logException($e, LoggerInterface::DEBUG);
+            return null;
+        }
+            
+        $headers['Content-type'] = ['application/json;charset=utf-8'];
+        $headers = array_merge($headers, $this->buildHeadersAccessControl());
+        $responseBody = json_encode($this->getElement($loginPrompt)->buildJson());
+            
+        return new Response(401, $this->buildHeadersAccessControl(), $responseBody);
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \exface\Core\Facades\AbstractAjaxFacade\AbstractAjaxFacade::isShowingErrorDetails()
+     */
+    protected function isShowingErrorDetails() : bool
+    {
+        return false;
+    }
+    
+    /**
+     * 
+     * {@inheritDoc}
      * @see \exface\Core\Facades\AbstractAjaxFacade\AbstractAjaxFacade::createResponseFromError()
      */
-    public function createResponseFromError(ServerRequestInterface $request, \Throwable $exception, UiPageInterface $page = null) : ResponseInterface 
+    /*public function createResponseFromError(ServerRequestInterface $request, \Throwable $exception, UiPageInterface $page = null) : ResponseInterface 
     {
         foreach ($this->buildHeadersAccessControl() as $name => $value) {
             header("$name: $value", false);
         }
         throw $exception;
-    }
+    }*/
     
     /**
      * 

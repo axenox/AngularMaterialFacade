@@ -25,6 +25,8 @@ trait JsonBuilderTrait
         $props['fallback_widgets'] = $this->getFallbackWidgetTypes($widget);
         if ($widget->getPage()->hasModel()) {
             $props['page_alias'] = $widget->getPage()->getAliasWithNamespace();
+        } else {
+            $props['page_alias'] = '';
         }
         $props = $this->buildJsonFromObject($widget, $props);
         return $props;
