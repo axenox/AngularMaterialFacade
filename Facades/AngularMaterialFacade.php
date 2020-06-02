@@ -55,7 +55,8 @@ class AngularMaterialFacade extends AbstractAjaxFacade
                 $widget = $result->getWidget();
                 $headers['Content-type'] = ['application/json;charset=utf-8'];
                 $headers = array_merge($headers, $this->buildHeadersAccessControl());
-                $body = json_encode($this->getElement($widget)->buildJson());
+                $json = $this->getElement($widget)->buildJson();
+                $body = json_encode($json);
                 break;
             default:
                 return parent::createResponseFromTaskResult($request, $result);
