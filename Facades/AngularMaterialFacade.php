@@ -66,6 +66,21 @@ class AngularMaterialFacade extends AbstractAjaxFacade
         return new Response($status_code, $headers, $body);
     }
     
+    
+    
+    /**
+     * TODO remove!!!
+     * {@inheritDoc}
+     * @see \exface\Core\Facades\AbstractAjaxFacade\AbstractAjaxFacade::createResponseFromError()
+     */
+    public function createResponseFromError(ServerRequestInterface $request, \Throwable $exception, UiPageInterface $page = null) : ResponseInterface
+    {
+        foreach ($this->buildHeadersAccessControl() as $name => $value) {
+            header("$name: $value", false);
+        }
+        return parent::createResponseFromError($request, $exception, $page);
+    }
+    
     /**
      * 
      * {@inheritDoc}
