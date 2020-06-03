@@ -50,6 +50,9 @@ import { TabsComponent } from './widgets/tabs/tabs.component';
 import { LoadingScreenInterceptor } from './components/loading-screen/loading-screen.interceptor';
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 import { InputCheckBoxComponent } from './widgets/inputs/input-checkbox/input-checkbox.component';
+import {MatTreeModule} from '@angular/material/tree';
+import { CdkTreeModule } from '@angular/cdk/tree';
+import { NavMenuComponent } from './widgets/nav-menu/nav-menu.component';
 
 @NgModule({
   declarations: [
@@ -70,13 +73,15 @@ import { InputCheckBoxComponent } from './widgets/inputs/input-checkbox/input-ch
     HiddenControlValidatorDirective,
     TabsComponent,
     LoadingScreenComponent,
-    InputCheckBoxComponent
+    InputCheckBoxComponent,
+    NavMenuComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     CdkTableModule,
+    CdkTreeModule,
     MatTableModule,
     MatSortModule,
     MatFormFieldModule,
@@ -109,7 +114,8 @@ import { InputCheckBoxComponent } from './widgets/inputs/input-checkbox/input-ch
     MatAutocompleteModule,
     MatTabsModule,
     MatProgressSpinnerModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatTreeModule,
   ],
   entryComponents: [
     DialogComponent,
