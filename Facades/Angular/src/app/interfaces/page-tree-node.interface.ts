@@ -3,4 +3,5 @@ export interface IPageTreeNodeInterface {
     url: string;
     name: string;
     children: IPageTreeNodeInterface[];
+    level?: number;
 }
