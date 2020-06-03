@@ -70,7 +70,7 @@ constructor(http: HttpClient) {
       }
     
       if (filterEntries && filterEntries.length > 0) {
-        params['data[object_alias]'] = 'exface.Core.MESSAGE'
+        params['data[object_alias]'] = widget.object_alias;
         params['data[filters][operator]'] = 'AND';
   
         filterEntries.forEach((chip: FilterEntry, index: number) => {
