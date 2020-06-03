@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  url: 'http://localhost/exface/exface/api/angular'
+  url: '/exface/exface/api/angular'
 };
