@@ -4,9 +4,7 @@ import { DataTableComponent } from './widgets/data-table/data-table.component';
 import { PageComponent } from './page/page.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: '/page/angular-test', pathMatch: 'full'},
-  {path: 'table', component: DataTableComponent},
-  {path: 'page/:pageSelector', component: PageComponent},
+  {path: '**', component: PageComponent}
 ];
 
 @NgModule({

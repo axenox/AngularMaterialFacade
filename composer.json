@@ -1,29 +1,29 @@
 {
-	"name" : "axenox/angularmaterialfacade",
-	"require" : {
-		"exface/core" : "~0.1"
-	},
-	"support" : {
-		"source" : "https://github.com/axenox/angularmaterialfacade",
-		"docs" : "https://github.com/axenox/angularmaterialfacade/blob/master/Docs",
-		"issues" : "https://github.com/axenox/angularmaterialfacade/issues"
-	},
-	"autoload" : {
-		"psr-4" : {
-			"\\axenox\\AngularMaterialFacade\\" : ""
-		},
-		"exclude-from-classmap" : [
-			"/Config/",
-			"/Translations/",
-			"/Model/"
-		]
-	},
-	"extra" : {
-		"app" : {
-			"app_uid" : "0x11ea57e34bab4d43af98e4b318306b9a",
-			"app_alias" : "axenox.AngularMaterialFacade",
-			"model_md5" : "d1a2452a67ab98565a07f86c1d44b75b",
-			"model_timestamp" : "2020-02-25 15:31:05"
-		}
-	}
+    "name": "axenox/angularmaterialfacade",
+    "require": {
+        "exface/core": "~0.1"
+    },
+    "support": {
+        "source": "https://github.com/axenox/angularmaterialfacade",
+        "docs": "https://github.com/axenox/angularmaterialfacade/blob/master/Docs",
+        "issues": "https://github.com/axenox/angularmaterialfacade/issues"
+    },
+    "autoload": {
+        "psr-4": {
+            "\\axenox\\AngularMaterialFacade\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Config/",
+            "/Translations/",
+            "/Model/"
+        ]
+    },
+    "extra": {
+        "app": {
+            "app_uid": "0x11ea57e34bab4d43af98e4b318306b9a",
+            "app_alias": "axenox.AngularMaterialFacade",
+            "model_md5": "1831c1431fbb0b51a595adef95ae27d4",
+            "model_timestamp": "2020-06-03 19:44:38"
+        }
+    }
 }
