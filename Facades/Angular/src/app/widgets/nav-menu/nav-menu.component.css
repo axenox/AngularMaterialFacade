@@ -1,0 +1,9 @@
+.mat-tree-node:hover {
+    background-color: rgb(108, 174, 245) !important;
+    color: white;
+    cursor: pointer;
+}
+
+.tree{
+    width: 200px;
+}
