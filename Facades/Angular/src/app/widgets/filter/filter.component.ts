@@ -18,6 +18,9 @@ export class FilterComponent implements OnInit {
 
   @Output()
   widgetEvent = new EventEmitter<IWidgetEvent>();
+
+  @Input()
+  pageSelector: string;
   
   constructor() { }
 

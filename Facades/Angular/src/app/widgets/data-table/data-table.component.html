@@ -71,7 +71,7 @@
         <br>
         </div>
         <div *ngFor="let column of widget.filters" class="filter">
-          <app-widget [structure]="column" [formGroup]="filterFormGroup" (widgetEvent)="onWidgetEvent($event)"></app-widget>
+          <app-widget [structure]="column" [formGroup]="filterFormGroup" (widgetEvent)="onWidgetEvent($event)" [pageSelector]="pageSelector"></app-widget>
         </div>
       </mat-card-content>
       <mat-card-actions>
