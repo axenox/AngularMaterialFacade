@@ -1,11 +1,14 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material/tree';
 import { IWidgetNavMenuInterface } from 'src/app/interfaces/widgets/nav-menu.interface';
 import { IPageTreeNodeInterface } from 'src/app/interfaces/page-tree-node.interface';
+import { Router } from '@angular/router';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 interface INode {
   name: string;
+  url: string;
   children?: INode[];
 }
 
@@ -27,25 +30,18 @@ export class NavMenuComponent implements OnInit {
       expandable: !!node.children && node.children.length > 0,
       name: node.name,
       level: level,
+      url: node.url,
     };
   }
+
+  @ViewChild("content") content: ElementRef;
 
   @Input()
   widget:IWidgetNavMenuInterface;
 
+  url: SafeResourceUrl;
+
   data: INode[] = [];
-  /*[
-    {
-      name: 'Fruit',
-      children: [
-        {name: 'Apple'},
-        {name: 'Banana'},
-        {name: 'Fruit loops'},
-      ]
-    }, 
-  ];
-  */
-  
 
   treeControl = new FlatTreeControl<ExampleFlatNode>(
       node => node.level, node => node.expandable);
@@ -55,8 +51,7 @@ export class NavMenuComponent implements OnInit {
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  constructor() {
-  }
+  constructor(private router: Router, private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
     if (this.widget.nav_menu){
@@ -71,17 +66,23 @@ export class NavMenuComponent implements OnInit {
    * @param widgetNodes the array with the widget data from server
    */
   fillData(data: INode[], widgetNodes: IPageTreeNodeInterface[]) {
-    widgetNodes.forEach((node: IPageTreeNodeInterface) => {
-      const dataNode: INode = {name: node.name};
+    widgetNodes.forEach((widgetNode: IPageTreeNodeInterface) => {
+      const dataNode: INode = {name: widgetNode.name, url:widgetNode.url};
       data.push(dataNode);
-      if (node.children) {
+      if (widgetNode.children) {
         dataNode.children = [];
-        this.fillData(dataNode.children, node.children);
+        this.fillData(dataNode.children, widgetNode.children);
       }
     });
   }
 
-  
-
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
+
+  onNavigate(node: INode){
+    // window.location.href=node.url;
+    // this.router.navigate(['/ext-page', { url: node.url }])
+    // this.content.nativeElement.innerHTML=`<object type="type/html" data="${node.url}" ></object>`;
+    // this.content.nativeElement.src = node.url;
+    this.url = this.sanitizer.bypassSecurityTrustResourceUrl(node.url);
+  }
 }
