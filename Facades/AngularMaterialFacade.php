@@ -22,6 +22,8 @@ use axenox\AngularMaterialFacade\Facades\Elements\Actions\NgmActionElement;
 use exface\Core\Factories\UiPageFactory;
 use exface\Core\Widgets\LoginPrompt;
 use exface\Core\Interfaces\Log\LoggerInterface;
+use exface\Core\Exceptions\Facades\FacadeRuntimeError;
+use function GuzzleHttp\Psr7\stream_for;
 
 /**
  * 
@@ -35,6 +37,23 @@ class AngularMaterialFacade extends AbstractAjaxFacade
     private $angularInterfacesByPhpClass = [];
     
     private $jsonPropsByAngularPath = [];
+    
+    public function handle(ServerRequestInterface $request, $useCacheKey = null) : ResponseInterface
+    {
+        if ($this->isRequestFrontend($request)) {
+            $indexHtmlPath = $this->getApp()->getDirectoryAbsolutePath() 
+            . DIRECTORY_SEPARATOR . 'Facades' 
+            . DIRECTORY_SEPARATOR . 'Angular'
+            . DIRECTORY_SEPARATOR . 'dist'
+            . DIRECTORY_SEPARATOR . 'index.html';
+            if (! file_exists($indexHtmlPath)) {
+                throw new FacadeRuntimeError('Angular build not found! Please run "ng build" or reinstall the facade');
+            }
+            return new Response(200, $this->buildHeadersAccessControl(), stream_for(file_get_contents($indexHtmlPath)));
+        }
+        
+        return parent::handle($request, $useCacheKey);
+    }
 
     /**
      *

@@ -5,10 +5,7 @@ import { PageComponent } from './page/page.component';
 import { ExternalPageComponent } from './external-page/external-page.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: '/page/angular-test', pathMatch: 'full'},
-  {path: 'table', component: DataTableComponent},
-  {path: 'page/:pageSelector', component: PageComponent},
-  {path: 'ext-page/:url', component: ExternalPageComponent},
+  {path: '**', component: PageComponent}
 ];
 
 @NgModule({

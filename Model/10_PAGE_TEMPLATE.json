@@ -1,0 +1,84 @@
+{
+    "object_alias": "exface.Core.PAGE_TEMPLATE",
+    "columns": [
+        {
+            "name": "CREATED_ON",
+            "attribute_alias": "CREATED_ON"
+        },
+        {
+            "name": "MODIFIED_ON",
+            "attribute_alias": "MODIFIED_ON"
+        },
+        {
+            "name": "CREATED_BY_USER",
+            "attribute_alias": "CREATED_BY_USER"
+        },
+        {
+            "name": "MODIFIED_BY_USER",
+            "attribute_alias": "MODIFIED_BY_USER"
+        },
+        {
+            "name": "UID",
+            "attribute_alias": "UID"
+        },
+        {
+            "name": "APP",
+            "attribute_alias": "APP"
+        },
+        {
+            "name": "NAME",
+            "attribute_alias": "NAME"
+        },
+        {
+            "name": "DESCRIPTION",
+            "attribute_alias": "DESCRIPTION"
+        },
+        {
+            "name": "FACADE",
+            "attribute_alias": "FACADE"
+        },
+        {
+            "name": "FACADE_UXON",
+            "attribute_alias": "FACADE_UXON"
+        }
+    ],
+    "rows": [
+        {
+            "CREATED_ON": "2020-06-03 19:44:38",
+            "MODIFIED_ON": "2020-06-03 19:44:38",
+            "CREATED_BY_USER": "0x31000000000000000000000000000000",
+            "MODIFIED_BY_USER": "0x31000000000000000000000000000000",
+            "UID": "0x11eaa5d28772f39fbba0e4b318306b9a",
+            "APP": "0x11ea57e34bab4d43af98e4b318306b9a",
+            "NAME": "Angular Material",
+            "DESCRIPTION": "",
+            "FACADE": "axenox\/angularmaterialfacade\/Facades\/AngularMaterialFacade.php",
+            "FACADE_UXON": null
+        }
+    ],
+    "totals_rows": [],
+    "filters": {
+        "operator": "AND",
+        "base_object_alias": "exface.Core.PAGE_TEMPLATE",
+        "conditions": [
+            {
+                "expression": "APP",
+                "comparator": "=",
+                "value": "0x11ea57e34bab4d43af98e4b318306b9a",
+                "object_alias": "exface.Core.PAGE_TEMPLATE"
+            }
+        ]
+    },
+    "rows_limit": null,
+    "rows_offset": 0,
+    "sorters": [
+        {
+            "attribute_alias": "CREATED_ON",
+            "direction": "ASC"
+        },
+        {
+            "attribute_alias": "UID",
+            "direction": "ASC"
+        }
+    ]
+}
