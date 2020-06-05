@@ -13,7 +13,7 @@ interface INode {
 }
 
 /** Flat node with expandable and level information */
-interface ExampleFlatNode {
+interface FlatNode {
   expandable: boolean;
   name: string;
   level: number;
@@ -43,7 +43,7 @@ export class NavMenuComponent implements OnInit {
 
   data: INode[] = [];
 
-  treeControl = new FlatTreeControl<ExampleFlatNode>(
+  treeControl = new FlatTreeControl<FlatNode>(
       node => node.level, node => node.expandable);
 
   treeFlattener = new MatTreeFlattener(
@@ -76,7 +76,7 @@ export class NavMenuComponent implements OnInit {
     });
   }
 
-  hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
+  hasChild = (_: number, node: FlatNode) => node.expandable;
 
   onNavigate(node: INode){
     // window.location.href=node.url;
