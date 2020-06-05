@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-   url: 'http://localhost/exface/exface/api/angular'
+   url: 'http://localhost/exface/exface/api/angular',
+   index_page_selector: 'index'
 };
 
 /*
