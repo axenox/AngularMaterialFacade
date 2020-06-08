@@ -10,7 +10,6 @@ use exface\Core\Interfaces\Tasks\ResultInterface;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Psr7\Response;
 use exface\Core\Interfaces\Tasks\ResultWidgetInterface;
-use axenox\AngularMaterialFacade\Facades\Elements\NgmBasicElement;
 use exface\Core\Interfaces\Model\UiPageInterface;
 use exface\Core\DataTypes\PhpFilePathDataType;
 use exface\Core\Interfaces\iCanBeConvertedToUxon;
@@ -19,9 +18,6 @@ use exface\Core\Exceptions\RuntimeException;
 use exface\Core\DataTypes\StringDataType;
 use exface\Core\Interfaces\Actions\ActionInterface;
 use axenox\AngularMaterialFacade\Facades\Elements\Actions\NgmActionElement;
-use exface\Core\Factories\UiPageFactory;
-use exface\Core\Widgets\LoginPrompt;
-use exface\Core\Interfaces\Log\LoggerInterface;
 use exface\Core\Exceptions\Facades\FacadeRuntimeError;
 use function GuzzleHttp\Psr7\stream_for;
 
@@ -37,6 +33,8 @@ class AngularMaterialFacade extends AbstractAjaxFacade
     private $angularInterfacesByPhpClass = [];
     
     private $jsonPropsByAngularPath = [];
+    
+    private $themeCss = null;
     
     public function handle(ServerRequestInterface $request, $useCacheKey = null) : ResponseInterface
     {
@@ -418,5 +416,30 @@ class AngularMaterialFacade extends AbstractAjaxFacade
     protected function buildHtmlPage(WidgetInterface $widget, string $pagetTemplateFilePath = null) : string
     {
         return '';
+    }
+
+    /**
+     * 
+     * @return string
+     */
+    public function getTheme() : string
+    {
+        return $this->themeCss ?? "@angular/material/prebuilt-themes/deeppurple-amber.css";
+    }
+    
+    /**
+     * The theme CSS to use
+     * 
+     * @uxon-property theme
+     * @uxon-type string
+     * @uxon-default @angular/material/prebuilt-themes/deeppurple-amber.css
+     * 
+     * @param string $css
+     * @return AngularMaterialFacade
+     */
+    public function setTheme(string $css) : AngularMaterialFacade
+    {
+        $this->themeCss = $css;
+        return $this;
     }
 }
