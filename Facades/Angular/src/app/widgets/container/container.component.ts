@@ -21,6 +21,9 @@ export class ContainerComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    if (!this.formGroup) {
+      this.formGroup=new FormGroup({});
+    }
   }
 
 }

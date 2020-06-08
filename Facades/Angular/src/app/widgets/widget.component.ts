@@ -26,6 +26,8 @@ import { InputComboComponent } from './inputs/input-combo/input-combo.component'
 import { TabsComponent } from './tabs/tabs.component';
 import { InputCheckBoxComponent } from './inputs/input-checkbox/input-checkbox.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
+import { NavTilesComponent } from './nav-tiles/nav-tiles.component';
+import { TilesComponent } from './tiles/tiles.component';
 
 const COMPONENT_REGISTER = {
   'DataTable': DataTableComponent,
@@ -40,7 +42,9 @@ const COMPONENT_REGISTER = {
   'Tab': ContainerComponent,
   'WidgetGroup': FormComponent,
   'InputCheckBox' : InputCheckBoxComponent,
-  'NavMenu': NavMenuComponent
+  'NavMenu': NavMenuComponent,
+  'NavTiles': ContainerComponent,
+  'Tiles': TilesComponent
 };
 
 @Component({
