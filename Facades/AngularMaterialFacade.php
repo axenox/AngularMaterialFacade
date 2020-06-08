@@ -20,6 +20,9 @@ use exface\Core\Interfaces\Actions\ActionInterface;
 use axenox\AngularMaterialFacade\Facades\Elements\Actions\NgmActionElement;
 use exface\Core\Exceptions\Facades\FacadeRuntimeError;
 use function GuzzleHttp\Psr7\stream_for;
+use exface\Core\Interfaces\Log\LoggerInterface;
+use exface\Core\Widgets\LoginPrompt;
+use exface\Core\Factories\UiPageFactory;
 
 /**
  * 
@@ -35,7 +38,12 @@ class AngularMaterialFacade extends AbstractAjaxFacade
     private $jsonPropsByAngularPath = [];
     
     private $themeCss = null;
-    
+
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \exface\Core\Facades\AbstractAjaxFacade\AbstractAjaxFacade::handle()
+     */
     public function handle(ServerRequestInterface $request, $useCacheKey = null) : ResponseInterface
     {
         if ($this->isRequestFrontend($request)) {
@@ -61,17 +69,16 @@ class AngularMaterialFacade extends AbstractAjaxFacade
     protected function createResponseFromTaskResult(ServerRequestInterface $request, ResultInterface $result) : ResponseInterface
     {
         $status_code = $result->getResponseCode();
-        $headers = [];
+        $headers = $this->buildHeadersAccessControl();
         
         if ($result->isEmpty()) {
-            return new Response($status_code);
+            return new Response($status_code, $headers);
         }
         
         switch (true) {
             case $result instanceof ResultWidgetInterface:
                 $widget = $result->getWidget();
                 $headers['Content-type'] = ['application/json;charset=utf-8'];
-                $headers = array_merge($headers, $this->buildHeadersAccessControl());
                 $json = $this->getElement($widget)->buildJson();
                 $body = json_encode($json);
                 break;
@@ -79,24 +86,7 @@ class AngularMaterialFacade extends AbstractAjaxFacade
                 return parent::createResponseFromTaskResult($request, $result);
         }
         
-        $headers = array_merge($headers, $this->buildHeadersAccessControl());
         return new Response($status_code, $headers, $body);
-    }
-    
-    
-    
-    /**
-     * TODO remove!!!
-     * {@inheritDoc}
-     * @see \exface\Core\Facades\AbstractAjaxFacade\AbstractAjaxFacade::createResponseFromError()
-     */
-    public function createResponseFromError(ServerRequestInterface $request, \Throwable $exception, UiPageInterface $page = null) : ResponseInterface
-    {
-        foreach ($this->buildHeadersAccessControl() as $name => $value) {
-            header("$name: $value", false);
-        }
-        throw $exception;
-        //return parent::createResponseFromError($request, $exception, $page);
     }
     
     /**
@@ -104,7 +94,7 @@ class AngularMaterialFacade extends AbstractAjaxFacade
      * {@inheritDoc}
      * @see \exface\Core\Facades\AbstractAjaxFacade\AbstractAjaxFacade::createResponseUnauthorized()
      */
-    /*protected function createResponseUnauthorized(ServerRequestInterface $request, \Throwable $exception, UiPageInterface $page = null) : ?ResponseInterface
+    protected function createResponseUnauthorized(ServerRequestInterface $request, \Throwable $exception, UiPageInterface $page = null) : ?ResponseInterface
     {
         $page = ! is_null($page) ? $page : UiPageFactory::createEmpty($this->getWorkbench());
         
@@ -120,7 +110,7 @@ class AngularMaterialFacade extends AbstractAjaxFacade
         $responseBody = json_encode($this->getElement($loginPrompt)->buildJson());
             
         return new Response(401, $this->buildHeadersAccessControl(), $responseBody);
-    }*/
+    }
     
     /**
      * 
@@ -131,19 +121,6 @@ class AngularMaterialFacade extends AbstractAjaxFacade
     {
         return false;
     }
-    
-    /**
-     * 
-     * {@inheritDoc}
-     * @see \exface\Core\Facades\AbstractAjaxFacade\AbstractAjaxFacade::createResponseFromError()
-     */
-    /*public function createResponseFromError(ServerRequestInterface $request, \Throwable $exception, UiPageInterface $page = null) : ResponseInterface 
-    {
-        foreach ($this->buildHeadersAccessControl() as $name => $value) {
-            header("$name: $value", false);
-        }
-        throw $exception;
-    }*/
     
     /**
      * 
