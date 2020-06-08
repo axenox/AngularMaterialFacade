@@ -53,6 +53,7 @@ import { InputCheckBoxComponent } from './widgets/inputs/input-checkbox/input-ch
 import {MatTreeModule} from '@angular/material/tree';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { NavMenuComponent } from './widgets/nav-menu/nav-menu.component';
+import { ExternalPageComponent } from './external-page/external-page.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +75,8 @@ import { NavMenuComponent } from './widgets/nav-menu/nav-menu.component';
     TabsComponent,
     LoadingScreenComponent,
     InputCheckBoxComponent,
-    NavMenuComponent
+    NavMenuComponent,
+    ExternalPageComponent
   ],
   imports: [
     BrowserModule,
