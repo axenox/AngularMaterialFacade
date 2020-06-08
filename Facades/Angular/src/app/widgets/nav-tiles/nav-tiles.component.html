@@ -1,0 +1,12 @@
+<mat-grid-list cols="3">
+    <mat-grid-tile *ngFor="let tiles of widget.widgets">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>{{tiles.title}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <app-widget></app-widget>
+            </mat-card-content>
+        </mat-card>
+    </mat-grid-tile>
+</mat-grid-list>

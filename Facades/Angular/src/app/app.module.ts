@@ -9,7 +9,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatOptionModule } from '@angular/material/core';
+import { MatOptionModule, MatRippleModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -50,10 +50,13 @@ import { TabsComponent } from './widgets/tabs/tabs.component';
 import { LoadingScreenInterceptor } from './components/loading-screen/loading-screen.interceptor';
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 import { InputCheckBoxComponent } from './widgets/inputs/input-checkbox/input-checkbox.component';
-import {MatTreeModule} from '@angular/material/tree';
+import { MatTreeModule } from '@angular/material/tree';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { NavMenuComponent } from './widgets/nav-menu/nav-menu.component';
 import { ExternalPageComponent } from './external-page/external-page.component';
+import { NavTilesComponent } from './widgets/nav-tiles/nav-tiles.component';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { TilesComponent } from './widgets/tiles/tiles.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +79,9 @@ import { ExternalPageComponent } from './external-page/external-page.component';
     LoadingScreenComponent,
     InputCheckBoxComponent,
     NavMenuComponent,
-    ExternalPageComponent
+    ExternalPageComponent,
+    NavTilesComponent,
+    TilesComponent
   ],
   imports: [
     BrowserModule,
@@ -118,6 +123,8 @@ import { ExternalPageComponent } from './external-page/external-page.component';
     MatProgressSpinnerModule,
     MatCheckboxModule,
     MatTreeModule,
+    MatGridListModule,
+    MatRippleModule
   ],
   entryComponents: [
     DialogComponent,
