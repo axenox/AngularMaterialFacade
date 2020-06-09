@@ -57,6 +57,7 @@ import { ExternalPageComponent } from './external-page/external-page.component';
 import { NavTilesComponent } from './widgets/nav-tiles/nav-tiles.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { TilesComponent } from './widgets/tiles/tiles.component';
+import {MatDividerModule} from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -124,7 +125,8 @@ import { TilesComponent } from './widgets/tiles/tiles.component';
     MatCheckboxModule,
     MatTreeModule,
     MatGridListModule,
-    MatRippleModule
+    MatRippleModule,
+    MatDividerModule,
   ],
   entryComponents: [
     DialogComponent,
