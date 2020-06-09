@@ -129,7 +129,8 @@ import {MatDividerModule} from '@angular/material/divider';
     MatDividerModule,
   ],
   entryComponents: [
-    DialogComponent,
+    DialogComponent, 
+    ButtonComponent,
   ],
 
   providers: [

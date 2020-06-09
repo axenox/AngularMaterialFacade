@@ -7,6 +7,7 @@ import { SortDirection } from '@angular/material/sort';
 import { IWidgetInterface } from '../../interfaces/widgets/widget.interface';
 import { DataResponse, Request } from '../actions.interface';
 import { HttpActionsService } from './http-actions.service';
+import { IShell } from 'src/app/interfaces/shell-interface';
 
 
 @Injectable({
@@ -53,6 +54,14 @@ constructor(http: HttpClient) {
   public callAction(request: Request): Observable<DataResponse> {
     console.log(`callAction(${JSON.stringify(request)})`);
     return super.callAction(request);
+  }
+
+  /**
+   * Gets the shell structure of the application.
+   */
+  public callShellAction(): Observable<IShell> {
+    console.log('callShellAction()');
+    return super.callShellAction();
   }
 }
 

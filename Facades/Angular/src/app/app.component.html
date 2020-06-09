@@ -1,2 +1,13 @@
 <app-loading-screen></app-loading-screen>
-<router-outlet></router-outlet>
+<div class="grid-container">
+    <div class="top">
+        <h1 *ngIf="shell">{{shell.top_bar.caption}}</h1>
+    </div>
+    <div class="menu">
+        <app-container *ngIf="shell" [widget]="shell.navigation_drawer"></app-container>
+    </div>
+    <div class="main">
+        <router-outlet></router-outlet>
+    </div>
+
+</div>

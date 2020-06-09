@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { SortDirection } from '@angular/material/sort';
 import { IWidgetInterface } from '../interfaces/widgets/widget.interface';
 import { DataResponse, Request } from './actions.interface';
+import { IShell } from '../interfaces/shell-interface';
 
 @Injectable({
   providedIn: 'root'
@@ -41,5 +42,10 @@ export abstract class ActionsService {
    * @param request the needed data to fullfill the request.
    */
   public abstract callAction(request: Request): Observable<DataResponse>
+
+  /**
+   * Gets the shell structure of the application.
+   */
+  public abstract callShellAction(): Observable<IShell>
 }
 
