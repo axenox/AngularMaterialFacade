@@ -8,6 +8,7 @@ import { SortDirection } from '@angular/material/sort';
 import { IWidgetInterface } from '../../interfaces/widgets/widget.interface';
 import { ActionsService } from '../actions.service';
 import { Actions, DataResponse, Request } from '../actions.interface';
+import { IShell } from 'src/app/interfaces/shell-interface';
 
 
 @Injectable({
@@ -115,6 +116,13 @@ constructor(http: HttpClient) {
 
 
     return this.http.get<DataResponse>(environment.url, { params });
+  }
+
+    /**
+   * Gets the shell structure of the application.
+   */
+  public callShellAction(): Observable<IShell> {
+    return this.http.get<IShell>(environment.url, { params: {action: environment.shellAction}})
   }
 }
 
