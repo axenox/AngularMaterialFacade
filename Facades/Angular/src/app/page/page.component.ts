@@ -22,8 +22,8 @@ export class PageComponent implements OnInit {
       if (this.resource.toLowerCase().endsWith('.html')) {
         this.resource = this.resource.slice(0, -5);
       }
-      if (this.resource === '') {
-        this.resource = environment.index_page_selector;
+      if (this.resource === '' || this.resource === undefined || this.resource === null) {
+        this.resource = environment.indexPageSelector;
       }
       this.structure$ = this.actions.showWidget(this.resource);
     });
