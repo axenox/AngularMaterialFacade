@@ -4,6 +4,8 @@
 	"ANGULAR.INTERFACES.WIDGETS.PATH": "Facades/Angular/src/app/interfaces/widgets",
 	"ANGULAR.INTERFACES.WIDGETS.BASE_INTERFACE": "widget.interface.ts",
 	
+	"ANGULAR.DIST.PATH": "Facades/Angular/dist/",
+	
 	"FACADE.AJAX.ACCESS_CONTROL_HEADERS" : {
 		"Access-Control-Allow-Origin": "http://localhost:4200",
 		"Access-Control-Allow-Credentials": "true",
