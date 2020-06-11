@@ -14,6 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Action } from 'rxjs/internal/scheduler/Action';
 import { FormGroup } from '@angular/forms';
 import Swal from 'sweetalert2'
+import { Router } from '@angular/router';
 
 enum Types {
   IconOnly= 'IconOnly',
@@ -29,7 +30,7 @@ enum Types {
 })
 export class ButtonComponent implements OnInit {
 
-  constructor(private dialog: MatDialog, private _snackBar: MatSnackBar, private actions: ActionsService){}
+  constructor(private dialog: MatDialog, private _snackBar: MatSnackBar, private actions: ActionsService, private router: Router){}
 
 
   @Input()
@@ -161,8 +162,7 @@ export class ButtonComponent implements OnInit {
   }
 
   onClickGoToPage(action: IActionGoToPage) {
-    document.location.href = 'page/' + action.page_alias;
-    //this.router.navigateByUrl('/page/' + action.page_alias);
+    this.router.navigateByUrl('/page/' + action.page_alias);
   }
 
   onClickShowDialog(action: IActionShowDialog) {

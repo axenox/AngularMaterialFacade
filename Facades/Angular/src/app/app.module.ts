@@ -59,6 +59,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { TilesComponent } from './widgets/tiles/tiles.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSidenavModule} from '@angular/material/sidenav';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 
 @NgModule({
@@ -130,6 +131,7 @@ import { MatSidenavModule} from '@angular/material/sidenav';
     MatRippleModule,
     MatDividerModule,
     MatSidenavModule,
+    ScrollingModule,
   ],
   entryComponents: [
     DialogComponent, 

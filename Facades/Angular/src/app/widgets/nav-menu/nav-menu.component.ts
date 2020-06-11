@@ -91,6 +91,6 @@ export class NavMenuComponent implements OnInit {
   }
 
   onClickGoToPage(node: INode) {
-    document.location.href = 'page/' + node.page_alias;
+    this.router.navigateByUrl('/page/' + node.page_alias);
   }
 }

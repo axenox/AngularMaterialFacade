@@ -11,7 +11,7 @@
             <button mat-icon-button 
                     [attr.aria-label]="'toggle ' + node.name">
               <mat-icon class="mat-icon-rtl-mirror" matTreeNodeToggle>
-                {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                {{treeControl.isExpanded(node) ? 'arrow_drop_down' : 'arrow_right'}}
               </mat-icon>
             </button>
             {{node.name}}

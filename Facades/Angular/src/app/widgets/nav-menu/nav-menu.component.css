@@ -1,5 +1,13 @@
+.mat-tree-node {
+    height: 48px;
+    font-weight: 500;
+}
+
 .mat-tree-node:hover {
-    background-color: rgba(102, 31,255, 0.12) !important;
+    background-color: rgba(102, 31, 255, 0.12) !important;
+    border-radius: 5px;
     color: rgba(102, 31, 255);
     cursor: pointer;
+    margin: 4px 8px 4px 8px;
 }
+

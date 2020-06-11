@@ -82,6 +82,7 @@ export class WidgetComponent implements OnInit, OnChanges {
       if (component) {
         const componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
         const viewContainerRef = this.appHost.viewContainerRef;
+        viewContainerRef.clear();
         const componentRef: ComponentRef<any> = viewContainerRef.createComponent(componentFactory);
         componentRef.instance.widget = this.structure;
         componentRef.instance.pageSelector = this.pageSelector;

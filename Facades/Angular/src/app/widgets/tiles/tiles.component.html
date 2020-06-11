@@ -1,14 +1,15 @@
 <br>
 <mat-divider></mat-divider>
 <br>
-{{widget.caption}}
+<div class="caption">{{widget.caption}}</div>
+
 <br>
     <div class="grid-container">
-      <figure *ngFor="let tiles of widget.widgets" >
-        <mat-card class="tile" (click)="onClick()">
+      <figure *ngFor="let tile of widget.widgets" >
+        <mat-card class="tile" (click)="onClick(tile)">
             <mat-card-header>
-                <mat-card-title>{{tiles.title}}</mat-card-title>
-                <mat-card-subtitle>{{tiles.subtitle}}</mat-card-subtitle>
+                <mat-card-title>{{tile.title}}</mat-card-title>
+                <mat-card-subtitle>{{tile.subtitle}}</mat-card-subtitle>
             </mat-card-header>
         </mat-card>
       </figure>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { IWidgetTilesInterface } from 'src/app/interfaces/widgets/tiles.interface';
 import { IActionGoToPage } from 'src/app/interfaces/actions/go-to-page.interface';
+import { IWidgetTileInterface } from 'src/app/interfaces/widgets/tile.interface';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-tiles',
@@ -11,13 +13,13 @@ export class TilesComponent implements OnInit {
 
   widget: IWidgetTilesInterface
 
-  constructor() { }
+  constructor(private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
   }
 
-  onClick(){
-    const action = this.widget.widgets
+  onClick(tile: IWidgetTileInterface){
+    const action = tile.action;
     if(this.isActionGoToPage(action)){
       this.onClickGoToPage(action as IActionGoToPage);
     }
@@ -28,7 +30,7 @@ export class TilesComponent implements OnInit {
   }
 
   onClickGoToPage(action: IActionGoToPage) {
-    document.location.href = 'page/' + action.page_alias;
+    this.router.navigateByUrl('/page/' + action.page_alias );
   }
 
 }
