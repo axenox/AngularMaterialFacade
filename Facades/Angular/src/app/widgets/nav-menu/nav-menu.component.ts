@@ -5,11 +5,14 @@ import { IWidgetNavMenuInterface } from 'src/app/interfaces/widgets/nav-menu.int
 import { IPageTreeNodeInterface } from 'src/app/interfaces/page-tree-node.interface';
 import { Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { IActionGoToPage } from 'src/app/interfaces/actions/go-to-page.interface';
 
 interface INode {
   name: string;
-  url: string;
+  url: string; 
+  page_alias: string;
   children?: INode[];
+ 
 }
 
 /** Flat node with expandable and level information */
@@ -31,6 +34,7 @@ export class NavMenuComponent implements OnInit {
       name: node.name,
       level: level,
       url: node.url,
+      page_alias: node.page_alias
     };
   }
 
@@ -67,7 +71,7 @@ export class NavMenuComponent implements OnInit {
    */
   fillData(data: INode[], widgetNodes: IPageTreeNodeInterface[]) {
     widgetNodes.forEach((widgetNode: IPageTreeNodeInterface) => {
-      const dataNode: INode = {name: widgetNode.name, url:widgetNode.url};
+      const dataNode: INode = {name: widgetNode.name, url:widgetNode.url, page_alias:widgetNode.page_alias};
       data.push(dataNode);
       if (widgetNode.children) {
         dataNode.children = [];
@@ -84,5 +88,9 @@ export class NavMenuComponent implements OnInit {
     // this.content.nativeElement.innerHTML=`<object type="type/html" data="${node.url}" ></object>`;
     // this.content.nativeElement.src = node.url;
     this.url = this.sanitizer.bypassSecurityTrustResourceUrl(node.url);
+  }
+
+  onClickGoToPage(node: INode) {
+    document.location.href = 'page/' + node.page_alias;
   }
 }

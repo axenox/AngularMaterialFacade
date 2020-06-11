@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { IWidgetButton } from './interfaces/widgets/button.interface';
 import { ActivatedRoute, UrlSegment } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { IActionGoToPage } from './interfaces/actions/go-to-page.interface';
 
 @Component({
   selector: 'app-root',
@@ -29,4 +30,6 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscriptions.forEach((subs: Subscription) => subs.unsubscribe());
   }
+
+ 
 }

@@ -1,13 +1,15 @@
 <app-loading-screen></app-loading-screen>
-<div class="grid-container">
-    <div class="top">
+<div style="height: 84%;" class="toolbar">
+    <mat-toolbar color="primary" >
+        <button mat-button (click)="drawer.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
         <h1 *ngIf="shell">{{shell.top_bar.caption}}</h1>
-    </div>
-    <div class="menu">
-        <app-container *ngIf="shell" [widget]="shell.navigation_drawer"></app-container>
-    </div>
-    <div class="main">
-        <router-outlet></router-outlet>
-    </div>
-
+    </mat-toolbar>
+    <mat-drawer-container>
+            <router-outlet></router-outlet>
+        <mat-drawer #drawer mode="side">
+            <app-container *ngIf="shell" [widget]="shell.navigation_drawer"></app-container>
+        </mat-drawer>
+    </mat-drawer-container>
 </div>

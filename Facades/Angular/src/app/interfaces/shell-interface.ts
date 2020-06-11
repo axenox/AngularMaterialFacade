@@ -1,4 +1,5 @@
 import { IWidgetInterface } from './widgets/widget.interface';
+import { IWidgetContainer } from './widgets/container.interface';
 
 export interface IContextBar {
     visibility: string;
@@ -16,5 +17,5 @@ export interface IShell {
         caption: string;
     };
     context_bar: { [key: string]: IContextBar};
-    navigation_drawer: IContainerInterface;
+    navigation_drawer: IWidgetContainer;
 }
