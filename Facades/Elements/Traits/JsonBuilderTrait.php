@@ -9,6 +9,8 @@ use exface\Core\Exceptions\RuntimeException;
 use exface\Core\CommonLogic\UxonObject;
 use exface\Core\CommonLogic\Filemanager;
 use exface\Core\Factories\ActionFactory;
+use exface\Core\Interfaces\SelectorInstallerInterface;
+use exface\Core\Interfaces\Selectors\SelectorInterface;
 
 trait JsonBuilderTrait
 {
@@ -173,6 +175,8 @@ trait JsonBuilderTrait
                 return $this->getFacade()->getElement($value)->buildJson();
             case $value instanceof ActionInterface:
                 return $this->getFacade()->getElementForAction($value)->buildJson();
+            case $value instanceof SelectorInterface:
+                return $value->toString();
         }
         return null;
     }
