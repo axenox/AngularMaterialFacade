@@ -60,7 +60,7 @@ import { TilesComponent } from './widgets/tiles/tiles.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSidenavModule} from '@angular/material/sidenav';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-
+import { MatBadgeModule } from '@angular/material/badge';
 
 @NgModule({
   declarations: [
@@ -132,6 +132,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatDividerModule,
     MatSidenavModule,
     ScrollingModule,
+    MatBadgeModule
   ],
   entryComponents: [
     DialogComponent, 

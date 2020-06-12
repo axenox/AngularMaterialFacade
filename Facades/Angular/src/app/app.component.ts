@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { IShell } from './interfaces/shell-interface';
+import { IShell, IContextBar } from './interfaces/shell-interface';
 import { Actions } from './api/actions.interface';
 import { ActionsService } from './api/actions.service';
 import { Subscription } from 'rxjs';
@@ -29,6 +29,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.forEach((subs: Subscription) => subs.unsubscribe());
+  }
+
+  getContextBars(): IContextBar[] {
+    if (!this.shell || !this.shell.context_bar) {
+      return [];
+    }
+
+    return Object.values(this.shell.context_bar)
   }
 
  

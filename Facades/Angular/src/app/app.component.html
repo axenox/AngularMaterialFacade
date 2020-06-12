@@ -5,15 +5,27 @@
             <mat-icon>menu</mat-icon>
         </button>
         <h1 *ngIf="shell">{{shell.top_bar.caption}}</h1>
+        <div style="width: 100%; text-align: right;">
+            <button mat-button 
+                    *ngFor="let bar of getContextBars()" 
+                    class="contextbuttons" matTooltip="{{bar.hint}}">
+                <mat-icon 
+                    fontSet="fa" 
+                    fontIcon="fa-{{bar.icon}}" 
+                    matBadge="{{bar.indicator}}" 
+                    matBadgeColor="accent"
+                    mtBadgeSize="small"
+                    matBadgeOverlap="false"></mat-icon>
+            </button>
+        </div>
     </mat-toolbar>
 </div>
 <br>
-<br>
 <div class="content">
-    <mat-drawer-container class="container">
-        <router-outlet></router-outlet>
+    <mat-drawer-container>
         <mat-drawer #drawer class="drawer" mode="side">
             <app-container *ngIf="shell" [widget]="shell.navigation_drawer"></app-container>
         </mat-drawer>
+        <router-outlet></router-outlet>
     </mat-drawer-container>
 </div>
