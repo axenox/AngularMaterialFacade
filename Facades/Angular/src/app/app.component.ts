@@ -7,6 +7,7 @@ import { IWidgetButton } from './interfaces/widgets/button.interface';
 import { ActivatedRoute, UrlSegment } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { IActionGoToPage } from './interfaces/actions/go-to-page.interface';
+import { ThemeService } from './api/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -19,12 +20,17 @@ export class AppComponent implements OnInit, OnDestroy {
   shell: IShell;
   subscriptions: Subscription[] = [];
 
-  constructor(private actions: ActionsService) {}
+  constructor(private actions: ActionsService, private readonly themeService: ThemeService) {}
 
   ngOnInit() {
-    this.subscriptions.push(this.actions.callShellAction().subscribe((shell: IShell) => 
-      this.shell = shell
-    ));
+    this.subscriptions.push(this.actions.callShellAction().subscribe((shell: IShell) => {
+      this.shell = shell;
+      let themePath = this.shell.theme;
+      if (themePath.startsWith('@angular/material/prebuilt-themes/')) {
+        themePath = themePath.replace('@angular/material/prebuilt-themes/', '/assets/themes/');
+      }
+      this.themeService.setTheme(themePath);
+    }));
   }
 
   ngOnDestroy() {
@@ -37,6 +43,10 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     return Object.values(this.shell.context_bar)
+  }
+
+  themeChangeHandler(themeToSet) {
+    this.themeService.setTheme(themeToSet);
   }
 
  

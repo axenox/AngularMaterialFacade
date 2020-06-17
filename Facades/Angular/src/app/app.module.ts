@@ -61,6 +61,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatSidenavModule} from '@angular/material/sidenav';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatBadgeModule } from '@angular/material/badge';
+import { StyleManagerService } from './api/style-manager.service';
+import { ThemeService } from './api/theme.service';
 
 @NgModule({
   declarations: [
@@ -146,6 +148,7 @@ import { MatBadgeModule } from '@angular/material/badge';
       useClass: LoadingScreenInterceptor,
       multi: true,
     },
+    StyleManagerService, ThemeService
   ],
 
   bootstrap: [AppComponent]
