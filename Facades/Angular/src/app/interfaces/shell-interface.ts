@@ -8,7 +8,6 @@ export interface IContextBar {
     hint: string;
     indicator: string;
     bar_widget_id: string;
-
 }
 
 export interface IShell {

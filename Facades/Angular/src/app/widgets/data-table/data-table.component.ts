@@ -24,6 +24,7 @@ import { DataResponse, DataRow } from 'src/app/api/actions.interface';
 import { FormGroup, FormControl } from '@angular/forms';
 import { DataTableAnimations } from './data.table.animations'
 import { IWidgetButton } from 'src/app/interfaces/widgets/button.interface';
+import { IWidgetValueInterface } from 'src/app/interfaces/widgets/value.interface';
 
 export interface IColumnDef {
   columnDef: string;
@@ -50,6 +51,9 @@ export class DataTableComponent implements OnInit {
 
   @Input()
   pageSelector: string;
+
+  @Input()
+  value: IWidgetValueInterface
 
   @Output()
   refresh = new EventEmitter();
@@ -108,12 +112,18 @@ export class DataTableComponent implements OnInit {
       this.loadData(this.filterChips);
     });
 
+    let hasValue = false;
     // create controls for the filter widgets
     this.widget.filters.forEach((filterWidget: IWidgetFilter) => {
-      this.filterFormGroup.addControl(filterWidget.input_widget.attribute_alias, new FormControl(''))
+      this.filterFormGroup.addControl(filterWidget.input_widget.attribute_alias, new FormControl(filterWidget.input_widget.value));
+      if (filterWidget.input_widget.value){
+        hasValue = true;
+      }
     });
-    
 
+    if(hasValue){
+      this.onRefresh();
+    }
   }
   
   
@@ -139,7 +149,7 @@ export class DataTableComponent implements OnInit {
 
     if (index >= 0) {
       this.filterChips.splice(index, 1);
-      delete this.filter[chip.property];
+      this.filterFormGroup.controls[chip.property].setValue(null);
       this.dataSource.filter = JSON.stringify(this.filter);
       this.loadData(this.filterChips);
     }
@@ -150,9 +160,6 @@ export class DataTableComponent implements OnInit {
   }
 
   onWidgetEvent(event: IWidgetEvent) {
-    if (event.type === WidgetEventType.VALUE_CHANGED){
-      this.filter[(event.source as IWidgetDataColumn).attribute_alias] = event.value;
-    }
     if (event.type === WidgetEventType.KEYPRESSED && event.value === 'Enter'){
       this.onSearch();
     }
@@ -208,7 +215,7 @@ export class DataTableComponent implements OnInit {
 
   onRefresh() {
     this.widget.filters.forEach((col: IWidgetFilter) => {
-      const value = this.filter[col.input_widget.data_column_name];
+      const value = this.filterFormGroup.controls[col.input_widget.attribute_alias].value;
       if (value) {
         this.addChip(col.input_widget.data_column_name, col.caption, value);
       }

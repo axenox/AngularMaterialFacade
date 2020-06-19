@@ -1,3 +1,5 @@
+import { IServerError } from '../server-error.interface';
+
 export interface IWidgetInterface {
     id: string;
     object_alias: string;

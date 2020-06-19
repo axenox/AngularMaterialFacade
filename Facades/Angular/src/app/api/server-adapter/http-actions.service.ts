@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpEvent } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { IWidgetDataTable } from '../../interfaces/widgets/data-table.interface';
 import { FilterEntry } from '../../widgets/data-table/data-table.component';
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { SortDirection } from '@angular/material/sort';
 import { IWidgetInterface } from '../../interfaces/widgets/widget.interface';
 import { ActionsService } from '../actions.service';
 import { Actions, DataResponse, Request } from '../actions.interface';
 import { IShell } from 'src/app/interfaces/shell-interface';
+import { map, catchError } from 'rxjs/operators';
+import Swal from 'sweetalert2';
+import { IServerError } from 'src/app/interfaces/server-error.interface';
 
 
 @Injectable({
@@ -36,7 +39,12 @@ constructor(http: HttpClient) {
       params.element = element;
     }
     
-    return this.http.get<IWidgetInterface>(environment.url, { params });
+    return this.http.get<IWidgetInterface>(environment.url, { params })
+      .pipe(
+        catchError((err: HttpErrorResponse) => {
+          this.checkAndShowErrors(err.error.error);
+          return throwError(err);
+        }));
   }
 
   /**
@@ -83,7 +91,12 @@ constructor(http: HttpClient) {
         });
       }
 
-      return this.http.get<DataResponse>(environment.url, { params });
+    return this.http.get<DataResponse>(environment.url, { params })
+      .pipe(
+        catchError((err: HttpErrorResponse) => {
+          this.checkAndShowErrors(err.error.error);
+          return throwError(err);
+        }));
   }
 
   /**
@@ -114,8 +127,12 @@ constructor(http: HttpClient) {
       });  
     }
 
-
-    return this.http.get<DataResponse>(environment.url, { params });
+    return this.http.get<DataResponse>(environment.url, { params })
+    .pipe(
+      catchError((err: HttpErrorResponse) => {
+        this.checkAndShowErrors(err.error.error);
+        return throwError(err);
+      }));;
   }
 
     /**
@@ -123,6 +140,32 @@ constructor(http: HttpClient) {
    */
   public callShellAction(): Observable<IShell> {
     return this.http.get<IShell>(environment.url, { params: {action: environment.shellAction}})
+      .pipe(
+        catchError((err: HttpErrorResponse) => {
+          this.checkAndShowErrors(err);
+          return throwError(err);
+        }));
   }
+
+  checkAndShowErrors(response: HttpErrorResponse) {
+    console.log(response);
+    if (response.error)  {
+      var error = response.error;
+      Swal.fire({
+        title: error.title,
+        text: error.message,
+        footer: `LogID: ${error.logid}`,
+        icon: 'warning',
+        confirmButtonText: 'OK'
+      });
+    } else {
+      Swal.fire({
+        title: 'Unknown Error',
+        confirmButtonText: 'OK'
+      });
+    }
+    
+  }
+
 }
 
