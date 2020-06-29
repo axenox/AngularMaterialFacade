@@ -42,7 +42,7 @@ constructor(http: HttpClient) {
     return this.http.get<IWidgetInterface>(environment.url, { params })
       .pipe(
         catchError((err: HttpErrorResponse) => {
-          this.checkAndShowErrors(err.error.error);
+          this.showError(err);
           return throwError(err);
         }));
   }
@@ -94,7 +94,7 @@ constructor(http: HttpClient) {
     return this.http.get<DataResponse>(environment.url, { params })
       .pipe(
         catchError((err: HttpErrorResponse) => {
-          this.checkAndShowErrors(err.error.error);
+          this.showError(err);
           return throwError(err);
         }));
   }
@@ -130,7 +130,7 @@ constructor(http: HttpClient) {
     return this.http.get<DataResponse>(environment.url, { params })
     .pipe(
       catchError((err: HttpErrorResponse) => {
-        this.checkAndShowErrors(err.error.error);
+        this.showError(err);
         return throwError(err);
       }));;
   }
@@ -142,27 +142,51 @@ constructor(http: HttpClient) {
     return this.http.get<IShell>(environment.url, { params: {action: environment.shellAction}})
       .pipe(
         catchError((err: HttpErrorResponse) => {
-          this.checkAndShowErrors(err);
+          this.showError(err);
           return throwError(err);
         }));
   }
 
-  checkAndShowErrors(response: HttpErrorResponse) {
+  showError(response: HttpErrorResponse) {
     console.log(response);
-    if (response.error)  {
-      var error = response.error;
-      Swal.fire({
-        title: error.title,
-        text: error.message,
-        footer: `LogID: ${error.logid}`,
-        icon: 'warning',
-        confirmButtonText: 'OK'
-      });
-    } else {
-      Swal.fire({
-        title: 'Unknown Error',
-        confirmButtonText: 'OK'
-      });
+    var oError;
+    if (response.error !== undefined) {
+        if (response.error.error !== undefined) {
+          console.log('inner: ', response.error.error);
+          oError = response.error.error;
+        }
+    }
+    console.log(oError);
+    switch (true) {
+      case oError.code !== undefined:
+        Swal.fire({
+          title: oError.title,
+          text: oError.message,
+          footer: `LogID: ${oError.logid}`,
+          icon: 'warning',
+          confirmButtonText: 'OK'
+        });
+        break;
+      case oError.message !== undefined:
+        Swal.fire({
+          title: 'Error',
+          text: oError.message,
+          icon: 'warning',
+          confirmButtonText: 'OK'
+        });
+        break;/*
+      case response.headers && response.headers.statusText !== undefined:
+        Swal.fire({
+          title: 'Error ' + response.headers.statusText,
+          text: response.headers.statusText,
+          icon: 'warning',
+          confirmButtonText: 'OK'
+        });*/
+      default:
+        Swal.fire({
+          title: 'Unknown Error',
+          confirmButtonText: 'OK'
+        });
     }
     
   }
