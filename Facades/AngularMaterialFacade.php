@@ -24,6 +24,7 @@ use exface\Core\Interfaces\Log\LoggerInterface;
 use exface\Core\Widgets\LoginPrompt;
 use exface\Core\Factories\UiPageFactory;
 use exface\Core\DataTypes\FilePathDataType;
+use axenox\AngularMaterialFacade\Facades\Middleware\TableUrlParamsReader;
 
 /**
  * 
@@ -146,7 +147,7 @@ class AngularMaterialFacade extends AbstractAjaxFacade
     protected function getMiddleware() : array
     {
         $middleware = parent::getMiddleware();
-        $middleware[] = new JqueryDataTablesUrlParamsReader($this, 'getInputData', 'setInputData');
+        $middleware[] = new TableUrlParamsReader($this, 'getInputData', 'setInputData');
         return $middleware;
     }
     
