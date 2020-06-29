@@ -2,19 +2,22 @@
 namespace axenox\AngularMaterialFacade\Facades\Elements;
 
 use exface\Core\Interfaces\iCanBeConvertedToUxon;
-use exface\Core\Widgets\Form;
 use exface\Core\CommonLogic\DataSheets\DataColumn;
+use axenox\AngularMaterialFacade\Facades\Elements\Traits\IconTrait;
+use exface\Core\Widgets\Panel;
 
 /**
  *
  * @method AngularMaterialFacade getFacade()
- * @method Form getWidget()
+ * @method Panel getWidget()
  *        
  * @author Andrej Kabachnik
  *        
  */
-class NgmForm extends NgmPanel
+class NgmPanel extends NgmWidgetGrid
 {
+    use IconTrait;
+    
     /**
      * 
      * {@inheritDoc}
@@ -23,20 +26,10 @@ class NgmForm extends NgmPanel
     protected function buildJsonPropertyValue(iCanBeConvertedToUxon $object, $property)
     {
         switch (strtolower($property)) {
-            case 'uid_data_column_name': return $this->getUidColumnName();
+            case 'show_icon': return $this->getWidget()->getShowIcon() ?? true;
+            case 'icon_set': return $this->buildJsonPropertyValueIconSet($object);
+            case 'icon_class': return $this->buildJsonPropertyValueIconClass($object);
         }
         return parent::buildJsonPropertyValue($object, $property);
-    }
-    
-    /**
-     * 
-     * @return string
-     */
-    protected function getUidColumnName() : string
-    {
-        if ($this->getWidget()->getMetaObject()->hasUidAttribute() === false) {
-            return '';
-        }
-        return DataColumn::sanitizeColumnName($this->getWidget()->getMetaObject()->getUidAttributeAlias());
     }
 }

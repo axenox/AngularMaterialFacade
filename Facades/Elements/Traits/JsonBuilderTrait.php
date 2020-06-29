@@ -9,7 +9,6 @@ use exface\Core\Exceptions\RuntimeException;
 use exface\Core\CommonLogic\UxonObject;
 use exface\Core\CommonLogic\Filemanager;
 use exface\Core\Factories\ActionFactory;
-use exface\Core\Interfaces\SelectorInstallerInterface;
 use exface\Core\Interfaces\Selectors\SelectorInterface;
 
 trait JsonBuilderTrait
@@ -150,7 +149,7 @@ trait JsonBuilderTrait
             $val = call_user_func([$object, $getterMethod]);
             return $this->buildJsonValue($val);
         }
-        throw new RuntimeException('Cannot get UXON property "' . $property . '" of class "' . get_class($object) . '" via getter-method: method "' . $getterMethod . '()" not found!');
+        throw new RuntimeException('Cannot get UXON property "' . $property . '" of class "' . get_class($object) . '"!');
     }
     
     /**

@@ -1,5 +1,5 @@
 <h1 mat-dialog-title>
-    <mat-icon *ngIf="data.structure.icon" fontSet="fa" fontIcon="fa-{{data.structure.icon}}"></mat-icon>
+    <mat-icon *ngIf="data.structure.show_icon" fontSet="{{data.structure.icon_set}}" fontIcon="{{data.structure.icon_class}}"></mat-icon>
     {{data.structure.caption}}
 </h1>
 <mat-dialog-content [ngClass]="{'mat-dialog-heigh': hasTabs(data.structure) ,'mat-dialog-wide': data.structure.columns_in_grid > 1, 'mat-dialog-narrow': data.structure.columns_in_grid === 1  }">
