@@ -27,8 +27,8 @@ class NgmPanel extends NgmWidgetGrid
     {
         switch (strtolower($property)) {
             case 'show_icon': return $this->getWidget()->getShowIcon() ?? true;
-            case 'icon_set': return $this->buildJsonPropertyValueIconSet($object);
-            case 'icon_class': return $this->buildJsonPropertyValueIconClass($object);
+            case 'icon_set': return $this->buildJsonPropertyValueIconSet($object, $this->getFacade());
+            case 'icon_class': return $this->buildJsonPropertyValueIconClass($object, $this->getFacade());
         }
         return parent::buildJsonPropertyValue($object, $property);
     }

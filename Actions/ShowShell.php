@@ -13,9 +13,12 @@ use exface\Core\Interfaces\Widgets\iContainOtherWidgets;
 use exface\Core\Factories\WidgetFactory;
 use exface\Core\Interfaces\Model\UiPageInterface;
 use exface\Core\CommonLogic\UxonObject;
+use axenox\AngularMaterialFacade\Facades\Elements\Traits\IconTrait;
 
 class ShowShell extends AbstractAction
 {
+    use IconTrait;
+    
     /**
      * 
      * {@inheritDoc}
@@ -93,12 +96,14 @@ class ShowShell extends AbstractAction
     {
         $extra = [];
         try {
-            foreach ($widget->getButtons() as $btn){
+            foreach (array_reverse($widget->getButtons()) as $btn){
                 $btn_element = $facade->getElement($btn);
                 $context = $widget->getContextForButton($btn);
                 $extra[$btn_element->getId()] = [
                     'visibility' => $context->getVisibility(),
-                    'icon' => $btn_element->buildCssIconClass($btn->getIcon()),
+                    'icon' => $btn->getIcon(),
+                    'icon_class' => $this->buildJsonPropertyValueIconClass($btn, $facade),
+                    'icon_set' => $this->buildJsonPropertyValueIconSet($btn, $facade),
                     'color' => $context->getColor(),
                     'hint' => $btn->getHint(),
                     'indicator' => ! is_null($context->getIndicator()) ? $widget->getContextForButton($btn)->getIndicator() : '',

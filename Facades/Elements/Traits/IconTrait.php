@@ -4,6 +4,8 @@ namespace axenox\AngularMaterialFacade\Facades\Elements\Traits;
 use exface\Core\Interfaces\Model\UiPageTreeNodeInterface;
 use exface\Core\Interfaces\iCanBeConvertedToUxon;
 use exface\Core\DataTypes\StringDataType;
+use exface\Core\Interfaces\Facades\FacadeInterface;
+use exface\Core\Facades\AbstractAjaxFacade\AbstractAjaxFacade;
 
 trait IconTrait
 {    
@@ -15,16 +17,16 @@ trait IconTrait
     protected function buildJsonPropertyValue(iCanBeConvertedToUxon $object, $property)
     {
         switch (strtolower($property)) {
-            case 'icon_set': return $this->buildJsonPropertyValueIconSet($object);
-            case 'icon_class':  return $this->buildJsonPropertyValueIconClass($object);
+            case 'icon_set': return $this->buildJsonPropertyValueIconSet($object, $this->getFacade());
+            case 'icon_class':  return $this->buildJsonPropertyValueIconClass($object, $this->getFacade());
         }
         return parent::buildJsonPropertyValue($object, $property);
     }
     
-    protected function buildJsonPropertyValueIconClass(iCanBeConvertedToUxon $object) : string
+    protected function buildJsonPropertyValueIconClass(iCanBeConvertedToUxon $object, AbstractAjaxFacade $facade) : string
     {
-        $iconSet = $this->buildJsonPropertyValueIconSet($object);
-        $icon = $this->getWidget()->getIcon();
+        $iconSet = $this->buildJsonPropertyValueIconSet($object, $facade);
+        $icon = $object->getIcon();
         if (! StringDataType::startsWith($icon, $iconSet . '-')) {
             return $iconSet . '-' . $icon;
         } else {
@@ -32,8 +34,8 @@ trait IconTrait
         }
     }
     
-    protected function buildJsonPropertyValueIconSet(iCanBeConvertedToUxon $object) : string
+    protected function buildJsonPropertyValueIconSet(iCanBeConvertedToUxon $object, AbstractAjaxFacade $facade) : string
     {
-        return array_keys($this->getFacade()->getIconSets())[0];
+        return array_keys($facade->getIconSets())[0];
     }
 }
