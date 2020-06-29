@@ -6,6 +6,7 @@
 	
 	"ANGULAR.DIST.PATH": "Facades/Angular/dist/",
 	
+	"FACADE.AJAX.BASE_URL": "/api/angular",
 	"FACADE.AJAX.ACCESS_CONTROL_HEADERS" : {
 		"Access-Control-Allow-Origin": "http://localhost:4200",
 		"Access-Control-Allow-Credentials": "true",
