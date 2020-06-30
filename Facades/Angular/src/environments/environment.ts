@@ -7,6 +7,7 @@ export const environment = {
    url: 'http://localhost/exface/exface/api/angular',
    shellAction: 'axenox.angularmaterialfacade.ShowShell',
    indexPageSelector: 'index',
+   appPagePrefix: 'angular.demo.',
 };
 
 /*

@@ -149,16 +149,16 @@ constructor(http: HttpClient) {
 
   showError(response: HttpErrorResponse) {
     console.log(response);
-    var oError;
-    if (response.error !== undefined) {
-        if (response.error.error !== undefined) {
+    let oError = null;
+    if (response.error != null) {
+        if (response.error.error != null) {
           console.log('inner: ', response.error.error);
           oError = response.error.error;
         }
     }
     console.log(oError);
     switch (true) {
-      case oError.code !== undefined:
+      case oError && oError.code != null:
         Swal.fire({
           title: oError.title,
           text: oError.message,
@@ -167,21 +167,22 @@ constructor(http: HttpClient) {
           confirmButtonText: 'OK'
         });
         break;
-      case oError.message !== undefined:
+      case oError && oError.message != null:
         Swal.fire({
           title: 'Error',
           text: oError.message,
           icon: 'warning',
           confirmButtonText: 'OK'
         });
-        break;/*
-      case response.headers && response.headers.statusText !== undefined:
+        break;
+      case response && response.statusText != null:
         Swal.fire({
-          title: 'Error ' + response.headers.statusText,
-          text: response.headers.statusText,
+          title: 'Error ' + response.statusText,
+          text: response.statusText,
           icon: 'warning',
           confirmButtonText: 'OK'
-        });*/
+        });
+        break;
       default:
         Swal.fire({
           title: 'Unknown Error',

@@ -17,15 +17,17 @@ export class PageComponent implements OnInit {
   constructor(private actions: ActionsService, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.route.url.subscribe((urlSegemnts: UrlSegment[]) => {
-      this.resource = urlSegemnts[urlSegemnts.length-1].toString();
-      if (this.resource.toLowerCase().endsWith('.html')) {
-        this.resource = this.resource.slice(0, -5);
+    this.route.url.subscribe((urlSegments: UrlSegment[]) => {
+      if (urlSegments && urlSegments.length > 0) {
+        this.resource = urlSegments[urlSegments.length-1].toString();
+        if (this.resource.toLowerCase().endsWith('.html')) {
+          this.resource = this.resource.slice(0, -5);
+        }
+        if (this.resource === '' || this.resource === undefined || this.resource === null) {
+          this.resource = environment.indexPageSelector;
+        }
+        this.structure$ = this.actions.showWidget(this.resource);
       }
-      if (this.resource === '' || this.resource === undefined || this.resource === null) {
-        this.resource = environment.indexPageSelector;
-      }
-      this.structure$ = this.actions.showWidget(this.resource);
     });
   }
 }
