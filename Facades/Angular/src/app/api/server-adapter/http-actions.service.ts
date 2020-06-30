@@ -12,6 +12,7 @@ import { IShell } from 'src/app/interfaces/shell-interface';
 import { map, catchError } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { IServerError } from 'src/app/interfaces/server-error.interface';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Injectable({
@@ -20,8 +21,8 @@ import { IServerError } from 'src/app/interfaces/server-error.interface';
 
 export class HttpActionsService extends ActionsService {
 
-constructor(http: HttpClient) {
-  super(http);
+constructor(http: HttpClient, translate: TranslateService) {
+  super(http, translate);
  }
 
   /**
@@ -162,7 +163,7 @@ constructor(http: HttpClient) {
         Swal.fire({
           title: oError.title,
           text: oError.message,
-          footer: `LogID: ${oError.logid}`,
+          footer: `${this.translate.instant('logId')}: ${oError.logid}`,
           icon: 'warning',
           confirmButtonText: 'OK'
         });

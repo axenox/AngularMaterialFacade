@@ -63,6 +63,13 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatBadgeModule } from '@angular/material/badge';
 import { StyleManagerService } from './api/style-manager.service';
 import { ThemeService } from './api/theme.service';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(httpClient: HttpClient) {
+  return new TranslateHttpLoader(httpClient, '../assets/i18n/');
+}
 
 @NgModule({
   declarations: [
@@ -134,7 +141,10 @@ import { ThemeService } from './api/theme.service';
     MatDividerModule,
     MatSidenavModule,
     ScrollingModule,
-    MatBadgeModule
+    MatBadgeModule,
+    TranslateModule.forRoot({
+      loader: { provide: TranslateLoader, useFactory: HttpLoaderFactory, deps: [HttpClient] },
+    }),
   ],
   entryComponents: [
     DialogComponent, 
@@ -142,7 +152,7 @@ import { ThemeService } from './api/theme.service';
   ],
 
   providers: [
-    {provide: ActionsService, useFactory: apiFactory, deps: [HttpClient]},
+    {provide: ActionsService, useFactory: apiFactory, deps: [HttpClient, TranslateService]},
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoadingScreenInterceptor,

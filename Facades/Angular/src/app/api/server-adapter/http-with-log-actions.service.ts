@@ -8,6 +8,7 @@ import { IWidgetInterface } from '../../interfaces/widgets/widget.interface';
 import { DataResponse, Request } from '../actions.interface';
 import { HttpActionsService } from './http-actions.service';
 import { IShell } from 'src/app/interfaces/shell-interface';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Injectable({
@@ -16,8 +17,8 @@ import { IShell } from 'src/app/interfaces/shell-interface';
 
 export class HttpWithLogActionsService extends HttpActionsService {
 
-constructor(http: HttpClient) {
-  super(http);
+constructor(http: HttpClient, translate: TranslateService) {
+  super(http, translate);
  }
 
   /**

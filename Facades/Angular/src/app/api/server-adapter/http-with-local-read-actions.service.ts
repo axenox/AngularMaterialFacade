@@ -9,6 +9,7 @@ import { DataResponse, Request } from '../actions.interface';
 import { HttpActionsService } from './http-actions.service';
 import { IShell } from 'src/app/interfaces/shell-interface';
 import { environment } from 'src/environments/environment';
+import { TranslateService } from '@ngx-translate/core';
 
 declare function require(path: string);
 
@@ -18,8 +19,8 @@ declare function require(path: string);
 
 export class HttpWithLocalReadActionsService extends HttpActionsService {
 
-constructor(http: HttpClient) {
-  super(http);
+constructor(http: HttpClient, translate: TranslateService) {
+  super(http, translate);
  }
 
   /**

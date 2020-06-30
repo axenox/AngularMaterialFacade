@@ -10,6 +10,7 @@ import { HttpActionsService } from './http-actions.service';
 import { IShell } from 'src/app/interfaces/shell-interface';
 import { map } from 'rxjs/operators';
 import { saveAs } from 'file-saver';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,8 @@ import { saveAs } from 'file-saver';
 
 export class HttpWithLocalWriteActionsService extends HttpActionsService {
 
-constructor(http: HttpClient) {
-  super(http);
+constructor(http: HttpClient, translate: TranslateService) {
+  super(http, translate);
  }
 
   /**

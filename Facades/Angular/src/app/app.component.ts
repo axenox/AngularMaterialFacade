@@ -8,6 +8,7 @@ import { ActivatedRoute, UrlSegment } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { IActionGoToPage } from './interfaces/actions/go-to-page.interface';
 import { ThemeService } from './api/theme.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -19,8 +20,20 @@ export class AppComponent implements OnInit, OnDestroy {
 
   shell: IShell;
   subscriptions: Subscription[] = [];
+    
+  constructor(private translate: TranslateService,private actions: ActionsService, private readonly themeService: ThemeService) {
+    const browserLanguage = translate.getBrowserLang();
+    if (browserLanguage === 'de') {
+      translate.addLangs(['de', 'en']);
+    } else {
+      translate.addLangs(['en', 'de']);
+    }
+    // this language will be used as a fallback when a translation isn't found in the current language
+    translate.setDefaultLang('de');
+    // the lang to use, if the lang isn't available, it will use the current loader to get them
+    translate.use(browserLanguage);
+  }
 
-  constructor(private actions: ActionsService, private readonly themeService: ThemeService) {}
 
   ngOnInit() {
     this.subscriptions.push(this.actions.callShellAction().subscribe((shell: IShell) => {

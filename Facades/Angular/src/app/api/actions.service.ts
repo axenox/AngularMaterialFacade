@@ -7,13 +7,14 @@ import { SortDirection } from '@angular/material/sort';
 import { IWidgetInterface } from '../interfaces/widgets/widget.interface';
 import { DataResponse, Request } from './actions.interface';
 import { IShell } from '../interfaces/shell-interface';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export abstract class ActionsService {
 
-  constructor(public http: HttpClient) { }
+  constructor(public http: HttpClient, public translate: TranslateService) { }
 
   /**
    * Load JSON description of widget
