@@ -8,7 +8,6 @@ export class StyleManagerService {
    * Set the stylesheet with the specified key.
    */
   setStyle(key: string, href: string) {
-    console.log('href='+href);
     getLinkElementForKey(key).setAttribute("href", href);
   }
 

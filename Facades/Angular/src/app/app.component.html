@@ -20,7 +20,7 @@
         </div>
     </mat-toolbar>
 </div>
-<div class="content">
+<div class="content" *ngIf="!loginWidget">
     <mat-drawer-container>
         <mat-drawer #drawer class="drawer" mode="side">
             <app-container *ngIf="shell" [widget]="shell.navigation_drawer"></app-container>

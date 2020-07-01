@@ -11,6 +11,8 @@ import { IShell } from 'src/app/interfaces/shell-interface';
 import { map } from 'rxjs/operators';
 import { saveAs } from 'file-saver';
 import { TranslateService } from '@ngx-translate/core';
+import { environment } from 'src/environments/environment';
+import { IWidgetLoginPrompt } from 'src/app/interfaces/widgets/login-prompt.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -28,12 +30,11 @@ constructor(http: HttpClient, translate: TranslateService) {
    * @param element the id of the widget to show
    */
   public showWidget(pageSelector: string, element?: string): Observable<IWidgetInterface>{
-    console.log(`showWidget(${pageSelector}, ${element})`);
     return super.showWidget(pageSelector, element).pipe(
       map((response: IWidgetInterface) => {
-        //this.saveToFileSystem(response, pageSelector, element);
+        this.saveToFileSystem(response, pageSelector, element);
         return response;
-      }));;
+      }));
   }
 
   /**
@@ -49,7 +50,6 @@ constructor(http: HttpClient, translate: TranslateService) {
   
   public readData(pageSelector: string, widget: IWidgetDataTable, sort: string, order: SortDirection, 
     start: number, length: number, q: string, filterEntries?: FilterEntry[]): Observable<DataResponse> {
-      console.log(`readData(${pageSelector},${JSON.stringify(widget)},${sort},${order},${start},${length},${q},${JSON.stringify(filterEntries)},)`);
       return super.readData(pageSelector, widget, sort, order, start, length, q, filterEntries);
   }
 
@@ -58,23 +58,25 @@ constructor(http: HttpClient, translate: TranslateService) {
    * @param request the needed data to fullfill the request.
    */
   public callAction(request: Request): Observable<DataResponse> {
-    console.log(`callAction(${JSON.stringify(request)})`);
     return super.callAction(request);
   }
 
   /**
    * Gets the shell structure of the application.
    */
-  public callShellAction(): Observable<IShell> {
-    console.log('callShellAction()');
+  public callShellAction(): Observable<IShell | IWidgetLoginPrompt> {
     return super.callShellAction();
   }
-  /*
+  
   private saveToFileSystem(response: any, pageSelector: string, element?: string) {
-    const filename = '/assets/static/' + pageSelector + "___" + element;
+    let pageSelectorWithoutPrefix = pageSelector;
+    if (pageSelectorWithoutPrefix.startsWith(environment.appPagePrefix)) {
+      pageSelectorWithoutPrefix = pageSelector.substr(environment.appPagePrefix.length);
+    }
+    const filename = pageSelectorWithoutPrefix + (element ? "___" + element : '') + '.json';
     const blob = new Blob([JSON.stringify(response)], { type: 'text/plain' });
     saveAs(blob, filename);
   }
-  */
+  
 }
 

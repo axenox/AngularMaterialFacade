@@ -9,6 +9,9 @@ import { environment } from 'src/environments/environment';
 import { IActionGoToPage } from './interfaces/actions/go-to-page.interface';
 import { ThemeService } from './api/theme.service';
 import { TranslateService } from '@ngx-translate/core';
+import { IWidgetLoginPrompt } from './interfaces/widgets/login-prompt.interface';
+import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
+import { IDialogData, DialogComponent } from './widgets/dialog/dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -19,9 +22,12 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'ExFace';
 
   shell: IShell;
+
+  loginWidget: IWidgetLoginPrompt;
+
   subscriptions: Subscription[] = [];
     
-  constructor(private translate: TranslateService,private actions: ActionsService, private readonly themeService: ThemeService) {
+  constructor(private translate: TranslateService,private actions: ActionsService, private readonly themeService: ThemeService, private dialog: MatDialog) {
     const browserLanguage = translate.getBrowserLang();
     if (browserLanguage === 'de') {
       translate.addLangs(['de', 'en']);
@@ -36,13 +42,26 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    this.subscriptions.push(this.actions.callShellAction().subscribe((shell: IShell) => {
-      this.shell = shell;
-      let themePath = this.shell.theme;
-      if (themePath.startsWith('@angular/material/prebuilt-themes/')) {
-        themePath = themePath.replace('@angular/material/prebuilt-themes/', '/assets/themes/');
+    this.subscriptions.push(this.actions.callShellAction().subscribe((result: IShell | IWidgetLoginPrompt) => {
+      if ('widgets' in result) {
+        this.loginWidget = result;
+        const dialogConfig = new MatDialogConfig();
+        const dialogData: IDialogData = { structure: this.loginWidget };
+
+        dialogConfig.data = dialogData;
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+      
+        const dialogRef = this.dialog.open(DialogComponent, dialogConfig);
+        dialogRef.afterClosed().subscribe(result => {});
+      } else {
+        this.shell = result;
+        let themePath = this.shell.theme;
+        if (themePath.startsWith('@angular/material/prebuilt-themes/')) {
+          themePath = themePath.replace('@angular/material/prebuilt-themes/', '/assets/themes/');
+        } 
+        this.themeService.setTheme(themePath);
       }
-      this.themeService.setTheme(themePath);
     }));
   }
 

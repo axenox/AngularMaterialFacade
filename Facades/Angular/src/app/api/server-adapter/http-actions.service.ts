@@ -3,7 +3,7 @@ import { HttpClient, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { IWidgetDataTable } from '../../interfaces/widgets/data-table.interface';
 import { FilterEntry } from '../../widgets/data-table/data-table.component';
 import { environment } from 'src/environments/environment';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, of } from 'rxjs';
 import { SortDirection } from '@angular/material/sort';
 import { IWidgetInterface } from '../../interfaces/widgets/widget.interface';
 import { ActionsService } from '../actions.service';
@@ -13,6 +13,7 @@ import { map, catchError } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { IServerError } from 'src/app/interfaces/server-error.interface';
 import { TranslateService } from '@ngx-translate/core';
+import { IWidgetLoginPrompt } from 'src/app/interfaces/widgets/login-prompt.interface';
 
 
 @Injectable({
@@ -139,21 +140,26 @@ constructor(http: HttpClient, translate: TranslateService) {
     /**
    * Gets the shell structure of the application.
    */
-  public callShellAction(): Observable<IShell> {
+  public callShellAction(): Observable<IShell | IWidgetLoginPrompt> {
     return this.http.get<IShell>(environment.url, { params: {action: environment.shellAction}})
       .pipe(
         catchError((err: HttpErrorResponse) => {
           this.showError(err);
+          if ('error' in err) {
+            return of(err.error);
+          }
           return throwError(err);
         }));
   }
 
   showError(response: HttpErrorResponse) {
-    console.log(response);
+    if (response.status === 401) { //unauthorized errors will be handled with not showing data
+      return;
+    }
+
     let oError = null;
     if (response.error != null) {
         if (response.error.error != null) {
-          console.log('inner: ', response.error.error);
           oError = response.error.error;
         }
     }

@@ -8,6 +8,7 @@ import { IWidgetInterface } from '../interfaces/widgets/widget.interface';
 import { DataResponse, Request } from './actions.interface';
 import { IShell } from '../interfaces/shell-interface';
 import { TranslateService } from '@ngx-translate/core';
+import { IWidgetLoginPrompt } from '../interfaces/widgets/login-prompt.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -47,6 +48,6 @@ export abstract class ActionsService {
   /**
    * Gets the shell structure of the application.
    */
-  public abstract callShellAction(): Observable<IShell>
+  public abstract callShellAction(): Observable<IShell | IWidgetLoginPrompt>
 }
 

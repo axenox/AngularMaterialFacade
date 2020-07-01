@@ -12,11 +12,12 @@ import { IWidgetDialog } from 'src/app/interfaces/widgets/dialog.interface';
 import { IWidgetContainer } from 'src/app/interfaces/widgets/container.interface';
 import { IWidgetEvent, WidgetEventType } from 'src/app/interfaces/events/widget-event.interface';
 import { IWidgetInputInterface } from 'src/app/interfaces/widgets/input.interface';
+import { IWidgetLoginPrompt } from 'src/app/interfaces/widgets/login-prompt.interface';
 
 export interface IDialogData {
-  structure: IWidgetDialog;
-  pageSelector: string;
-  prefillRow: DataRow;
+  structure: IWidgetDialog | IWidgetLoginPrompt;
+  pageSelector?: string;
+  prefillRow?: DataRow;
 }
 
 @Component({

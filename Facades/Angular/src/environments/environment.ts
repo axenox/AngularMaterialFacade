@@ -8,6 +8,7 @@ export const environment = {
    shellAction: 'axenox.angularmaterialfacade.ShowShell',
    indexPageSelector: 'index',
    appPagePrefix: 'angular.demo.',
+   useStaticFiles: true,
 };
 
 /*

@@ -65,6 +65,7 @@ import { StyleManagerService } from './api/style-manager.service';
 import { ThemeService } from './api/theme.service';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { LoginPromptComponent } from './widgets/login-prompt/login-prompt.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -94,7 +95,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     NavMenuComponent,
     ExternalPageComponent,
     NavTilesComponent,
-    TilesComponent
+    TilesComponent,
+    LoginPromptComponent
   ],
   imports: [
     BrowserModule,
@@ -149,6 +151,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
   entryComponents: [
     DialogComponent, 
     ButtonComponent,
+    LoginPromptComponent
   ],
 
   providers: [

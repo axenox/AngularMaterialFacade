@@ -9,6 +9,7 @@ import { DataResponse, Request } from '../actions.interface';
 import { HttpActionsService } from './http-actions.service';
 import { IShell } from 'src/app/interfaces/shell-interface';
 import { TranslateService } from '@ngx-translate/core';
+import { IWidgetLoginPrompt } from 'src/app/interfaces/widgets/login-prompt.interface';
 
 
 @Injectable({
@@ -60,7 +61,7 @@ constructor(http: HttpClient, translate: TranslateService) {
   /**
    * Gets the shell structure of the application.
    */
-  public callShellAction(): Observable<IShell> {
+  public callShellAction(): Observable<IShell | IWidgetLoginPrompt> {
     console.log('callShellAction()');
     return super.callShellAction();
   }

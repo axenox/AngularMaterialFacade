@@ -28,6 +28,7 @@ import { InputCheckBoxComponent } from './inputs/input-checkbox/input-checkbox.c
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { NavTilesComponent } from './nav-tiles/nav-tiles.component';
 import { TilesComponent } from './tiles/tiles.component';
+import { LoginPromptComponent } from './login-prompt/login-prompt.component';
 
 const COMPONENT_REGISTER = {
   'DataTable': DataTableComponent,
@@ -44,7 +45,8 @@ const COMPONENT_REGISTER = {
   'InputCheckBox' : InputCheckBoxComponent,
   'NavMenu': NavMenuComponent,
   'NavTiles': ContainerComponent,
-  'Tiles': TilesComponent
+  'Tiles': TilesComponent,
+  'LoginPrompt': ContainerComponent
 };
 
 @Component({
