@@ -29,6 +29,7 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { NavTilesComponent } from './nav-tiles/nav-tiles.component';
 import { TilesComponent } from './tiles/tiles.component';
 import { LoginPromptComponent } from './login-prompt/login-prompt.component';
+import { InputPasswordComponent } from './inputs/input-password/input-password.component';
 
 const COMPONENT_REGISTER = {
   'DataTable': DataTableComponent,
@@ -36,6 +37,7 @@ const COMPONENT_REGISTER = {
   'Input': InputComponent,
   'InputSelect': InputSelectComponent,
   'InputText': InputTextComponent,
+  'InputPassword': InputPasswordComponent,
   'Dialog': ContainerComponent,
   'Form': FormComponent,
   'InputCombo': InputComboComponent,

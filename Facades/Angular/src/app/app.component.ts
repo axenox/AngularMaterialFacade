@@ -12,6 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { IWidgetLoginPrompt } from './interfaces/widgets/login-prompt.interface';
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { IDialogData, DialogComponent } from './widgets/dialog/dialog.component';
+import { IWidgetDialog } from './interfaces/widgets/dialog.interface';
 
 @Component({
   selector: 'app-root',
@@ -46,7 +47,7 @@ export class AppComponent implements OnInit, OnDestroy {
       if ('widgets' in result) {
         this.loginWidget = result;
         const dialogConfig = new MatDialogConfig();
-        const dialogData: IDialogData = { structure: this.loginWidget };
+        const dialogData: IDialogData = { structure: (this.loginWidget.widgets[0] as IWidgetDialog), pageSelector: '' };
 
         dialogConfig.data = dialogData;
         dialogConfig.disableClose = true;

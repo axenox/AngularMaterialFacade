@@ -1,5 +1,5 @@
 <app-loading-screen></app-loading-screen>
-<div class="toolbar">
+<div *ngIf="!loginWidget" class="toolbar">
     <mat-toolbar color="primary" >
         <button mat-button (click)="drawer.toggle()">
             <mat-icon>menu</mat-icon>

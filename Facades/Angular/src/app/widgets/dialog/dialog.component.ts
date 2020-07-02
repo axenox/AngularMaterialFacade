@@ -15,8 +15,8 @@ import { IWidgetInputInterface } from 'src/app/interfaces/widgets/input.interfac
 import { IWidgetLoginPrompt } from 'src/app/interfaces/widgets/login-prompt.interface';
 
 export interface IDialogData {
-  structure: IWidgetDialog | IWidgetLoginPrompt;
-  pageSelector?: string;
+  structure: IWidgetDialog;
+  pageSelector: string;
   prefillRow?: DataRow;
 }
 
