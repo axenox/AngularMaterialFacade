@@ -20,13 +20,14 @@ export interface DataSheet {
 }
 
 export interface DataResponse {
-  rows: DataRow[];
+  rows?: DataRow[];
   recordsFiltered?: number;
   recordsTotal?: number;
   recordsLimit?: number;
   recordsOffset?: number;
   footerRows?: number;
   success?: string;
+  redirect?: string;
 }
 
 export interface Request {
