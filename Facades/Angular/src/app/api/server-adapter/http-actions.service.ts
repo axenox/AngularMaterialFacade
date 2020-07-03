@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
 import { IServerError } from 'src/app/interfaces/server-error.interface';
 import { TranslateService } from '@ngx-translate/core';
 import { IWidgetLoginPrompt } from 'src/app/interfaces/widgets/login-prompt.interface';
+import { RequestOptions } from 'https';
 
 
 @Injectable({
@@ -41,7 +42,7 @@ constructor(http: HttpClient, translate: TranslateService) {
       params.element = element;
     }
     
-    return this.http.get<IWidgetInterface>(environment.url, { params })
+    return this.http.get<IWidgetInterface>(environment.url, { params, withCredentials: true})
       .pipe(
         catchError((err: HttpErrorResponse) => {
           this.showError(err);
@@ -93,7 +94,7 @@ constructor(http: HttpClient, translate: TranslateService) {
         });
       }
 
-    return this.http.get<DataResponse>(environment.url, { params })
+    return this.http.get<DataResponse>(environment.url, { params, withCredentials: true })
       .pipe(
         catchError((err: HttpErrorResponse) => {
           this.showError(err);
@@ -129,7 +130,7 @@ constructor(http: HttpClient, translate: TranslateService) {
       });  
     }
 
-    return this.http.get<DataResponse>(environment.url, { params })
+    return this.http.get<DataResponse>(environment.url, { params, withCredentials: true})
     .pipe(
       catchError((err: HttpErrorResponse) => {
         this.showError(err);
@@ -141,7 +142,7 @@ constructor(http: HttpClient, translate: TranslateService) {
    * Gets the shell structure of the application.
    */
   public callShellAction(): Observable<IShell | IWidgetLoginPrompt> {
-    return this.http.get<IShell>(environment.url, { params: {action: environment.shellAction}})
+    return this.http.get<IShell>(environment.url, { params: {action: environment.shellAction}, withCredentials: true})
       .pipe(
         catchError((err: HttpErrorResponse) => {
           this.showError(err);
@@ -198,6 +199,5 @@ constructor(http: HttpClient, translate: TranslateService) {
     }
     
   }
-
 }
 

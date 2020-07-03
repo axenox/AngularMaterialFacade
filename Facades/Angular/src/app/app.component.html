@@ -4,7 +4,7 @@
         <button mat-button (click)="drawer.toggle()">
             <mat-icon>menu</mat-icon>
         </button>
-        <h1 *ngIf="shell">{{shell.top_bar.caption}}</h1>
+        <h1 *ngIf="shell && shell.top_bar">{{shell.top_bar.caption}}</h1>
         <div style="width: 100%; text-align: right;">
             <button mat-button 
                     *ngFor="let bar of getContextBars()" 
@@ -20,7 +20,7 @@
         </div>
     </mat-toolbar>
 </div>
-<div class="content" *ngIf="!loginWidget">
+<div class="content" >
     <mat-drawer-container>
         <mat-drawer #drawer class="drawer" mode="side">
             <app-container *ngIf="shell" [widget]="shell.navigation_drawer"></app-container>

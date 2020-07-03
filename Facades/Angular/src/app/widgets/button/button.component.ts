@@ -148,6 +148,13 @@ export class ButtonComponent implements OnInit {
                   duration: 2000,
                   panelClass:['snackbar-success']
                 });
+                if (result.success === 'Authenticated successfully.') {
+                  if(result.redirect && result.redirect !== '') {
+                    this.router.navigateByUrl(result.redirect);
+                  } else {
+                    window.location.reload();
+                  }
+                }
               },
               (error: any) => {
                 const event: IWidgetEvent = {source: this.widget, type: WidgetEventType.ACTION_CALLED, value: false};
