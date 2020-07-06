@@ -69,14 +69,9 @@ constructor(http: HttpClient, translate: TranslateService) {
   }
   
   private saveToFileSystem(response: any, pageSelector: string, element?: string) {
-    let pageSelectorWithoutPrefix = pageSelector;
-    if (pageSelectorWithoutPrefix.startsWith(environment.appPagePrefix)) {
-      pageSelectorWithoutPrefix = pageSelector.substr(environment.appPagePrefix.length);
-    }
-    const filename = pageSelectorWithoutPrefix + (element ? "___" + element : '') + '.json';
+    const filename = pageSelector + (element ? "___" + element : '') + '.json';
     const blob = new Blob([JSON.stringify(response)], { type: 'text/plain' });
     saveAs(blob, filename);
   }
-  
 }
 

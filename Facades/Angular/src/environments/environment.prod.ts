@@ -1,8 +1,7 @@
 export const environment = {
   production: true,
   url: '/exface/exface/api/angular',
-  shellAction: 'axenox.angularmaterialfacade.ShowShell',
+  apiClass: 'HttpActionsService',
   indexPageSelector: 'index',
-  appPagePrefix: 'angular.demo.',
-  useStaticFiles: true,
+  shellAction: 'axenox.angularmaterialfacade.ShowShell',
 };

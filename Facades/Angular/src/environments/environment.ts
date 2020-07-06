@@ -4,11 +4,10 @@
 
 export const environment = {
   production: false,
-   url: 'http://localhost/exface/exface/api/angular',
-   shellAction: 'axenox.angularmaterialfacade.ShowShell',
-   indexPageSelector: 'index',
-   appPagePrefix: 'angular.demo.',
-   useStaticFiles: false,
+  url: 'http://localhost/exface/exface/api/angular',
+  apiClass: 'HttpActionsService',
+  indexPageSelector: 'index',
+  shellAction: 'axenox.angularmaterialfacade.ShowShell',
 };
 
 /*

@@ -7,11 +7,12 @@ import { HttpWithLocalWriteActionsService } from './server-adapter/http-with-loc
 import { environment } from 'src/environments/environment';
 
 export function apiFactory(http: HttpClient, translate: TranslateService) {
-  if (environment.useStaticFiles) {
-    return new HttpWithLocalReadActionsService(http, translate);
+  switch (environment.apiClass) {
+    case 'HttpWithLocalReadActionsService': return new HttpWithLocalReadActionsService(http, translate);
+    case 'HttpWithLocalWriteActionsService': return new HttpWithLocalWriteActionsService(http, translate);
+    case 'HttpActionsService':
+    default:
+      return new HttpActionsService(http, translate);
+      //return new HttpWithLogActionsService(http, translate);
   }
-  return new HttpActionsService(http, translate);
-  //return new HttpWithLocalWriteActionsService(http, translate);
-  //return new HttpWithLocalReadActionsService(http, translate);
-  //return new HttpWithLogActionsService(http, translate);
 }
