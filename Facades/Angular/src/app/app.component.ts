@@ -46,15 +46,24 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.actions.callShellAction().subscribe((result: IShell | IWidgetLoginPrompt) => {
       if ('widgets' in result) {
         this.loginWidget = result;
+        let hasTabs = false;
+        if(this.loginWidget.widgets.length >= 2){
+          hasTabs = true
+        }
         const dialogConfig = new MatDialogConfig();
         const dialogData: IDialogData = { structure: (this.loginWidget.widgets[0] as IWidgetDialog), pageSelector: '' };
 
         dialogConfig.data = dialogData;
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
-      
-        const dialogRef = this.dialog.open(DialogComponent, dialogConfig);
-        dialogRef.afterClosed().subscribe(result => {});
+        
+        if(hasTabs = true){
+          const dialogRef = this.dialog.open(DialogComponent, dialogConfig);
+          dialogRef.afterClosed().subscribe(result => {});
+        } else {
+          const dialogRef = this.dialog.open(DialogComponent, dialogConfig);
+          dialogRef.afterClosed().subscribe(result => {});
+        }
       } else {
         this.shell = result;
         let themePath = this.shell.theme;
