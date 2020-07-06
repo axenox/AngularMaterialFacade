@@ -76,7 +76,10 @@ trait JsonBuilderTrait
     protected function getFallbackActionAliases(ActionInterface $action) : array
     {
         $fallbacks = [];
-        foreach (class_parents($action) as $fallbackClass) {
+        // Use the current class as fallback too because actions from the metamodel
+        // (object actions) have a different alias than their prototype action.
+        $classes = array_merge([get_class($action)], class_parents($action));
+        foreach ($classes as $fallbackClass) {
             if (StringDataType::endsWith($fallbackClass, 'AbstractAction')) {
                 break;
             }
