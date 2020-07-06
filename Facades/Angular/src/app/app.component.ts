@@ -68,7 +68,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.shell = result;
         let themePath = this.shell.theme;
         if (themePath.startsWith('@angular/material/prebuilt-themes/')) {
-          themePath = themePath.replace('@angular/material/prebuilt-themes/', '/assets/themes/');
+          themePath = themePath.replace('@angular/material/prebuilt-themes/', 'assets/themes/');
         } 
         this.themeService.setTheme(themePath);
       }
