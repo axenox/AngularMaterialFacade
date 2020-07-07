@@ -22,5 +22,5 @@ export class LoginPromptComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  
 }

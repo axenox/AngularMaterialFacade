@@ -1,7 +1,10 @@
 <mat-card>
+    <mat-tab-group>
+        <mat-tab *ngFor="let tab of widget.widgets" [label]="tab.caption">
+            <app-widget [structure]="tab" [pageSelector]="pageSelector" [formGroup]="formGroup"></app-widget> 
+        </mat-tab>
+      </mat-tab-group>
     <app-widget [structure]="widget" [formGroup]="formGroup"[pageSelector]="pageSelector"></app-widget>
 </mat-card>
-<div class="alert alert-danger" role="alert">
-    This is a danger alert—check it out!
-</div>
+
     

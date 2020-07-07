@@ -13,6 +13,7 @@ import { IWidgetLoginPrompt } from './interfaces/widgets/login-prompt.interface'
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { IDialogData, DialogComponent } from './widgets/dialog/dialog.component';
 import { IWidgetDialog } from './interfaces/widgets/dialog.interface';
+import { IWidgetTabs } from './interfaces/widgets/tabs.interface';
 
 @Component({
   selector: 'app-root',
@@ -51,13 +52,13 @@ export class AppComponent implements OnInit, OnDestroy {
           hasTabs = true
         }
         const dialogConfig = new MatDialogConfig();
-        const dialogData: IDialogData = { structure: (this.loginWidget.widgets[0] as IWidgetDialog), pageSelector: '' };
+        const dialogData: IDialogData = { tabStructure: this.loginWidget, pageSelector: '' };
 
         dialogConfig.data = dialogData;
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
         
-        if(hasTabs = true){
+        if(hasTabs){
           const dialogRef = this.dialog.open(DialogComponent, dialogConfig);
           dialogRef.afterClosed().subscribe(result => {});
         } else {
@@ -65,7 +66,7 @@ export class AppComponent implements OnInit, OnDestroy {
           dialogRef.afterClosed().subscribe(result => {});
         }
       } else {
-        this.shell = result;
+        this.shell = result; 
         let themePath = this.shell.theme;
         if (themePath.startsWith('@angular/material/prebuilt-themes/')) {
           themePath = themePath.replace('@angular/material/prebuilt-themes/', 'assets/themes/');

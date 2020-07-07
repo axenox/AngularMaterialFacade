@@ -15,7 +15,8 @@ import { IWidgetInputInterface } from 'src/app/interfaces/widgets/input.interfac
 import { IWidgetLoginPrompt } from 'src/app/interfaces/widgets/login-prompt.interface';
 
 export interface IDialogData {
-  structure: IWidgetDialog;
+  structure?: IWidgetDialog;
+  tabStructure?: IWidgetContainer;
   pageSelector: string;
   prefillRow?: DataRow;
 }
@@ -38,7 +39,11 @@ export class DialogComponent implements OnInit {
   ngOnInit() {  
     // create a FormGroup, that will be used for every child of this widget
     this.formGroup=new FormGroup({});
-    this.fillInputWidgets(this.data.structure.widgets);
+    if (this.data.structure) {
+      this.fillInputWidgets(this.data.structure.widgets);
+    } else if (this.data.tabStructure) {
+      this.fillInputWidgets(this.data.tabStructure.widgets);
+    }
   }
 
   /**
@@ -72,6 +77,10 @@ export class DialogComponent implements OnInit {
   }
 
   hasTabs(widget: IWidgetContainer | IWidgetInterface): boolean {
+    if (!widget) {
+      return false;
+    }
+
     if (widget.widget_type === 'Tabs') {
       return true;
     }

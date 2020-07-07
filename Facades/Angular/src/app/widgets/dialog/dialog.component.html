@@ -1,10 +1,18 @@
-<h1 mat-dialog-title>
+<h1 mat-dialog-title *ngIf="data && data.structure">
     <mat-icon *ngIf="data.structure.show_icon" fontSet="{{data.structure.icon_set}}" fontIcon="{{data.structure.icon_class}}"></mat-icon>
     {{data.structure.caption}}
 </h1>
-<mat-dialog-content [ngClass]="{'mat-dialog-heigh': hasTabs(data.structure) ,'mat-dialog-wide': data.structure.columns_in_grid > 1, 'mat-dialog-narrow': data.structure.columns_in_grid === 1  }">
-    <app-widget *ngIf="data" [structure]="data.structure" [pageSelector]="data.pageSelector" [formGroup]="formGroup"></app-widget>
+<mat-dialog-content [ngClass]="{'mat-dialog-heigh': !data.structure || hasTabs(data.structure ) ,'mat-dialog-wide': !data.structure || data.structure.columns_in_grid > 1, 'mat-dialog-narrow': data.structure && data.structure.columns_in_grid === 1  }">
+    <mat-tab-group *ngIf="data && data.tabStructure">
+        <mat-tab *ngFor="let tab of data.tabStructure.widgets" [label]="tab.caption">
+            <app-widget [structure]="tab" [formGroup]="formGroup"></app-widget> 
+            <div mat-dialog-actions class="dialogbuttons">
+                <app-button *ngFor="let button of tab.buttons" [formGroup]="formGroup" [widget]="button" [pageSelector]="data.pageSelector" (widgetEvent)="onWidgetEvent($event)" type="Flat"></app-button>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+    <app-widget *ngIf="data && data.structure" [structure]="data.structure" [pageSelector]="data.pageSelector" [formGroup]="formGroup"></app-widget>
 </mat-dialog-content>
-<div mat-dialog-actions class="dialogbuttons" >
+<div mat-dialog-actions class="dialogbuttons" *ngIf="data && data.structure">
     <app-button *ngFor="let button of data.structure.buttons" [formGroup]="formGroup" [widget]="button" [pageSelector]="data.pageSelector" (widgetEvent)="onWidgetEvent($event)" type="Flat"></app-button>
 </div>
