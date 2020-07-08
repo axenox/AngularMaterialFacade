@@ -16,7 +16,7 @@ import { IWidgetLoginPrompt } from 'src/app/interfaces/widgets/login-prompt.inte
 
 export interface IDialogData {
   structure?: IWidgetDialog;
-  tabStructure?: IWidgetContainer;
+  tabStructure?: IWidgetLoginPrompt;
   pageSelector: string;
   prefillRow?: DataRow;
 }
@@ -30,6 +30,8 @@ export class DialogComponent implements OnInit {
   
   formGroup: FormGroup;
 
+  tabFormGroups: Map<string, FormGroup> = new Map();
+
   constructor(
     private dialogRef: MatDialogRef<DialogComponent>,
     private _snackBar: MatSnackBar,
@@ -38,18 +40,23 @@ export class DialogComponent implements OnInit {
 
   ngOnInit() {  
     // create a FormGroup, that will be used for every child of this widget
-    this.formGroup=new FormGroup({});
     if (this.data.structure) {
-      this.fillInputWidgets(this.data.structure.widgets);
+      this.formGroup=new FormGroup({});
+      this.fillInputWidgets(this.formGroup, this.data.structure.widgets);
     } else if (this.data.tabStructure) {
-      this.fillInputWidgets(this.data.tabStructure.widgets);
+      this.data.tabStructure.widgets.forEach((widget: IWidgetInterface) => {
+        const formGroup=new FormGroup({});
+        this.fillInputWidgets(formGroup, [widget]);
+        this.tabFormGroups.set(widget.id, formGroup);
+      });
+      
     }
   }
 
   /**
    * add the needed controls to the form group, for all descendant children of type Input...
    */
-  fillInputWidgets(widgets: IWidgetInterface[]) {
+  fillInputWidgets(formGroup: FormGroup, widgets: IWidgetInterface[]) {
     widgets.forEach((widget: IWidgetInterface) => {
       if (widget.widget_type.startsWith('Input')) {
         const inputWidget = widget as IWidgetInputInterface;
@@ -58,10 +65,10 @@ export class DialogComponent implements OnInit {
         if(inputWidget.required) {
           validators.push(Validators.required);
         }
-        this.formGroup.addControl(widgetName, new FormControl(this.data.prefillRow ? this.data.prefillRow[widgetName] : undefined, validators));
+        formGroup.addControl(widgetName, new FormControl(this.data.prefillRow ? this.data.prefillRow[widgetName] : undefined, validators));
       }
-      if ((widget as IWidgetContainer).widgets) {
-        this.fillInputWidgets((widget as IWidgetContainer).widgets);
+      if ((widget as IWidgetLoginPrompt).widgets) {
+        this.fillInputWidgets(formGroup, (widget as IWidgetLoginPrompt).widgets);
       }
     })
   }
@@ -76,7 +83,7 @@ export class DialogComponent implements OnInit {
     }
   }
 
-  hasTabs(widget: IWidgetContainer | IWidgetInterface): boolean {
+  hasTabs(widget: IWidgetLoginPrompt | IWidgetInterface): boolean {
     if (!widget) {
       return false;
     }
@@ -86,7 +93,7 @@ export class DialogComponent implements OnInit {
     }
 
     if (widget.hasOwnProperty('widgets')) {
-      for (let child of (widget as IWidgetContainer).widgets) {
+      for (let child of (widget as IWidgetLoginPrompt).widgets) {
         if (this.hasTabs(child)) {
           return true;
         }

@@ -17,3 +17,14 @@
 .mat-dialog-narrow {
     width: 50vw;
 }
+
+.messagebox {
+    background-color: red;
+    border-radius: 5px;
+    color: white;
+    margin-bottom: 20px;
+    text-align: center;
+    opacity: 0.75;
+}
+
+

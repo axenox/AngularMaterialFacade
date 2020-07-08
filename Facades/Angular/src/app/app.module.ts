@@ -67,6 +67,9 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LoginPromptComponent } from './widgets/login-prompt/login-prompt.component';
 import { InputPasswordComponent } from './widgets/inputs/input-password/input-password.component';
+import { ImageComponent } from './widgets/image/image.component';
+import { QrCodeComponent } from './widgets/qr-code/qr-code.component';
+import { DisplayComponent } from './widgets/display/display.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -98,7 +101,10 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     NavTilesComponent,
     TilesComponent,
     LoginPromptComponent,
-    InputPasswordComponent
+    InputPasswordComponent,
+    ImageComponent,
+    QrCodeComponent,
+    DisplayComponent
   ],
   imports: [
     BrowserModule,
