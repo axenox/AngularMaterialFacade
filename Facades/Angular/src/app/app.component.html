@@ -5,7 +5,7 @@
             <mat-icon>menu</mat-icon>
         </button>
         <h1 *ngIf="shell && shell.top_bar">{{shell.top_bar.caption}}</h1>
-        <div style="width: 100%; text-align: right;">
+        <div fxShow="true" fxHide.lt-md="true" style="width: 100%; text-align: right;" >
             <button mat-button 
                     *ngFor="let bar of getContextBars()" 
                     class="contextbuttons" matTooltip="{{bar.hint}}">
@@ -17,6 +17,24 @@
                     mtBadgeSize="small"
                     matBadgeOverlap="false"></mat-icon>
             </button>
+        </div>
+        <div fxShow="true" fxHide.gt-sm="true" style="width: 100%; text-align: right;">
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_horiz</mat-icon>
+            </button>
+            <mat-menu #menu>
+                <button mat-button 
+                    *ngFor="let bar of getContextBars()" 
+                    class="contextbuttons shell-button" matTooltip="{{bar.hint}}">
+                <mat-icon 
+                    fontSet="fa" 
+                    fontIcon="fa-{{bar.icon}}" 
+                    matBadge="{{bar.indicator}}" 
+                    matBadgeColor="accent"
+                    mtBadgeSize="small"
+                    matBadgeOverlap="false"></mat-icon>
+                </button>
+            </mat-menu>
         </div>
     </mat-toolbar>
 </div>

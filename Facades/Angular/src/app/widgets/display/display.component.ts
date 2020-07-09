@@ -4,13 +4,30 @@ import { IWidgetInputInterface } from 'src/app/interfaces/widgets/input.interfac
 import { FormGroup } from '@angular/forms';
 import { EventEmitter } from 'protractor';
 import { AbstractInputComponent } from '../inputs/abstract-input.component';
+import { IWidgetDisplayInterface } from 'src/app/interfaces/widgets/display.interface';
 
 @Component({
   selector: 'app-display',
   templateUrl: './display.component.html',
   styleUrls: ['./display.component.css']
 })
-export class DisplayComponent extends AbstractInputComponent {
+export class DisplayComponent {
 
+  @Input()
+  widget: IWidgetDisplayInterface;
+
+  @Input()
+  formGroup: FormGroup;
+
+  @Input()
+  pageSelector: string;
+
+  ngOnInit(){
+    this.getControl()
+  }
+
+  getControl() {
+    return this.formGroup.get(this.widget.attribute_alias);
+  }
 }
 

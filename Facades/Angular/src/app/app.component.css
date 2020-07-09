@@ -8,3 +8,6 @@ mat-toolbar{
     min-width: 200px;
 }
 
+.shell-button {
+    display: block;
+}
