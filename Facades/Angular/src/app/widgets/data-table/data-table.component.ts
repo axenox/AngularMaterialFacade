@@ -25,6 +25,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { DataTableAnimations } from './data.table.animations'
 import { IWidgetButton } from 'src/app/interfaces/widgets/button.interface';
 import { IWidgetValueInterface } from 'src/app/interfaces/widgets/value.interface';
+import { DomSanitizer } from '@angular/platform-browser';
 
 export interface IColumnDef {
   columnDef: string;
@@ -97,7 +98,7 @@ export class DataTableComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MdePopoverTrigger, { static: false }) trigger: MdePopoverTrigger;
 
-  constructor(private dialog: MatDialog, private actions: ActionsService) {}
+  constructor(private dialog: MatDialog, private actions: ActionsService, public sanitizer: DomSanitizer) {}
 
   ngOnInit() {
     this.displayedColumns = [];

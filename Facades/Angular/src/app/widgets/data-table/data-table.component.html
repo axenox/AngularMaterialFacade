@@ -82,6 +82,7 @@
     </mat-card>
 </mde-popover>
 
+<div class="table-container">
 <mat-table #table [dataSource]="dataSource" matSort>
   <ng-container [cdkColumnDef]="'_checkboxes_'">
     <mat-header-cell class="headercell" *cdkHeaderCellDef>
@@ -105,8 +106,11 @@
   <ng-container *ngFor="let column of widget.columns" [matColumnDef]="column.data_column_name" class="mask rgba-black-light">
     <mat-header-cell mat-sort-header *cdkHeaderCellDef>{{ column.caption }}</mat-header-cell>
     <mat-cell *cdkCellDef="let row">
-      <ng-container *ngIf="row[column.data_column_name]">
-        {{ row[column.data_column_name] }} 
+      <ng-container class="text-container" *ngIf="row[column.data_column_name]">
+        <span class="mobile-label">
+          {{column.caption}}: 
+        </span>
+        {{ row[column.data_column_name] }}
       </ng-container>
     </mat-cell>
   </ng-container>
@@ -120,6 +124,7 @@
   <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="rowClicked(row)" class="single-selection"
   [class.single-selection]="!hasMultiselect() && selection.isSelected(row)"></mat-row>
 </mat-table>
+</div>
 
 <div class="fab-container" *ngIf="getPrimaryButtons().length > 1">
   <button mat-fab class="fab-toggler"

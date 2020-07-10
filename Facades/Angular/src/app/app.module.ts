@@ -70,6 +70,7 @@ import { InputPasswordComponent } from './widgets/inputs/input-password/input-pa
 import { ImageComponent } from './widgets/image/image.component';
 import { QrCodeComponent } from './widgets/qr-code/qr-code.component';
 import { DisplayComponent } from './widgets/display/display.component';
+import { ResponsiveDataTableComponent } from './widgets/data-table/responsive-data-table.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -104,7 +105,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     InputPasswordComponent,
     ImageComponent,
     QrCodeComponent,
-    DisplayComponent
+    DisplayComponent,
+    ResponsiveDataTableComponent
   ],
   imports: [
     BrowserModule,

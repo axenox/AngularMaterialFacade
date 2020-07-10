@@ -31,9 +31,11 @@ import { TilesComponent } from './tiles/tiles.component';
 import { LoginPromptComponent } from './login-prompt/login-prompt.component';
 import { InputPasswordComponent } from './inputs/input-password/input-password.component';
 import { DisplayComponent } from './display/display.component';
+import { ResponsiveDataTableComponent } from './data-table/responsive-data-table.component';
 
 const COMPONENT_REGISTER = {
   'DataTable': DataTableComponent,
+  'DataTableResponsive': ResponsiveDataTableComponent,
   'Filter': FilterComponent,
   'Input': InputComponent,
   'InputSelect': InputSelectComponent,
