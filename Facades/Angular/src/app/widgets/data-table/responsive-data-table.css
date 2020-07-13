@@ -16,7 +16,9 @@ mat-table {
   .mobile-label {
     width: 80px;
     display: inline-block;
-        font-weight: bold;
+        white-space: nowrap;
+    color: rgba(0,0,0,.54);
+    min-width: 105px;
   }
 
   mat-header-row {
@@ -27,6 +29,11 @@ mat-table {
     flex-direction: column;
     align-items: start;
     padding: 8px 24px;
+    min-height: unset;
+  }
+  mat-cell {
+    min-height: unset;
+    padding: 0 !important;
   }
 
 }

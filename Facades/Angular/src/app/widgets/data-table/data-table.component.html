@@ -106,7 +106,7 @@
   <ng-container *ngFor="let column of widget.columns" [matColumnDef]="column.data_column_name" class="mask rgba-black-light">
     <mat-header-cell mat-sort-header *cdkHeaderCellDef>{{ column.caption }}</mat-header-cell>
     <mat-cell *cdkCellDef="let row">
-      <ng-container class="text-container" *ngIf="row[column.data_column_name]">
+      <ng-container class="text-container">
         <span class="mobile-label">
           {{column.caption}}: 
         </span>
