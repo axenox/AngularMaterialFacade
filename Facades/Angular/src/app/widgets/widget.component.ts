@@ -32,6 +32,8 @@ import { LoginPromptComponent } from './login-prompt/login-prompt.component';
 import { InputPasswordComponent } from './inputs/input-password/input-password.component';
 import { DisplayComponent } from './display/display.component';
 import { ResponsiveDataTableComponent } from './data-table/responsive-data-table.component';
+import { ImageComponent } from './image/image.component';
+import { QrCodeComponent } from './qr-code/qr-code.component';
 
 const COMPONENT_REGISTER = {
   'DataTable': DataTableComponent,
@@ -53,7 +55,9 @@ const COMPONENT_REGISTER = {
   'Tiles': TilesComponent,
   'LoginPrompt': ContainerComponent,
   'Display': DisplayComponent,
-  'Panel': ContainerComponent
+  'Panel': ContainerComponent,
+  'Image': ImageComponent,
+  'QrCode': QrCodeComponent,
 };
 
 @Component({

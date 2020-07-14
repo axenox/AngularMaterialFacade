@@ -18,7 +18,9 @@ mat-table {
     display: inline-block;
         white-space: nowrap;
     color: rgba(0,0,0,.54);
-    min-width: 105px;
+    min-width: 30%;
+    text-overflow: ellipsis;
+    overflow-x:hidden;
   }
 
   mat-header-row {
@@ -34,6 +36,7 @@ mat-table {
   mat-cell {
     min-height: unset;
     padding: 0 !important;
+    width: 100%;
   }
 
 }

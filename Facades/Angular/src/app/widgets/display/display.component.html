@@ -1,6 +1,3 @@
-<ng-container >
-    <mat-form-field class="full-width" appearance="legacy">
-        <mat-label>{{widget.caption}}</mat-label>
-        <input matInput [formGroup]="formGroup"  type="text" />
-    </mat-form-field>
-</ng-container>
+<div>
+    {{widget.caption}}: {{getControlValue()}}
+</div>

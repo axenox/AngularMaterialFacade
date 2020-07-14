@@ -5,4 +5,5 @@ export interface IWidgetDataColumn extends IWidgetInterface {
     attribute_alias: string;
     sortable: boolean;
     filterable: boolean;
+    cell_widget: IWidgetInterface;
 }

@@ -71,6 +71,7 @@ import { ImageComponent } from './widgets/image/image.component';
 import { QrCodeComponent } from './widgets/qr-code/qr-code.component';
 import { DisplayComponent } from './widgets/display/display.component';
 import { ResponsiveDataTableComponent } from './widgets/data-table/responsive-data-table.component';
+import { QRCodeModule } from 'angularx-qrcode';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -106,7 +107,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ImageComponent,
     QrCodeComponent,
     DisplayComponent,
-    ResponsiveDataTableComponent
+    ResponsiveDataTableComponent,
   ],
   imports: [
     BrowserModule,
@@ -157,6 +158,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     TranslateModule.forRoot({
       loader: { provide: TranslateLoader, useFactory: HttpLoaderFactory, deps: [HttpClient] },
     }),
+    QRCodeModule
   ],
   entryComponents: [
     DialogComponent, 

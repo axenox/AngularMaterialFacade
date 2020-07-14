@@ -58,7 +58,7 @@ export class DialogComponent implements OnInit {
    */
   fillInputWidgets(formGroup: FormGroup, widgets: IWidgetInterface[]) {
     widgets.forEach((widget: IWidgetInterface) => {
-      if (widget.widget_type.startsWith('Input')) {
+      if (widget.widget_type.startsWith('Input') || widget.widget_type === 'Display' || widget.widget_type === 'Image') {
         const inputWidget = widget as IWidgetInputInterface;
         const widgetName = inputWidget.attribute_alias;
         const validators: ValidatorFn[] = [];
