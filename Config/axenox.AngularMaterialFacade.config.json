@@ -3,6 +3,8 @@
 	"ANGULAR.INTERFACES.ACTIONS.BASE_INTERFACE": "action.interface.ts",
 	"ANGULAR.INTERFACES.WIDGETS.PATH": "Facades/Angular/src/app/interfaces/widgets",
 	"ANGULAR.INTERFACES.WIDGETS.BASE_INTERFACE": "widget.interface.ts",
+	"ANGULAR.INTERFACES.DATATYPES.PATH": "Facades/Angular/src/app/interfaces/data-types",
+	"ANGULAR.INTERFACES.DATATYPES.BASE_INTERFACE": "data-type.interface.ts",
 	
 	"ANGULAR.DIST.PATH": "Facades/Angular/dist/",
 	

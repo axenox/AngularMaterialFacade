@@ -25,6 +25,8 @@ use exface\Core\Widgets\LoginPrompt;
 use exface\Core\Factories\UiPageFactory;
 use exface\Core\DataTypes\FilePathDataType;
 use axenox\AngularMaterialFacade\Facades\Middleware\TableUrlParamsReader;
+use exface\Core\Interfaces\DataTypes\DataTypeInterface;
+use axenox\AngularMaterialFacade\Facades\Elements\DataTypes\NgmDataTypeElement;
 
 /**
  * 
@@ -331,22 +333,49 @@ class AngularMaterialFacade extends AbstractAjaxFacade
         return $interface;
     }
     
+    /**
+     * 
+     * @param string $phpClassname
+     * @param string $angularSuffix
+     * @return string
+     */
     protected function convertPhpClassToAngularInterfaceFilename(string $phpClassname, string $angularSuffix = '.interface.ts') : string
     {
         $phpClass = PhpFilePathDataType::findFileName($phpClassname);
         return strtolower(preg_replace('/(?<!^)[A-Z]/', '-$0', $phpClass)) . $angularSuffix;
     }
     
+    /**
+     * 
+     * @return string
+     */
     protected function getAngularFolderAbsolutePath() : string
     {
         return $this->getApp()->getDirectoryAbsolutePath() . DIRECTORY_SEPARATOR . 'Facades' . DIRECTORY_SEPARATOR . 'Angular';
     }
     
+    /**
+     * 
+     * @param ActionInterface $action
+     * @return NgmActionElement
+     */
     public function getElementForAction(ActionInterface $action) : NgmActionElement
     {
         $actionElementClass = $this->getElementClass(get_class($action), 'Actions', 'Actions\\NgmActionElement');
         $actionElement = new $actionElementClass($action, $this);
         return $actionElement;
+    }
+    
+    /**
+     * 
+     * @param DataTypeInterface $dataType
+     * @return NgmDataTypeElement
+     */
+    public function getElementForDataType(DataTypeInterface $dataType) : NgmDataTypeElement
+    {
+        $elementClass = $this->getElementClass(get_class($dataType), 'DataTypes', 'DataTypes\\NgmDataTypeElement');
+        $element = new $elementClass($dataType, $this);
+        return $element;
     }
     
     /**

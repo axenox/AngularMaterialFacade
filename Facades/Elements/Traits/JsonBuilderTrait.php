@@ -10,7 +10,18 @@ use exface\Core\CommonLogic\UxonObject;
 use exface\Core\CommonLogic\Filemanager;
 use exface\Core\Factories\ActionFactory;
 use exface\Core\Interfaces\Selectors\SelectorInterface;
+use exface\Core\Interfaces\DataTypes\DataTypeInterface;
+use axenox\AngularMaterialFacade\Facades\AngularMaterialFacade;
+use exface\Core\Factories\DataTypeFactory;
 
+/**
+ * 
+ * 
+ * @method AngularMaterialFacade getFacade()
+ * 
+ * @author Andrej Kabachnik
+ *
+ */
 trait JsonBuilderTrait
 {
     public abstract function buildJson() : array;
@@ -89,6 +100,44 @@ trait JsonBuilderTrait
             }
             $action = ActionFactory::createFromString($this->getWorkbench(), '\\' . $fallbackClass);
             $fallbacks[] = $action->getAliasWithNamespace();
+        }
+        return $fallbacks;
+    }
+    
+    /**
+     * 
+     * @param DataTypeInterface $dataType
+     * @return array
+     */
+    protected function buildJsonFromDataType(DataTypeInterface $dataType) : array
+    {
+        $props = [];
+        $props['fallback_types'] = $this->getFallbackDataTypeAliases($dataType, $props);
+        $props = $this->buildJsonFromObject($dataType, $props);
+        return $props;
+    }
+    
+    /**
+     * 
+     * @param DataTypeInterface $dataType
+     * @return string[]
+     */
+    protected function getFallbackDataTypeAliases(DataTypeInterface $dataType) : array
+    {
+        $fallbacks = [];
+        // Use the current class as fallback too because actions from the metamodel
+        // (object actions) have a different alias than their prototype action.
+        $classes = array_merge([get_class($dataType)], class_parents($dataType));
+        foreach ($classes as $fallbackClass) {
+            if (StringDataType::endsWith($fallbackClass, 'AbstractDataType')) {
+                break;
+            }
+            $reflection = new \ReflectionClass($fallbackClass);
+            if ($reflection->isAbstract()) {
+                continue;
+            }
+            $dataType = DataTypeFactory::createFromString($this->getWorkbench(), '\\' . $fallbackClass);
+            $fallbacks[] = $dataType->getAliasWithNamespace();
         }
         return $fallbacks;
     }
@@ -177,6 +226,8 @@ trait JsonBuilderTrait
                 return $this->getFacade()->getElement($value)->buildJson();
             case $value instanceof ActionInterface:
                 return $this->getFacade()->getElementForAction($value)->buildJson();
+            case $value instanceof DataTypeInterface:
+                return $this->getFacade()->getElementForDataType($value)->buildJson();
             case $value instanceof SelectorInterface:
                 return $value->toString();
         }
@@ -188,7 +239,12 @@ trait JsonBuilderTrait
         switch (true) {
             case $object instanceof WidgetInterface:
             case $object instanceof ActionInterface:
-                $configNamespace = ($object instanceof WidgetInterface ? 'ANGULAR.INTERFACES.WIDGETS.' : 'ANGULAR.INTERFACES.ACTIONS.');
+            case $object instanceof DataTypeInterface:
+                switch (true) {
+                    case $object instanceof WidgetInterface: $configNamespace = 'ANGULAR.INTERFACES.WIDGETS.'; break;
+                    case $object instanceof ActionInterface: $configNamespace = 'ANGULAR.INTERFACES.ACTIONS.'; break;
+                    case $object instanceof DataTypeInterface: $configNamespace = 'ANGULAR.INTERFACES.DATATYPES.'; break;
+                }
                 $pathToAngularInterfaces = $this->getFacade()->getConfig()->getOption($configNamespace . 'PATH');
                 $baseInterface = $this->getFacade()->getConfig()->getOption($configNamespace . 'BASE_INTERFACE');
                 $interfaceDir = Filemanager::pathJoin([
