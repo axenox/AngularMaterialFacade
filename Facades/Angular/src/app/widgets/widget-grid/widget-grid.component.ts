@@ -5,11 +5,11 @@ import { IWidgetInputInterface } from 'src/app/interfaces/widgets/input.interfac
 import { IWidgetForm } from 'src/app/interfaces/widgets/form.interface';
 
 @Component({
-  selector: 'app-form',
-  templateUrl: './form.component.html',
-  styleUrls: ['./form.component.css']
+  selector: 'app-widget-grid',
+  templateUrl: './widget-grid.component.html',
+  styleUrls: ['./widget-grid.component.css']
 })
-export class FormComponent implements OnInit {
+export class WidgetGridComponent implements OnInit {
 
   @Input()
   widget: IWidgetForm;
@@ -26,10 +26,10 @@ export class FormComponent implements OnInit {
 
   getWidgetClasses(w: IWidgetInputInterface) {
     const classes = {};
-    if (w.widget_type==='InputText') {
-      classes['item--width--full']=true;
+    if (this.widget.columns_in_grid === 1) {
+      classes['item--width--full'] = true;
     } else {
-      classes['item'+ this.widget.columns_in_grid]=true;
+      classes['item'+ this.widget.columns_in_grid] = true;
     }
     return classes;
   }

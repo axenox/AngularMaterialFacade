@@ -21,7 +21,6 @@ import { IWidgetEvent } from '../interfaces/events/widget-event.interface';
 import { ContainerComponent } from './container/container.component';
 import { FormGroup } from '@angular/forms';
 import { InputTextComponent } from './inputs/input-text/input-text.component';
-import { FormComponent } from './form/form.component';
 import { InputComboComponent } from './inputs/input-combo/input-combo.component';
 import { TabsComponent } from './tabs/tabs.component';
 import { InputCheckBoxComponent } from './inputs/input-checkbox/input-checkbox.component';
@@ -34,6 +33,7 @@ import { DisplayComponent } from './display/display.component';
 import { ResponsiveDataTableComponent } from './data-table/responsive-data-table.component';
 import { ImageComponent } from './image/image.component';
 import { QrCodeComponent } from './qr-code/qr-code.component';
+import { WidgetGridComponent } from './widget-grid/widget-grid.component';
 
 const COMPONENT_REGISTER = {
   'DataTable': DataTableComponent,
@@ -44,11 +44,11 @@ const COMPONENT_REGISTER = {
   'InputText': InputTextComponent,
   'InputPassword': InputPasswordComponent,
   'Dialog': ContainerComponent,
-  'Form': FormComponent,
+  'Form':WidgetGridComponent,
   'InputCombo': InputComboComponent,
   'Tabs': TabsComponent,
   'Tab': ContainerComponent,
-  'WidgetGroup': FormComponent,
+  'WidgetGroup': WidgetGridComponent,
   'InputCheckBox' : InputCheckBoxComponent,
   'NavMenu': NavMenuComponent,
   'NavTiles': ContainerComponent,

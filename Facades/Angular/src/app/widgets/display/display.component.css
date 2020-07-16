@@ -1,0 +1,10 @@
+.caption {
+    color: rgba(0,0,0,.54);
+    min-width: 35%;
+    display: inline-block;
+    text-overflow: ellipsis;
+}
+
+.container {
+    width: 100%;
+}

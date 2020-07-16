@@ -16,7 +16,7 @@ mat-table {
   .mobile-label {
     width: 80px;
     display: inline-block;
-        white-space: nowrap;
+    white-space: nowrap;
     color: rgba(0,0,0,.54);
     min-width: 30%;
     text-overflow: ellipsis;

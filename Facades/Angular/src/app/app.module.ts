@@ -39,7 +39,6 @@ import { HostDirective } from './widgets/host.directive';
 import { ContainerComponent } from './widgets/container/container.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { InputTextComponent } from './widgets/inputs/input-text/input-text.component';
-import { FormComponent } from './widgets/form/form.component';
 import { ActionsService } from './api/actions.service';
 import { apiFactory } from './api/api-factory';
 import { InputComboComponent } from './widgets/inputs/input-combo/input-combo.component';
@@ -72,6 +71,7 @@ import { QrCodeComponent } from './widgets/qr-code/qr-code.component';
 import { DisplayComponent } from './widgets/display/display.component';
 import { ResponsiveDataTableComponent } from './widgets/data-table/responsive-data-table.component';
 import { QRCodeModule } from 'angularx-qrcode';
+import { WidgetGridComponent } from './widgets/widget-grid/widget-grid.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -92,7 +92,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     HostDirective,
     ContainerComponent,
     InputTextComponent,
-    FormComponent,
+    WidgetGridComponent,
     InputComboComponent,
     HiddenControlValidatorDirective,
     TabsComponent,
