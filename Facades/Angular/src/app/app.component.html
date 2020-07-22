@@ -1,5 +1,5 @@
 <app-loading-screen></app-loading-screen>
-<div *ngIf="!loginWidget" class="toolbar">
+<div *ngIf="!loginWidget" class="exf-shell-toolbar">
     <mat-toolbar color="primary" >
         <button mat-button (click)="drawer.toggle()">
             <mat-icon>menu</mat-icon>
@@ -25,7 +25,7 @@
             <mat-menu #menu>
                 <button mat-button 
                     *ngFor="let bar of getContextBars()" 
-                    class="contextbuttons shell-button" matTooltip="{{bar.hint}}">
+                    class="contextbuttons exf-shell-button" matTooltip="{{bar.hint}}">
                 <mat-icon 
                     fontSet="fa" 
                     fontIcon="fa-{{bar.icon}}" 
@@ -38,9 +38,9 @@
         </div>
     </mat-toolbar>
 </div>
-<div class="content" >
+<div class="exf-shell-content" >
     <mat-drawer-container>
-        <mat-drawer #drawer class="drawer" mode="side">
+        <mat-drawer #drawer class="exf-shell-drawer" mode="side">
             <app-container *ngIf="shell" [widget]="shell.navigation_drawer"></app-container>
         </mat-drawer>
         <router-outlet></router-outlet>

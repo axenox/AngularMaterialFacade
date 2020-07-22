@@ -1,13 +1,21 @@
-mat-toolbar{
+mat-toolbar.exf-shell-toolbar {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     height: 56px;
     z-index: 2;
 }
 
-.drawer {
+.exf-shell-content {
+    height: calc(100vh - 64px);
+}
+
+.exf-shell-content > mat-drawer-container {
+    height:100%;
+}
+
+.exf-shell-drawer {
     min-width: 200px;
 }
 
-.shell-button {
+.exf-shell-button {
     display: block;
 }
