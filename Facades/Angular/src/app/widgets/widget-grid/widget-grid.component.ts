@@ -34,4 +34,12 @@ export class WidgetGridComponent implements OnInit {
     return classes;
   }
 
+  getGridTemplateColumns() {
+    var sResult = '';
+    for (var i=0; i < this.widget.columns_in_grid; i++) {
+      sResult += 'auto ';
+    }
+    return sResult;
+  }
+
 }

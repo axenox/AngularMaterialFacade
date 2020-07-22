@@ -1,6 +1,6 @@
-<div class="masonrycss">
+<div class="exf-grid" [ngStyle]="{'grid-template-columns': getGridTemplateColumns()}">
     <ng-container *ngFor="let w of widget.widgets">
-        <div *ngIf="w.widget_type !== 'InputHidden'" [ngClass]="getWidgetClasses(w)">
+        <div *ngIf="w.widget_type !== 'InputHidden'">
             <app-widget  [structure]="w" [formGroup]="formGroup" [pageSelector]="pageSelector"></app-widget>
         </div>
     </ng-container>
