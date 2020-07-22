@@ -170,7 +170,7 @@ constructor(http: HttpClient, translate: TranslateService) {
         Swal.fire({
           title: oError.title,
           text: oError.message,
-          footer: `${this.translate.instant('logId')}: ${oError.logid}`,
+          footer: `${this.translate.instant('ERROR.LOGID')}: ${oError.logid}`,
           icon: 'warning',
           confirmButtonText: 'OK'
         });
