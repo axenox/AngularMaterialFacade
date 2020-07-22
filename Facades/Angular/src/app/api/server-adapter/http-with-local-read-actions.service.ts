@@ -35,7 +35,7 @@ constructor(http: HttpClient, translate: TranslateService) {
   }
 
   public loadFromFile(pageSelector: string, element?: string): Observable<any>{
-    const fileName = `../../../assets/static/${pageSelector}${element ? '___' + element : ''}.json`;
+    const fileName = `../../../assets/exported/${pageSelector}${element ? '___' + element : ''}.json`;
 
     return this.http.get(fileName).pipe(
       map((result: any) => {
