@@ -1,16 +1,16 @@
-<br>
-<mat-divider></mat-divider>
-<br>
-<div class="caption">{{widget.caption}}</div>
-
-<br>
-    <div class="grid-container">
-      <figure *ngFor="let tile of widget.widgets" >
-        <mat-card class="tile" (click)="onClick(tile)">
-            <mat-card-header>
-                <mat-card-title>{{tile.title}}</mat-card-title>
-                <mat-card-subtitle>{{tile.subtitle}}</mat-card-subtitle>
-            </mat-card-header>
-        </mat-card>
-      </figure>
-    </div>
+<div class="exf-tiles">
+  <div *ngIf="widget.caption" class="exf-tiles-caption">
+    <h3>{{widget.caption}}</h3>
+    <mat-divider></mat-divider>
+  </div>
+  <div class="grid-container">
+    <figure *ngFor="let tile of widget.widgets" >
+      <mat-card class="tile" (click)="onClick(tile)">
+          <mat-card-header>
+              <mat-card-title>{{tile.title}}</mat-card-title>
+              <mat-card-subtitle>{{tile.subtitle}}</mat-card-subtitle>
+          </mat-card-header>
+      </mat-card>
+    </figure>
+  </div>
+</div>
