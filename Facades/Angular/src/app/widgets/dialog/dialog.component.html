@@ -1,9 +1,7 @@
 <div *ngIf="data.tabStructure && data.tabStructure.message_list" class="messagebox">
-    <br>
     <div *ngFor="let message of data.tabStructure.message_list.widgets">
         {{message.value}}
     </div>
-    <br>
 </div>
 <h1 mat-dialog-title *ngIf="data && data.structure">
     <mat-icon *ngIf="data.structure.show_icon" fontSet="{{data.structure.icon_set}}" fontIcon="{{data.structure.icon_class}}"></mat-icon>
