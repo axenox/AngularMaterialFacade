@@ -106,7 +106,6 @@ export class DataTableComponent implements OnInit {
       this.displayedColumns.push('_checkboxes_');
     }
     this.displayedColumns.push(...this.widget.columns.map(c => c.data_column_name));
-    this.displayedColumns.push('_actions_');
     this.loadData();
 
     this.sort.sortChange.subscribe((sort: Sort) => {

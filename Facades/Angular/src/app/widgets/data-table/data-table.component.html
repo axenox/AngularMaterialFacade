@@ -67,8 +67,6 @@
               {{filterChip.name}}: {{filterChip.value}}
             <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
         </mat-chip>
-        <br>
-        <br>
         </div>
         <div *ngFor="let column of widget.filters" class="filter">
           <app-widget [structure]="column" [formGroup]="filterFormGroup" (widgetEvent)="onWidgetEvent($event)" [pageSelector]="pageSelector"></app-widget>
@@ -108,18 +106,13 @@
       <mat-header-cell mat-sort-header *cdkHeaderCellDef>{{ column.caption }}</mat-header-cell>
       <mat-cell *cdkCellDef="let row">
         <ng-container class="text-container">
-          <span class="mobile-label">
+          <span *ngIf="widget.widget_type == 'DataTableResponsive'"class="mobile-label">
             {{column.caption}}: 
           </span>
           {{ row[column.data_column_name] }}
         </ng-container>
       </mat-cell>
     </ng-container>
-  </ng-container>
-  <ng-container [cdkColumnDef]="'_actions_'">  
-    <mat-header-cell class="headercell" *cdkHeaderCellDef></mat-header-cell>
-    <mat-cell *cdkCellDef="let row">
-    </mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
