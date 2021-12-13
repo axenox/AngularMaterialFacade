@@ -61,7 +61,11 @@ class AngularMaterialFacade extends AbstractAjaxFacade
                 if (! file_exists($indexHtmlPath)) {
                     throw new FacadeRuntimeError('Angular build not found! Please run "ng build" or reinstall the facade');
                 }
-                return new Response(200, $this->buildHeadersAccessControl(), stream_for(file_get_contents($indexHtmlPath)));
+                $headers = array_merge(
+                    $this->buildHeadersCommon(),
+                    $this->buildHeadersForHtml()
+                );
+                return new Response(200, $headers, stream_for(file_get_contents($indexHtmlPath)));
             }
         }
         
@@ -76,7 +80,7 @@ class AngularMaterialFacade extends AbstractAjaxFacade
     protected function createResponseFromTaskResult(ServerRequestInterface $request, ResultInterface $result) : ResponseInterface
     {
         $status_code = $result->getResponseCode();
-        $headers = $this->buildHeadersAccessControl();
+        $headers = $this->buildHeadersCommon();
         
         if ($result->isEmpty()) {
             return new Response($status_code, $headers);
@@ -85,6 +89,7 @@ class AngularMaterialFacade extends AbstractAjaxFacade
         switch (true) {
             case $result instanceof ResultWidgetInterface:
                 $widget = $result->getWidget();
+                $headers = array_merge($headers, $this->buildHeadersForAjax());
                 $headers['Content-type'] = ['application/json;charset=utf-8'];
                 $json = $this->getElement($widget)->buildJson();
                 $body = json_encode($json);
@@ -112,11 +117,11 @@ class AngularMaterialFacade extends AbstractAjaxFacade
             return null;
         }
             
+        $headers = array_merge($this->buildHeadersCommon(), $this->buildHeadersForErrors());
         $headers['Content-type'] = ['application/json;charset=utf-8'];
-        $headers = array_merge($headers, $this->buildHeadersAccessControl());
         $responseBody = json_encode($this->getElement($loginPrompt)->buildJson());
             
-        return new Response(401, $this->buildHeadersAccessControl(), $responseBody);
+        return new Response(401, $headers, $responseBody);
     }
     
     /**
